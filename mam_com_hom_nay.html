@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2E6B4F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mâm Cơm">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Mâm Cơm Hôm Nay</title>
+<style>
+:root{
+  --nen:#F4F7F2; --mat:#FFFFFF; --mat2:#E9EFE7; --muc:#16201B; --muc-nhat:#5B6A61; --muc-mo:#8C9A91;
+  --vien:#D8E1D6; --vien-dam:#B9C7B7; --nhan:#2E6B4F; --nhan-nen:#E1EDE5; --tren-nhan:#FFFFFF;
+  --ot:#B8412A; --ot-nen:#F7E4DF; --nghe:#A8770C; --nghe-nen:#F6EBD2;
+  --bong:0 1px 2px rgba(22,32,27,.06), 0 6px 18px -10px rgba(22,32,27,.22);
+  --r:14px;
+  --hien:'Georgia','Noto Serif','Times New Roman',serif;
+  --than:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  --so:ui-monospace,'SF Mono','Roboto Mono','DejaVu Sans Mono',Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --nen:#10140F; --mat:#181E19; --mat2:#212A23; --muc:#E7EFE8; --muc-nhat:#9BAAA0; --muc-mo:#7A8A80;
+    --vien:#2C362E; --vien-dam:#3C483E; --nhan:#74C79C; --nhan-nen:#1B2D24; --tren-nhan:#0E1611;
+    --ot:#EA8468; --ot-nen:#32211D; --nghe:#DCB25C; --nghe-nen:#2E2718;
+    --bong:0 1px 2px rgba(0,0,0,.4), 0 6px 18px -10px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --nen:#10140F; --mat:#181E19; --mat2:#212A23; --muc:#E7EFE8; --muc-nhat:#9BAAA0; --muc-mo:#7A8A80;
+  --vien:#2C362E; --vien-dam:#3C483E; --nhan:#74C79C; --nhan-nen:#1B2D24; --tren-nhan:#0E1611;
+  --ot:#EA8468; --ot-nen:#32211D; --nghe:#DCB25C; --nghe-nen:#2E2718;
+  --bong:0 1px 2px rgba(0,0,0,.4), 0 6px 18px -10px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--nen);color:var(--muc);font-family:var(--than);font-size:15px;line-height:1.55;
+  padding-block:0 40px;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+.khung{max-width:660px;margin:0 auto}
+h1{font-family:var(--hien);font-weight:600;text-wrap:balance;margin:0;font-size:30px;line-height:1.12;letter-spacing:-.01em}
+button,select,input{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--nhan);outline-offset:2px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+header{padding-block:22px 4px}
+.hieu{font-family:var(--so);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--nhan);margin-bottom:6px}
+.phu{color:var(--muc-nhat);font-size:13.5px;margin:6px 0 0;max-width:48ch}
+.tab{position:sticky;top:0;z-index:20;display:flex;gap:2px;padding:4px;margin:14px 0 16px;background:var(--mat2);border-radius:11px;border:1px solid var(--vien)}
+.tab button{flex:1;border:0;background:transparent;color:var(--muc-nhat);padding:9px 4px;border-radius:8px;font-size:13.5px;font-weight:600}
+.tab button[aria-selected="true"]{background:var(--mat);color:var(--muc);box-shadow:var(--bong)}
+.dieukhien{background:var(--mat);border:1px solid var(--vien);border-radius:var(--r);padding:16px;margin-bottom:18px}
+.nhan-o{font-family:var(--so);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muc-mo);margin-bottom:8px}
+.chedo{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.chedo button{border:1px solid var(--vien-dam);background:transparent;border-radius:10px;padding:10px 6px;text-align:center;line-height:1.25}
+.chedo b{display:block;font-size:13.5px;font-weight:600}
+.chedo small{display:block;font-size:10.5px;color:var(--muc-mo);margin-top:2px}
+.chedo button[aria-pressed="true"]{border-color:var(--nhan);background:var(--nhan-nen)}
+.chedo button[aria-pressed="true"] small{color:var(--nhan)}
+.giaithich{margin-top:10px;padding:10px 12px;background:var(--nhan-nen);border-radius:10px;font-size:12.5px;color:var(--muc-nhat);line-height:1.5}
+.giaithich b{color:var(--muc)}
+.hang{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap}
+.hang > div{flex:1 1 130px;min-width:0}
+.buoc-so{display:flex;align-items:center;border:1px solid var(--vien-dam);border-radius:10px;overflow:hidden}
+.buoc-so button{border:0;background:var(--mat2);width:40px;height:40px;font-size:19px;line-height:1;color:var(--muc-nhat)}
+.buoc-so span{flex:1;text-align:center;font-family:var(--so);font-size:15px;font-weight:600}
+select{width:100%;padding:10px 12px;border:1px solid var(--vien-dam);border-radius:10px;background:var(--mat);height:42px}
+.quay{width:100%;margin-top:16px;border:0;border-radius:12px;padding:15px;background:var(--nhan);color:var(--tren-nhan);font-size:16px;font-weight:700;box-shadow:var(--bong)}
+.quay:active{transform:translateY(1px)}
+.phieu{background:var(--mat);border:1px solid var(--vien);border-radius:var(--r);overflow:hidden;box-shadow:var(--bong)}
+.phieu-dau{padding:16px 16px 14px;border-bottom:1px dashed var(--vien-dam)}
+.ngay{font-family:var(--so);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muc-mo)}
+.tong{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.tong .v{font-family:var(--so);font-size:20px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.15}
+.tong .k{font-size:11px;color:var(--muc-mo);margin-top:1px}
+.thanh{display:flex;height:7px;border-radius:99px;overflow:hidden;margin-top:13px;background:var(--mat2)}
+.thanh i{display:block;height:100%}
+.chu-thanh{display:flex;gap:12px;margin-top:7px;font-size:11px;color:var(--muc-nhat);flex-wrap:wrap}
+.chu-thanh span{display:inline-flex;align-items:center;gap:4px}
+.chu-thanh i{width:8px;height:8px;border-radius:2px;display:inline-block}
+.ghi-com{margin-top:11px;font-size:12px;color:var(--muc-nhat);line-height:1.5}
+.mon{border-bottom:1px solid var(--vien)}
+.mon-dau{display:flex;align-items:flex-start;gap:10px;padding:13px 16px}
+.vai{font-family:var(--so);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;padding:3px 7px;border-radius:5px;white-space:nowrap;margin-top:3px}
+.vai.man{background:var(--ot-nen);color:var(--ot)}
+.vai.rau{background:var(--nhan-nen);color:var(--nhan)}
+.vai.canh{background:var(--mat2);color:var(--muc-nhat)}
+.vai.choi{background:var(--nghe-nen);color:var(--nghe)}
+.mon-ten{flex:1;min-width:0}
+.mon-ten b{display:block;font-size:16px;font-weight:600;font-family:var(--hien);line-height:1.3}
+.mon-ten .so{font-family:var(--so);font-size:12px;color:var(--muc-nhat);font-variant-numeric:tabular-nums;margin-top:3px}
+.nut-nho{display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
+.nut-nho button{border:1px solid var(--vien-dam);background:transparent;border-radius:8px;padding:6px 9px;font-size:11.5px;color:var(--muc-nhat);white-space:nowrap}
+.nut-nho button[aria-pressed="true"]{background:var(--nghe-nen);border-color:var(--nghe);color:var(--nghe);font-weight:600}
+.chitiet{padding:0 16px 16px;display:none}
+.chitiet.mo{display:block}
+.tieu-nho{font-family:var(--so);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muc-mo);margin:12px 0 7px}
+.dong{display:flex;align-items:baseline;gap:6px;font-size:13px;padding:3.5px 0}
+.dong .t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48%}
+.dong .cham{flex:1;border-bottom:1px dotted var(--vien-dam);transform:translateY(-3px);min-width:10px}
+.dong .g,.dong .c{font-family:var(--so);font-variant-numeric:tabular-nums;white-space:nowrap}
+.dong .g{color:var(--muc-nhat);font-size:12px}
+.dong .c{width:66px;text-align:right;font-size:12px}
+.dong.tong-dong{border-top:1px solid var(--vien);margin-top:6px;padding-top:7px;font-weight:600}
+ol.buoc{margin:0;padding-left:0;list-style:none;counter-reset:b}
+ol.buoc li{counter-increment:b;position:relative;padding-left:28px;margin-bottom:9px;font-size:13.5px}
+ol.buoc li::before{content:counter(b);position:absolute;left:0;top:1px;width:19px;height:19px;border-radius:50%;background:var(--mat2);color:var(--muc-nhat);font-family:var(--so);font-size:10.5px;display:flex;align-items:center;justify-content:center;font-weight:600}
+.meo{margin-top:10px;padding:9px 11px;border-left:2px solid var(--nghe);background:var(--nghe-nen);border-radius:0 8px 8px 0;font-size:12.5px;color:var(--muc-nhat)}
+.meo b{color:var(--muc)}
+.cho{padding:16px;background:var(--mat2)}
+.cho label{display:flex;align-items:baseline;gap:6px;font-size:13px;padding:5px 0;cursor:pointer}
+.cho input{margin:0;width:16px;height:16px;flex-shrink:0;accent-color:var(--nhan);transform:translateY(2px)}
+.cho input:checked + .t{text-decoration:line-through;color:var(--muc-mo)}
+.gia-dong{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--mat);border:1px solid var(--vien);border-radius:10px;margin-bottom:7px}
+.gia-dong .t{flex:1;min-width:0;font-size:13.5px;line-height:1.3}
+.gia-dong .t small{display:block;font-family:var(--so);font-size:10.5px;color:var(--muc-mo)}
+.gia-dong .t small.sua{color:var(--nghe)}
+.gia-dong input{width:88px;padding:7px 8px;border:1px solid var(--vien-dam);border-radius:8px;background:var(--nen);font-family:var(--so);font-size:13px;text-align:right;font-variant-numeric:tabular-nums}
+.gia-dong a{font-size:11.5px;color:var(--nhan);white-space:nowrap;text-decoration:none;border:1px solid var(--vien-dam);border-radius:8px;padding:6px 8px}
+.ghi-chu{font-size:12.5px;color:var(--muc-nhat);background:var(--mat2);padding:12px 14px;border-radius:10px;margin-bottom:12px;line-height:1.55}
+.ghi-chu b{color:var(--muc)}
+.o-tim{width:100%;padding:10px 12px;border:1px solid var(--vien-dam);border-radius:10px;background:var(--mat);margin-bottom:10px}
+.nut-phu{border:1px solid var(--vien-dam);background:var(--mat);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:var(--muc-nhat);margin-bottom:12px}
+footer{margin-top:26px;padding-top:16px;border-top:1px solid var(--vien);font-size:11.5px;color:var(--muc-mo);line-height:1.6}
+.an{display:none}
+.chang{font-weight:700;font-size:13px;color:var(--nhan);margin:12px 0 6px;padding-top:8px;border-top:1px dashed var(--vien)}
+.chang:first-of-type{border-top:0;padding-top:0}
+b.luong{font-weight:600;color:var(--muc);background:var(--nghe-nen);padding:0 2px;border-radius:3px;white-space:nowrap}
+.chan-js{background:var(--ot-nen);color:var(--ot);border:1px solid var(--ot);border-radius:12px;padding:14px;margin-top:14px;font-size:14px;line-height:1.55}
+.chan-js b{color:var(--muc)}
+.nut-nho button{min-height:34px}
+.tab button{min-height:40px}
+</style>
+</head>
+<body>
+<div class="khung">
+<header>
+  <div class="hieu" id="o-hieu">Bữa cơm gia đình Việt</div>
+  <h1>Mâm Cơm Hôm Nay</h1>
+  <p class="phu" id="o-phu"></p>
+</header>
+
+<div class="chan-js" id="o-chan-js">
+  <b>Ứng dụng chưa chạy.</b> Trình xem file của Zalo và một số ứng dụng chỉ hiện giao diện, không cho chương trình chạy.
+  Hãy bấm menu góc trên và chọn <b>Mở bằng trình duyệt</b> hoặc <b>Mở bằng Chrome</b>. Cách tiện nhất là mở bằng đường link thay vì gửi file.
+</div>
+
+<div class="tab" role="tablist">
+  <button role="tab" id="tab-mam" aria-selected="true" onclick="doiTab('mam')">Mâm cơm</button>
+  <button role="tab" id="tab-cuoituan" aria-selected="false" onclick="doiTab('cuoituan')">Cuối tuần</button>
+  <button role="tab" id="tab-gia" aria-selected="false" onclick="doiTab('gia')">Giá chợ</button>
+</div>
+
+<section id="v-chon">
+  <div class="dieukhien">
+    <div class="nhan-o">Chế độ ăn</div>
+    <div class="chedo" id="o-chedo"></div>
+    <div class="giaithich" id="o-giaithich"></div>
+    <div class="hang">
+      <div>
+        <div class="nhan-o">Số người ăn</div>
+        <div class="buoc-so">
+          <button onclick="doiNguoi(-1)" aria-label="Bớt một người">−</button>
+          <span id="o-nguoi">4</span>
+          <button onclick="doiNguoi(1)" aria-label="Thêm một người">+</button>
+        </div>
+      </div>
+      <div id="o-o-sobua">
+        <div class="nhan-o">Thực đơn</div>
+        <select id="o-sobua" onchange="datSoBua(this.value)">
+          <option value="1">Một bữa</option>
+          <option value="2">Cả ngày: trưa và tối</option>
+        </select>
+      </div>
+      <div>
+        <div class="nhan-o">Tiền chợ mỗi bữa, mỗi người</div>
+        <select id="o-ngansach" onchange="datNganSach(this.value)">
+          <option value="0">Không giới hạn</option>
+          <option value="25000">Dưới 25.000đ</option>
+          <option value="40000">Dưới 40.000đ</option>
+          <option value="60000">Dưới 60.000đ</option>
+        </select>
+      </div>
+    </div>
+    <button class="quay" id="o-nutquay" onclick="quay(true)">Quay mâm cơm khác</button>
+  </div>
+  <div id="o-ketqua"></div>
+</section>
+
+<section id="v-gia" class="an">
+  <div class="ghi-chu" id="o-ghichu-gia"></div>
+  <input class="o-tim" id="o-timgia" type="search" placeholder="Tìm nguyên liệu, ví dụ: thịt, tôm, rau…" oninput="veGia()">
+  <button class="nut-phu" onclick="traGia()">Xoá mọi giá đã sửa</button>
+  <div id="o-gia"></div>
+</section>
+
+<footer>
+  Calo tính theo bảng thành phần thực phẩm cho 100g nguyên liệu sống, cộng dồn rồi chia cho số người ăn. Đây là số ước tính, sai số thường 10–15%.
+  Gợi ý cho người giảm cân và người tiểu đường là quy tắc chung về khẩu phần, <b>không thay thế chỉ định của bác sĩ hay chuyên gia dinh dưỡng</b>.
+  Chạy không cần mạng.
+</footer>
+</div>
+<script>
+"use strict";
+/* =========================================================================
+   NGUYEN LIEU — [ten, kcal, dam, beo, bot duong] tren 100g song,
+   gia goc dong/kg (mat bang thang 9/2026), co "tb" = tinh bot chinh
+   (se duoc giam khau phan o che do giam can / tieu duong).
+   ========================================================================= */
+const THANG_GOC = "2026-09";
+const NL = {
+  // --- tinh bot chinh
+  gao_te:["Gạo tẻ",344,6.8,0.7,78,15000,"tb"],
+  gao_lut:["Gạo lứt",370,7.9,2.9,77,35000,"tb"],
+  gao_nep:["Gạo nếp",350,6.5,1,77,26000,"tb"],
+  banh_pho:["Bánh phở tươi",141,3.2,0.3,31,20000,"tb"],
+  bun:["Bún tươi",110,1.7,0.1,25,15000,"tb"],
+  banh_mi:["Bánh mì ổ",265,9,3.2,49,57000,"tb"],
+  mi_trung:["Mì trứng khô",380,13,4.5,72,70000,"tb"],
+  hu_tieu:["Hủ tiếu khô",360,6,0.5,80,50000,"tb"],
+  mi_quang:["Sợi mì Quảng",180,3,0.5,40,25000,"tb"],
+  banh_canh:["Bánh canh tươi",150,1,0.2,36,25000,"tb"],
+  banh_da:["Bánh đa đỏ khô",340,5,0.5,78,60000,"tb"],
+  mien:["Miến dong",350,0.2,0.1,86,60000,"tb"],
+  bot_gao:["Bột gạo",366,6,1.4,80,30000,"tb"],
+  banh_trang:["Bánh tráng",333,6,0.5,76,70000,"tb"],
+  // --- thit
+  ba_chi:["Thịt ba chỉ",260,17,21,0,190000],
+  nac_vai:["Thịt nạc vai",143,20,6,0,180000],
+  thit_xay:["Thịt heo xay",200,19,13,0,140000],
+  suon_non:["Sườn non",277,17,23,0,210000],
+  chan_gio:["Chân giò heo",230,18,17,0,110000],
+  xuong_ong:["Xương ống",60,6,4,0,70000],
+  dui_ga:["Đùi gà",185,18,12,0,78000],
+  uc_ga:["Ức gà",165,31,3.6,0,88000],
+  ga_ta:["Gà ta",200,20,13,0,120000],
+  bo_than:["Thịt bò thăn",182,21,10,0,315000],
+  bo_bap:["Bắp bò",170,20,9.5,0,290000],
+  gio_lua:["Giò lụa",136,21,5,1,200000],
+  pate:["Pa tê",300,13,26,3,150000],
+  xuc_xich:["Xúc xích",280,12,24,4,150000],
+  // --- thuy san, trung, dau
+  ca_basa:["Cá basa phi lê",130,16,7,0,93000],
+  ca_ro_phi:["Cá rô phi",96,20,1.7,0,33000],
+  ca_nuc:["Cá nục",111,22,2,0,103000],
+  ca_chep:["Cá chép",127,18,5.6,0,80000],
+  ca_thu:["Cá thu",190,19,12,0,220000],
+  tom_the:["Tôm thẻ",85,18,1,0,144000],
+  muc:["Mực ống",92,16,1.4,3,195000],
+  ngheu:["Nghêu (cả vỏ)",25,4,0.3,1,32000],
+  cua_dong:["Cua đồng xay",87,12,3.3,2,120000],
+  trung_ga:["Trứng gà",155,13,11,1,55000],
+  trung_cut:["Trứng cút",158,13,11,0.4,70000],
+  dau_phu:["Đậu phụ",76,8,4.8,1.9,28000],
+  dau_xanh:["Đậu xanh cà vỏ",347,24,1.2,63,45000],
+  lac:["Lạc rang",567,26,49,16,60000],
+  // --- rau cu
+  rau_muong:["Rau muống",23,2.6,0.2,3.1,11000],
+  cai_ngot:["Cải ngọt",20,1.8,0.3,2.6,13000],
+  cai_thia:["Cải thìa",13,1.5,0.2,2.2,20000],
+  cai_be:["Cải bẹ xanh",27,2.9,0.4,4.7,14000],
+  cai_cuc:["Cải cúc",24,1.7,0.3,4,30000],
+  cai_thao:["Cải thảo",16,1.2,0.2,3.2,18000],
+  bap_cai:["Bắp cải",25,1.3,0.1,5.8,13000],
+  bong_cai:["Súp lơ xanh",34,2.8,0.4,6.6,40000],
+  su_hao:["Su hào",27,1.7,0.1,6.2,15000],
+  su_su:["Su su",19,0.8,0.1,4.5,12000],
+  cu_cai:["Củ cải trắng",16,0.7,0.1,3.4,15000],
+  ca_rot:["Cà rốt",41,0.9,0.2,9.6,17000],
+  khoai_tay:["Khoai tây",77,2,0.1,17,15000],
+  bi_do:["Bí đỏ",26,1,0.1,6.5,13000],
+  bi_xanh:["Bí xanh",13,0.4,0.2,3,13000],
+  bau:["Bầu",14,0.6,0,3.4,15000],
+  muop:["Mướp hương",20,1.2,0.2,4.3,18000],
+  kho_qua:["Khổ qua",17,1,0.2,3.7,20000],
+  ca_tim:["Cà tím",25,1,0.2,6,13000],
+  dau_bap:["Đậu bắp",33,1.9,0.2,7,27000],
+  dau_cove:["Đậu cô ve",31,1.8,0.1,7,30000],
+  ca_chua:["Cà chua",18,0.9,0.2,3.9,31000],
+  dua_chuot:["Dưa chuột",16,0.7,0.1,3.6,20000],
+  gia_do:["Giá đỗ",30,3,0.2,5.9,15000],
+  xa_lach:["Xà lách",15,1.4,0.2,2.9,15000],
+  rau_ngot:["Rau ngót",35,5.3,0.2,3.4,25000],
+  mong_toi:["Mồng tơi",19,2,0.3,1.4,16000],
+  rau_den:["Rau dền",23,2.5,0.3,4,15000],
+  rau_lang:["Rau lang",42,2.5,0.3,8.8,15000],
+  he:["Hẹ",30,2.2,0.3,5,40000],
+  nam_rom:["Nấm rơm",22,3.8,0.3,3.3,60000],
+  nam_kim:["Nấm kim châm",34,2.7,0.3,7.8,40000],
+  moc_nhi:["Mộc nhĩ khô",280,9,0.5,65,200000],
+  rong_bien:["Rong biển khô",300,30,3,45,400000],
+  dua_cai:["Dưa cải muối",20,1.5,0.2,3,25000],
+  la_lot:["Lá lốt",40,4,0.5,6,60000],
+  // --- bo sung cho cac mon moi
+  canh_ga:["Cánh gà",222,18,16,0,95000],
+  luon:["Lươn",89,18,1.3,0,207000],
+  ca_loc:["Cá lóc",97,18,2.7,0,48000],
+  hoa_ly:["Hoa lý",30,2.5,0.3,6,50000],
+  ngo_ngot:["Ngô ngọt tách hạt",86,3.3,1.4,19,25000],
+  du_du_xanh:["Đu đủ xanh",39,0.5,0.1,10,20000],
+  sa_te:["Sa tế",600,3,60,10,150000],
+  nghe:["Bột nghệ",312,9.7,3.3,67,300000],
+  tuong_den:["Tương đen",220,3,4,44,90000],
+  lau_thai:["Gia vị lẩu thái",250,5,10,35,250000],
+  cachua_sot:["Sốt cà chua",80,1.5,0.3,18,60000],
+  ruou_vang:["Rượu vang đỏ",85,0.1,0,2.6,250000],
+  mat_ong:["Mật ong",304,0.3,0,82,250000],
+  ca_hoi:["Cá hồi phi lê",208,20,13,0,450000],
+  bo_lat:["Bơ lạt",717,0.9,81,0.1,250000],
+  // --- gia vi, rau thom, qua
+  hanh_la:["Hành lá",32,1.8,0.2,7.3,36000],
+  hanh_tim:["Hành tím",40,1.1,0.1,9.3,45000],
+  hanh_tay:["Hành tây",40,1.1,0.1,9.3,20000],
+  toi:["Tỏi",149,6.4,0.5,33,32000],
+  gung:["Gừng",80,1.8,0.8,18,50000],
+  sa:["Sả",99,1.8,0.5,25,40000],
+  ot:["Ớt tươi",40,1.9,0.4,9,51000],
+  rau_thom:["Rau thơm các loại",40,3,0.6,7,41000],
+  thi_la:["Thì là",43,3.5,1.1,7,60000],
+  que_hoi:["Quế, hồi, thảo quả",300,5,5,60,400000],
+  dua:["Dứa",50,0.5,0.1,13,25000],
+  chanh:["Chanh",29,1.1,0.3,9,30000],
+  nuoc_cot_dua:["Nước cốt dừa",230,2.3,24,6,80000],
+  dau_an:["Dầu ăn",884,0,100,0,45000],
+  nuoc_mam:["Nước mắm",35,5,0,3,60000],
+  nuoc_tuong:["Nước tương",60,6,0,8,40000],
+  mam_tom:["Mắm tôm, mắm ruốc",73,15,1,0,80000],
+  duong:["Đường",387,0,0,100,22000],
+  muoi:["Muối",0,0,0,0,8000],
+  hat_nem:["Hạt nêm",200,10,2,35,60000],
+  tieu:["Tiêu xay",251,10,3,64,300000]
+};
+/* =========================================================================
+   MON AN — dinh luong goc cho 4 NGUOI, chuong trinh tu quy doi.
+   [ten, phut, nhan, "ma:gram,...", "cach nau", "meo"]
+   - nhan: chien (nhieu dau) · ngot (kho rim co duong) · luoc (luoc hap) · chay
+           coban (tinh bot la than mon) · lau
+   - cach nau: cac buoc cach nhau "|", dong bat dau "#" la ten chang.
+   - {ma} trong cach nau = luong nguyen lieu do, da quy doi theo so nguoi.
+   ========================================================================= */
+const MAN = [
+["Thịt kho tàu trứng",70,"ngot","ba_chi:500,trung_ga:240,duong:30,nuoc_mam:40,hanh_tim:30,toi:10,tieu:2,dau_an:10",
+ "#Sơ chế|Thịt ba chỉ ({ba_chi}) cạo sạch lông, chần qua nồi nước sôi 2 phút rồi rửa lại bằng nước lạnh cho sạch bọt bẩn.|Cắt thịt thành khối vuông cạnh khoảng 3cm, mỗi miếng có đủ da, mỡ và nạc.|Trứng ({trung_ga}) cho vào nồi nước lạnh, đun sôi rồi luộc thêm 9 phút, ngâm nước lạnh và bóc vỏ.|Hành tím, tỏi bóc vỏ, băm nhỏ.|#Ướp|Trộn thịt với {nuoc_mam} nước mắm, một nửa hành tỏi băm và {tieu} tiêu. Để 30 phút cho ngấm.|#Nấu|Cho {dau_an} dầu và {duong} đường vào nồi, đun lửa nhỏ, không khuấy. Khi đường tan và chuyển màu cánh gián thì cho nốt hành tỏi vào phi 10 giây.|Trút thịt vào đảo lửa vừa 5 phút tới khi thịt săn và áo đều màu nước đường.|Đổ nước sôi vừa ngập mặt thịt. Đun sôi lại, hớt sạch bọt.|Hạ lửa nhỏ nhất, đậy hé vung, kho 40 phút. Giữa chừng nếu cạn thì thêm chút nước sôi, không thêm nước lạnh.|Thả trứng vào, kho thêm 15 phút tới khi trứng lên màu nâu và nước còn sánh xâm xấp.|#Hoàn thành|Nếm lại cho vừa mặn ngọt, múc ra bát, trứng bổ đôi. Ăn kèm dưa cải chua.",
+ "Thêm nước sôi chứ không thêm nước lạnh, nước lạnh làm thịt co lại và cứng."],
+["Sườn xào chua ngọt",45,"ngot chien","suon_non:600,ca_chua:150,dua:100,hanh_tay:100,duong:30,dau_an:30,nuoc_mam:20,toi:10,hanh_la:10",
+ "#Sơ chế|Sườn non ({suon_non}) chặt miếng dài 4cm. Chần nước sôi có chút muối 3 phút, vớt ra rửa sạch, để ráo.|Cà chua bổ múi cau, dứa thái miếng nhỏ, hành tây bổ múi cau, tỏi băm, hành lá cắt khúc.|#Ướp|Ướp sườn với {nuoc_mam} nước mắm và một nửa tỏi băm trong 15 phút.|#Nấu|Đun nóng {dau_an} dầu, rán sườn lửa vừa, lật đều tay khoảng 8 phút tới khi vàng các mặt. Vớt sườn ra, chắt bớt dầu còn lại khoảng 1 thìa canh.|Phi thơm tỏi còn lại, cho cà chua vào xào 3 phút tới khi mềm nhũn và ra nước sốt.|Thêm dứa và {duong} đường, đảo đều, nếm thấy chua ngọt cân bằng là được.|Trả sườn vào, thêm nửa bát nước, đun lửa nhỏ 12 phút, thỉnh thoảng đảo cho sốt bám đều.|Khi nước sốt sánh lại, cho hành tây đảo lửa to 1 phút rồi tắt bếp.|#Hoàn thành|Rắc hành lá, bày ra đĩa, ăn nóng.",
+ "Chần sườn trước khi rán thì nước sốt trong, không đục váng."],
+["Cá kho tộ",55,"ngot","ca_basa:600,duong:25,nuoc_mam:35,hanh_tim:20,ot:5,tieu:2,dau_an:15,hanh_la:10",
+ "#Sơ chế|Cá ({ca_basa}) cắt khúc dày 2–3cm. Xát muối hạt, rửa lại nhiều lần nước cho hết nhớt, thấm khô.|Hành tím băm nhỏ, ớt cắt lát, hành lá thái nhỏ.|#Ướp|Ướp cá với {nuoc_mam} nước mắm, một nửa hành tím, {tieu} tiêu và 1 thìa cà phê nước màu hoặc đường. Để 30 phút, trở mặt một lần.|#Nấu|Cho {dau_an} dầu và {duong} đường vào nồi đất, đun lửa nhỏ tới khi đường ngả màu cánh gián. Cho hành tím còn lại vào phi thơm.|Xếp cá thành một lớp vào nồi, rưới nước ướp lên. Để lửa vừa 3 phút cho cá săn mặt.|Đổ nước sôi ngập nửa thân cá. Khi sôi, hạ lửa nhỏ, kho 30 phút không đậy vung.|Cứ 10 phút nghiêng nồi, dùng thìa múc nước kho rưới lên mặt cá.|Khi nước rút còn sệt và bóng, rắc ớt, tiêu, tắt bếp.|#Hoàn thành|Để cá trong nồi thêm 5 phút cho ngấm, rắc hành lá, ăn nóng với cơm.",
+ "Không đảo cá bằng đũa. Nghiêng nồi lắc nhẹ và rưới nước kho lên thì cá không nát."],
+["Gà kho gừng",45,"ngot","dui_ga:600,gung:30,nuoc_mam:30,duong:15,dau_an:15,hanh_tim:20,tieu:1",
+ "#Sơ chế|Đùi gà ({dui_ga}) chặt miếng vừa ăn. Xát muối với ít gừng đập dập, rửa sạch, để ráo.|Gừng ({gung}) cạo vỏ, thái sợi mỏng, chia làm hai phần.|Hành tím băm nhỏ.|#Ướp|Ướp gà với {nuoc_mam} nước mắm, hành tím, một nửa phần gừng sợi và {tieu} tiêu trong 20 phút.|#Nấu|Đun {dau_an} dầu với {duong} đường tới khi ngả màu cánh gián.|Cho gà vào đảo lửa to 4 phút tới khi thịt săn và da hơi vàng.|Thêm khoảng nửa bát nước, đậy vung, kho lửa vừa 15 phút.|Mở vung, để lửa vừa cho nước rút còn sánh, khoảng 5 phút nữa.|Cho phần gừng sợi còn lại vào, đảo đều 1 phút.|#Hoàn thành|Nêm lại, rắc tiêu, múc ra đĩa.",
+ "Gừng chia hai lượt: lượt đầu cho ngấm vào thịt, lượt cuối giữ mùi thơm và vị cay ấm."],
+["Trứng đúc thịt",20,"chien","trung_ga:240,thit_xay:150,hanh_la:20,nuoc_mam:10,dau_an:20,tieu:1,moc_nhi:3",
+ "#Sơ chế|Mộc nhĩ ngâm nước ấm 10 phút cho nở, rửa sạch, cắt bỏ chân, băm nhỏ.|Hành lá thái nhỏ.|#Trộn|Đập trứng ({trung_ga}) ra bát lớn, đánh tan.|Cho thịt xay ({thit_xay}), mộc nhĩ, hành lá, {nuoc_mam} nước mắm, {tieu} tiêu vào, đánh đều tới khi thịt tơi ra, không còn vón cục.|#Rán|Đun nóng {dau_an} dầu trong chảo chống dính, láng đều dầu khắp mặt chảo.|Đổ hỗn hợp vào, dàn đều. Để lửa nhỏ, đậy vung, rán 7 phút tới khi mặt trên gần se lại.|Dùng đĩa úp lên chảo, lật ngược ra đĩa rồi trượt miếng trứng trở lại chảo.|Rán mặt còn lại 4 phút, không đậy vung, tới khi vàng đều.|#Hoàn thành|Cắt thành miếng tam giác như bánh, chấm nước mắm ớt.",
+ "Lửa nhỏ và đậy vung ở mặt đầu thì thịt chín kỹ bên trong mà vỏ không cháy."],
+["Đậu phụ sốt cà chua",25,"chay chien","dau_phu:400,ca_chua:300,hanh_la:20,dau_an:30,nuoc_mam:15,duong:5,toi:8",
+ "#Sơ chế|Đậu phụ ({dau_phu}) cắt miếng vuông 3cm, đặt lên khăn giấy thấm thật khô.|Cà chua ({ca_chua}) bổ múi cau, bỏ bớt hạt. Tỏi băm, hành lá thái nhỏ, để riêng phần đầu hành trắng.|#Rán đậu|Đun {dau_an} dầu tới khi thả một mẩu đậu thấy sủi quanh. Thả đậu vào rán lửa vừa, mỗi mặt 2 phút tới khi vàng đều. Vớt ra.|#Làm sốt|Chắt bớt dầu còn 1 thìa canh. Phi tỏi và đầu hành trắng tới khi thơm.|Cho cà chua vào, thêm chút muối, xào lửa vừa 4 phút, dùng thìa ấn nát cho ra nước sốt đỏ.|Nêm {nuoc_mam} nước mắm và {duong} đường, thêm nửa bát nước, đun sôi.|#Om|Thả đậu vào, dùng thìa rưới sốt lên mặt. Om lửa nhỏ 5 phút cho đậu ngấm.|#Hoàn thành|Rắc hành lá, tắt bếp, múc ra đĩa sâu lòng.",
+ "Thấm thật khô đậu trước khi rán thì dầu không bắn và vỏ giòn lâu hơn."],
+["Thịt luộc dưa chua",40,"luoc","nac_vai:500,dua_cai:200,nuoc_mam:20,ot:5,gung:10,hanh_tim:10",
+ "#Sơ chế|Thịt nạc vai ({nac_vai}) để nguyên miếng, rửa sạch.|Gừng đập dập, hành tím bóc vỏ để nguyên củ.|Dưa cải ({dua_cai}) rửa qua, vắt bớt nước chua, cắt khúc.|#Luộc|Cho thịt vào nồi, đổ nước lạnh ngập thịt, thêm gừng, hành tím, 1 thìa cà phê muối.|Đun lửa to tới khi sôi, hớt sạch bọt. Hạ lửa nhỏ để nước chỉ lăn tăn, luộc 25 phút.|Lấy đũa xiên vào chỗ dày nhất, thấy nước chảy ra trong, không hồng, là thịt chín.|#Làm săn|Vớt thịt thả ngay vào bát nước đá 2 phút rồi để ráo.|#Hoàn thành|Thái thịt lát mỏng ngang thớ, xếp ra đĩa cùng dưa cải.|Pha {nuoc_mam} nước mắm với ớt băm và chút nước ấm làm nước chấm.",
+ "Nhúng nước đá giúp lát thịt săn, không bở và không thâm khi để lâu."],
+["Cá hấp hành gừng",30,"luoc","ca_ro_phi:700,gung:30,hanh_la:30,nuoc_tuong:25,dau_an:10,ot:5",
+ "#Sơ chế|Cá rô phi ({ca_ro_phi}) đánh vảy, bỏ mang, mổ bụng làm sạch, cạo sạch màng đen trong bụng.|Xát muối và rượu trắng hoặc nước cốt chanh, rửa lại, thấm khô.|Khía 3 đường chéo mỗi bên mình cá, sâu tới xương.|Gừng ({gung}) thái sợi, hành lá thái sợi dài, ớt thái sợi.|#Hấp|Lót một nửa gừng và hành dưới đĩa, đặt cá lên, nhét phần gừng còn lại vào bụng và các khe khía.|Đun nồi hấp sôi mạnh rồi mới đặt đĩa cá vào. Hấp lửa to 12–15 phút.|Lấy đũa xiên chỗ dày nhất gần đầu cá, thịt tách xương dễ dàng là chín.|#Rưới sốt|Chắt bỏ nước tanh đọng trong đĩa. Rưới {nuoc_tuong} nước tương pha 2 thìa nước nóng lên mình cá.|Rải hành sợi và ớt sợi lên mặt cá.|Đun {dau_an} dầu tới khi bốc khói nhẹ, dội đều lên hành cho xèo lên.|#Hoàn thành|Mang ra bàn ngay khi còn nóng.",
+ "Nồi hấp phải sôi mạnh trước khi cho cá vào, hấp từ nước lạnh thì thịt cá bở và tanh."],
+["Tôm rim thịt",30,"ngot","tom_the:400,thit_xay:100,nuoc_mam:20,duong:15,dau_an:15,hanh_tim:15,tieu:1,hanh_la:10",
+ "#Sơ chế|Tôm ({tom_the}) cắt râu và chân, dùng tăm rút chỉ đen trên lưng. Rửa sạch, để ráo.|Hành tím băm, hành lá thái nhỏ.|#Ướp|Ướp tôm với một nửa lượng nước mắm và chút tiêu trong 10 phút.|#Nấu|Phi hành tím với {dau_an} dầu tới khi vàng thơm.|Cho thịt xay ({thit_xay}) vào đảo lửa vừa, dùng đũa đánh tơi, xào 3 phút tới khi thịt săn.|Thêm {duong} đường, đảo cho đường tan và thịt lên màu nhẹ.|Trút tôm vào, đảo lửa to 2 phút tới khi vỏ tôm chuyển đỏ.|Nêm nước mắm còn lại, thêm 3 thìa nước, rim lửa vừa 6–8 phút tới khi nước cạn sệt và bám vào tôm.|#Hoàn thành|Rắc tiêu, hành lá, đảo đều rồi tắt bếp.",
+ "Rim quá 10 phút là tôm bã và mất vị ngọt."],
+["Bò xào hành tây",20,"","bo_than:400,hanh_tay:200,toi:10,dau_an:25,nuoc_tuong:15,tieu:1,hanh_la:10",
+ "#Sơ chế|Thịt bò ({bo_than}) để ngăn đá 20 phút cho cứng rồi thái lát mỏng 2–3mm, cắt ngang thớ thịt.|Hành tây ({hanh_tay}) bổ múi cau, tách rời từng lớp. Tỏi đập dập băm nhỏ, hành lá cắt khúc.|#Ướp|Ướp bò với {nuoc_tuong} nước tương, một nửa tỏi, chút tiêu và 1 thìa canh dầu ăn. Để 15 phút.|#Xào|Đun chảo thật nóng tới khi bốc khói nhẹ, cho 1 thìa canh dầu.|Dàn đều thịt bò ra mặt chảo, để yên 30 giây cho xém mặt, rồi đảo nhanh thêm 30 giây. Thịt còn hơi hồng thì trút ngay ra đĩa.|Cho dầu còn lại và tỏi vào chảo, phi thơm, thêm hành tây xào lửa to 2 phút tới khi hành trong cạnh mà vẫn giòn.|Trả bò vào, thêm hành lá, đảo nhanh 20 giây.|#Hoàn thành|Rắc tiêu, tắt bếp, bày ra đĩa ngay.",
+ "Xào bò hai lượt trên chảo thật nóng. Xào một lượt lâu thì bò ra nước, dai và thâm."],
+["Gà luộc lá chanh",50,"luoc","ga_ta:800,gung:20,muoi:5,chanh:30,hanh_tim:15",
+ "#Sơ chế|Gà ta ({ga_ta}) làm sạch lông tơ, xát muối và gừng khắp thân, rửa lại, để ráo.|Gừng đập dập, hành tím nướng sơ cho thơm.|Lá chanh non thái chỉ thật nhỏ.|#Luộc|Đặt gà vào nồi, đổ nước lạnh ngập thân, thêm gừng, hành tím, 1 thìa cà phê muối.|Đun lửa vừa tới khi nước sôi lăn tăn, hớt bọt. Hạ lửa nhỏ, luộc 20 phút.|Tắt bếp, đậy vung, ủ gà trong nồi thêm 15 phút cho chín tới xương.|Xiên đũa vào phần đùi, nước chảy ra trong là gà chín.|#Làm giòn da|Vớt gà thả vào chậu nước đá 5 phút cho da vàng giòn, để ráo.|#Hoàn thành|Chặt gà miếng vừa ăn, xếp ra đĩa, rắc lá chanh thái chỉ.|Chấm muối tiêu vắt chanh ({chanh}).",
+ "Nước lạnh từ đầu và lửa nhỏ. Nước sôi sùng sục làm da gà nứt toác."],
+["Mực xào dứa",25,"","muc:400,dua:200,ca_chua:100,hanh_tay:100,dau_an:20,nuoc_mam:15,toi:10,hanh_la:15,gung:5",
+ "#Sơ chế|Mực ({muc}) rút đầu, bỏ túi mực và nang trong, lột da, rửa sạch.|Khía vảy rồng mặt trong thân mực rồi cắt miếng chữ nhật 3cm.|Dứa gọt mắt, thái miếng mỏng. Cà chua, hành tây bổ múi cau. Tỏi băm, hành lá cắt khúc.|#Chần|Đun nồi nước sôi với vài lát gừng, thả mực vào 30 giây tới khi mực cong lại thì vớt ngay, để ráo.|#Xào|Phi tỏi với {dau_an} dầu, cho cà chua vào xào 2 phút.|Thêm dứa và hành tây, xào lửa to 2 phút tới khi dứa hơi mềm.|Trút mực vào, nêm {nuoc_mam} nước mắm, đảo nhanh lửa to 1 phút.|#Hoàn thành|Thêm hành lá, đảo đều rồi tắt bếp ngay.",
+ "Chần mực trước để mực không ra nước làm nhạt cả đĩa và không bị dai."],
+["Cá nục kho cà",50,"","ca_nuc:600,ca_chua:200,nuoc_mam:25,duong:10,hanh_tim:20,dau_an:15,ot:5,hanh_la:10",
+ "#Sơ chế|Cá nục ({ca_nuc}) cắt bỏ đầu, móc ruột qua cổ, rửa sạch với nước muối loãng, để ráo.|Cà chua bổ múi cau, hành tím băm, ớt cắt lát.|#Ướp|Ướp cá với một nửa nước mắm, một nửa hành tím trong 15 phút.|#Làm sốt|Phi hành tím còn lại với {dau_an} dầu, cho cà chua vào xào lửa vừa 4 phút tới khi nhuyễn.|#Kho|Xếp cá vào nồi thành lớp, đổ sốt cà lên trên, nêm nước mắm còn lại và {duong} đường.|Thêm nước xâm xấp mặt cá. Đun sôi rồi hạ lửa nhỏ nhất, kho 35 phút không đảo.|Khi nước sốt sánh lại, thả ớt, kho thêm 5 phút.|#Hoàn thành|Rắc hành lá, múc cá ra đĩa nhẹ tay cho khỏi gãy.",
+ "Kho đủ lâu lửa nhỏ thì xương dăm mềm, ăn được cả con."]
+];
+MAN.push(
+["Thịt bằm xào đậu cô ve",20,"","thit_xay:250,dau_cove:400,toi:10,dau_an:20,nuoc_mam:15,tieu:1,hanh_tim:10",
+ "#Sơ chế|Đậu cô ve ({dau_cove}) bẻ hai đầu, tước sạch xơ hai bên sống, cắt vát khúc 4cm.|Đun nồi nước sôi có chút muối, chần đậu 2 phút, vớt ra xả ngay nước lạnh, để ráo.|Tỏi, hành tím băm nhỏ.|#Ướp|Trộn thịt xay ({thit_xay}) với một nửa nước mắm, chút tiêu và hành tím, để 10 phút.|#Xào|Phi tỏi với {dau_an} dầu tới khi vàng nhạt.|Cho thịt vào, dùng đũa đánh tơi, xào lửa vừa 3 phút tới khi thịt săn và hết màu hồng.|Trút đậu vào, tăng lửa to, đảo đều 3 phút.|Nêm nước mắm còn lại, thêm 2 thìa nước, đảo thêm 1 phút cho thấm.|#Hoàn thành|Rắc tiêu, tắt bếp, bày ra đĩa.",
+ "Đậu cô ve phải chín kỹ, ăn còn sống dễ đau bụng. Chần trước rồi xả nước lạnh thì vẫn giữ màu xanh."],
+["Nghêu hấp sả",25,"luoc","ngheu:1200,sa:40,ot:5,rau_thom:20,gung:10,chanh:20",
+ "#Sơ chế|Nghêu ({ngheu}) ngâm trong chậu nước pha muối loãng hoặc nước vo gạo, thả vài lát ớt, để 1–2 tiếng cho nghêu nhả hết cát.|Chà sạch vỏ, rửa lại nhiều lần. Bỏ con vỏ vỡ hoặc đã há miệng mà gõ không khép lại.|Sả ({sa}) đập dập, cắt khúc 5cm. Gừng thái lát, ớt đập dập. Rau thơm nhặt rửa sạch.|#Hấp|Lót sả và gừng dưới đáy nồi, thêm khoảng nửa bát nước.|Xếp nghêu lên trên, rải ớt. Đậy chặt vung.|Đun lửa to 5–7 phút. Mở vung thấy nghêu há miệng hết là chín, xóc nồi một lần cho đều.|#Hoàn thành|Tắt bếp ngay, rắc rau thơm, múc cả nước hấp ra tô.|Chấm muối tiêu vắt chanh.",
+ "Con nào hấp xong vẫn không há miệng thì bỏ đi, đừng cạy ra ăn."],
+["Thịt rang cháy cạnh",25,"ngot","ba_chi:450,hanh_tim:30,nuoc_mam:25,duong:10,tieu:1,hanh_la:10",
+ "#Sơ chế|Thịt ba chỉ ({ba_chi}) rửa sạch, thái lát dày 3–4mm, bản rộng 3cm.|Hành tím thái lát mỏng, hành lá thái nhỏ.|#Rang|Cho thịt vào chảo khô, không cần dầu. Đun lửa vừa, đảo đều để mỡ tự chảy ra.|Rang khoảng 10 phút tới khi phần mỡ trong và các cạnh thịt xém vàng.|Chắt bớt mỡ, chỉ để lại chừng 1 thìa canh trong chảo.|Cho hành tím vào phi cùng thịt 1 phút tới khi thơm.|#Nêm|Thêm {duong} đường, đảo cho đường tan và bắt màu.|Rưới {nuoc_mam} nước mắm dọc thành chảo cho dậy mùi, đảo nhanh lửa to 2 phút tới khi thịt áo màu cánh gián và khô ráo.|#Hoàn thành|Rắc tiêu, hành lá, tắt bếp.",
+ "Rưới nước mắm vào thành chảo nóng chứ không rưới thẳng lên thịt, mùi nước mắm sẽ thơm hơn."],
+["Đậu phụ nhồi thịt sốt cà",40,"chien","dau_phu:400,thit_xay:200,ca_chua:250,moc_nhi:5,hanh_la:15,dau_an:25,nuoc_mam:15,hanh_tim:10",
+ "#Sơ chế|Mộc nhĩ ngâm nở, cắt chân, băm nhỏ. Hành tím băm, hành lá thái nhỏ.|Đậu phụ ({dau_phu}) cắt khối tam giác hoặc chữ nhật, khoét một đường rạch sâu ở cạnh dài để làm túi.|Cà chua bổ múi cau.|#Làm nhân|Trộn thịt xay ({thit_xay}), mộc nhĩ, hành tím, một nửa hành lá, một nửa nước mắm, chút tiêu. Nhồi tới khi nhân dẻo và dính.|Nhồi nhân vào túi đậu cho chặt, miết phẳng mặt nhân.|#Rán|Đun {dau_an} dầu, đặt mặt có nhân xuống trước, rán lửa vừa 4 phút cho nhân chín vàng và bám chặt.|Lật rán các mặt còn lại, mỗi mặt 1–2 phút. Vớt ra.|#Om sốt|Chắt bớt dầu, xào cà chua với chút muối 4 phút tới khi nhừ.|Nêm nước mắm còn lại, thêm 1/2 bát nước, xếp đậu vào, om lửa nhỏ 8 phút, rưới sốt lên mặt.|#Hoàn thành|Rắc hành lá, tắt bếp.",
+ "Rán mặt có nhân trước để thịt se lại và dính chặt vào đậu, om không bị bong."],
+["Cá rô phi rán giòn",30,"chien","ca_ro_phi:800,dau_an:60,muoi:5,gung:10,nuoc_mam:10,chanh:20,toi:5,ot:5,duong:5",
+ "#Sơ chế|Cá ({ca_ro_phi}) đánh vảy, bỏ mang, mổ bụng, cạo sạch màng đen.|Khía 3 đường chéo mỗi bên. Xát muối và gừng giã khắp mình cá, để 10 phút rồi rửa sạch.|Dùng khăn giấy thấm thật khô cả bên ngoài lẫn trong bụng. Để cá ráo thêm 10 phút.|#Rán|Đun {dau_an} dầu trong chảo sâu lòng tới khi thả đũa gỗ vào thấy sủi bọt quanh đũa.|Thả cá nhẹ tay từ phía gần người ra xa để dầu không bắn vào tay.|Rán lửa vừa 7–8 phút, không động vào cá, tới khi mặt dưới vàng giòn và tự tách khỏi chảo.|Lật cá một lần, rán tiếp 6–7 phút.|Vớt cá dựng đứng trên giấy thấm dầu.|#Nước chấm|Pha {nuoc_mam} nước mắm, {duong} đường, nước cốt chanh, tỏi ớt băm và 2 thìa nước ấm.|#Hoàn thành|Bày cá ra đĩa, ăn nóng chấm nước mắm tỏi ớt.",
+ "Cá phải thật khô và dầu phải đủ nóng. Lật sớm khi mặt dưới chưa giòn là da dính chảo và rách."],
+["Gà xào sả ớt",30,"","dui_ga:600,sa:50,ot:10,nuoc_mam:25,duong:8,dau_an:20,hanh_tim:15,toi:5",
+ "#Sơ chế|Đùi gà ({dui_ga}) chặt miếng nhỏ vừa ăn, rửa sạch, để ráo.|Sả ({sa}) bóc bẹ già, băm thật nhỏ. Hành tím, tỏi băm. Ớt băm.|#Ướp|Ướp gà với {nuoc_mam} nước mắm, {duong} đường, một nửa sả băm, hành tỏi trong 20 phút.|#Xào|Đun {dau_an} dầu, phi phần sả còn lại và ớt lửa vừa tới khi sả vàng giòn và thơm.|Cho gà vào, đảo lửa to 5 phút tới khi thịt săn và da hơi xém.|Thêm 3–4 thìa nước, đậy vung, hạ lửa vừa 10 phút cho gà chín tới.|Mở vung, đảo tiếp tới khi nước cạn, sả bám vào miếng gà.|#Hoàn thành|Nêm lại cho vừa, tắt bếp, bày ra đĩa.",
+ "Phi sả vàng giòn trước rồi mới cho gà thì mùi thơm hơn hẳn và sả không bị hăng."],
+["Thịt kho tiêu",45,"ngot","nac_vai:500,tieu:5,nuoc_mam:35,duong:15,hanh_tim:25,dau_an:10",
+ "#Sơ chế|Thịt nạc vai ({nac_vai}) rửa sạch, thái miếng dày 1cm, bản 3cm.|Hành tím băm nhỏ.|#Ướp|Ướp thịt với {nuoc_mam} nước mắm, một nửa hành tím và một nửa tiêu trong 30 phút.|#Kho|Đun {dau_an} dầu với {duong} đường lửa nhỏ tới khi ra màu cánh gián, cho hành tím còn lại vào phi.|Cho thịt vào đảo đều lửa vừa 4 phút cho săn và bắt màu.|Thêm nước xâm xấp mặt thịt, đun sôi, hớt bọt.|Hạ lửa nhỏ, kho 25–30 phút tới khi nước rút còn sánh.|#Hoàn thành|Rắc phần tiêu còn lại, đảo đều, tắt bếp.",
+ "Tiêu chia hai lần. Tiêu rắc lúc gần tắt bếp giữ được vị cay nồng đặc trưng."],
+["Sườn rim mặn",45,"ngot","suon_non:600,nuoc_mam:30,duong:20,hanh_tim:20,toi:10,dau_an:15,tieu:1",
+ "#Sơ chế|Sườn non ({suon_non}) chặt miếng 3cm, chần nước sôi 3 phút, rửa sạch.|Hành tím, tỏi băm nhỏ.|#Ướp|Ướp sườn với {nuoc_mam} nước mắm, {duong} đường, một nửa hành tỏi, tiêu trong 20 phút.|#Rim|Phi hành tỏi còn lại với {dau_an} dầu tới khi vàng.|Cho sườn vào đảo lửa vừa 5 phút tới khi săn mặt.|Đổ nước ướp và thêm nửa bát nước. Đun sôi rồi hạ lửa nhỏ, đậy vung rim 20 phút.|Mở vung, đảo thưa tay tới khi nước cạn, sốt sánh bóng và bám đều quanh miếng sườn.|#Hoàn thành|Rắc tiêu, bày ra đĩa.",
+ "Giai đoạn cuối phải đứng canh bếp, đường trong sốt rất dễ cháy khi nước gần cạn."],
+["Chả trứng hấp",40,"luoc","trung_ga:240,thit_xay:200,mien:15,moc_nhi:5,hanh_la:15,nuoc_mam:10,tieu:1,hanh_tim:10",
+ "#Sơ chế|Miến ({mien}) ngâm nước ấm 10 phút, cắt ngắn 1cm.|Mộc nhĩ ngâm nở, cắt chân, băm nhỏ. Hành tím băm, hành lá thái nhỏ.|#Trộn|Tách riêng 1 lòng đỏ trứng để quét mặt.|Đánh tan số trứng còn lại, cho thịt xay, miến, mộc nhĩ, hành, {nuoc_mam} nước mắm, tiêu vào trộn đều tới khi hỗn hợp tơi mịn.|Đổ vào đĩa sâu lòng hoặc khay có quét chút dầu, dàn phẳng mặt.|#Hấp|Đặt vào nồi hấp đã sôi, hấp lửa vừa 20 phút.|Xiên tăm vào giữa, không thấy nước hồng chảy ra là chả chín.|Quét lòng đỏ đã để riêng lên mặt chả, hấp tiếp 5 phút không đậy vung cho mặt se vàng.|#Hoàn thành|Để nguội bớt 5 phút, cắt miếng vuông.",
+ "Lót một chiếc khăn dưới vung nồi hấp để hơi nước không nhỏ xuống làm rỗ mặt chả."],
+["Bò xào súp lơ",25,"","bo_than:300,bong_cai:400,ca_rot:80,toi:10,dau_an:20,nuoc_tuong:15,tieu:1",
+ "#Sơ chế|Súp lơ ({bong_cai}) cắt thành bông nhỏ, ngâm nước muối loãng 10 phút cho sạch sâu bọ trong kẽ, rửa lại.|Cà rốt tỉa hoa hoặc thái lát mỏng. Tỏi băm.|Bò ({bo_than}) thái lát mỏng ngang thớ, ướp {nuoc_tuong} nước tương, một nửa tỏi, 1 thìa dầu trong 15 phút.|#Chần|Chần súp lơ và cà rốt trong nước sôi có muối 2 phút, vớt ra thả vào nước lạnh, để ráo.|#Xào|Chảo thật nóng, xào bò lửa to 1 phút tới khi vừa tái, trút ra đĩa.|Phi tỏi còn lại, cho súp lơ và cà rốt vào xào lửa to 2 phút, thêm 2 thìa nước cho rau bóng.|Trả bò vào, đảo nhanh 30 giây.|#Hoàn thành|Rắc tiêu, tắt bếp, bày ra đĩa.",
+ "Chần súp lơ rồi xả nước lạnh thì súp lơ giữ màu xanh và giòn."],
+["Tôm hấp sả",20,"luoc","tom_the:500,sa:40,gung:10,chanh:20,muoi:3,ot:5",
+ "#Sơ chế|Tôm ({tom_the}) cắt râu, cắt chân, rút chỉ lưng, rửa sạch.|Sả ({sa}) đập dập cắt khúc. Gừng thái lát.|#Hấp|Lót sả và gừng dưới đáy nồi, thêm khoảng 4 thìa canh nước.|Xếp tôm lên, đậy chặt vung, đun lửa to.|Hấp 5–6 phút, giữa chừng xóc nồi một lần. Tôm đỏ đều và cong lại là chín.|#Hoàn thành|Bày tôm ra đĩa cùng sả.|Pha muối, tiêu, ớt và nước cốt chanh ({chanh}) làm muối chấm.",
+ "Hấp tôm vừa chín tới là nhấc ra ngay. Để trong nồi nóng lâu thì thịt tôm bở."],
+["Mực hấp gừng",20,"luoc","muc:500,gung:30,hanh_la:20,chanh:20,nuoc_mam:10,ot:5,duong:5",
+ "#Sơ chế|Mực ({muc}) rút đầu, bỏ nang trong và túi mực, lột lớp da mỏng, rửa sạch.|Mực nhỏ để nguyên con, mực to cắt khoanh 2cm.|Gừng ({gung}) thái sợi, hành lá cắt khúc 5cm.|#Hấp|Lót một nửa gừng và hành dưới xửng hoặc đĩa hấp. Xếp mực lên, rải phần gừng còn lại.|Hấp nước đang sôi mạnh 5 phút.|#Nước chấm|Giã một ít gừng với ớt, pha {nuoc_mam} nước mắm, {duong} đường, nước cốt chanh và 2 thìa nước.|#Hoàn thành|Bày mực ra đĩa, chấm nước mắm gừng.",
+ "Mực chín rất nhanh. Quá 6 phút là mực co lại và dai như cao su."],
+["Thịt kho nước dừa",80,"ngot","ba_chi:500,trung_ga:240,nuoc_cot_dua:100,nuoc_mam:40,duong:15,toi:10,hanh_tim:15,tieu:1",
+ "#Sơ chế|Thịt ba chỉ ({ba_chi}) chần nước sôi 2 phút, rửa sạch, cắt khối vuông 4cm.|Trứng ({trung_ga}) luộc chín, bóc vỏ. Tỏi, hành tím giã nhuyễn.|Nếu có dừa tươi thì chắt nước dừa. Không có thì pha {nuoc_cot_dua} nước cốt dừa với 2 bát nước.|#Ướp|Ướp thịt với tỏi, hành, {nuoc_mam} nước mắm, {duong} đường, tiêu trong 1 tiếng.|#Kho|Cho thịt vào nồi, đun lửa vừa không thêm nước, đảo thưa tay 7 phút tới khi thịt săn và nước ướp rút bớt.|Đổ nước dừa vào ngập thịt. Đun lửa to tới khi sôi, vớt sạch bọt.|Hạ lửa nhỏ liu riu, đậy vung, hầm 45 phút.|Thả trứng vào, kho thêm 15 phút tới khi thịt mềm, da trong và nước ngả màu hổ phách.|#Hoàn thành|Nếm lại, múc ra bát, trứng bổ đôi. Ăn kèm dưa giá hoặc dưa cải.",
+ "Vớt bọt kỹ khi nước dừa vừa sôi thì nước kho trong và không bị chua."]
+);
+MAN.push(
+["Cá thu sốt cà chua",35,"chien","ca_thu:500,ca_chua:300,hanh_tim:20,dau_an:30,nuoc_mam:20,duong:5,hanh_la:15,muoi:2",
+ "#Sơ chế|Cá thu ({ca_thu}) cắt khoanh dày 2cm, rửa nước muối loãng, thấm khô.|Ướp cá với chút muối, tiêu 10 phút.|Cà chua ({ca_chua}) bổ múi cau, một phần băm nhỏ. Hành tím băm, hành lá thái nhỏ.|#Rán cá|Đun {dau_an} dầu nóng, rán cá lửa vừa mỗi mặt 4 phút tới khi vàng săn. Vớt ra giấy thấm dầu.|#Làm sốt|Chắt bớt dầu còn 1 thìa canh, phi hành tím.|Cho cà chua băm vào xào 3 phút cho nhuyễn, thêm cà chua múi cau xào tiếp 2 phút.|Nêm {nuoc_mam} nước mắm, {duong} đường, thêm 1/2 bát nước, đun sôi.|#Om|Xếp cá vào sốt, múc sốt rưới lên mặt, om lửa nhỏ 10 phút, lật cá một lần.|#Hoàn thành|Rắc hành lá, tiêu, tắt bếp.",
+ "Rán cá cho săn mặt trước khi om thì khoanh cá không vỡ và không tanh."],
+["Cá kho dưa cải",45,"","ca_basa:500,dua_cai:300,ca_chua:100,nuoc_mam:20,hanh_tim:15,dau_an:15,ot:5,duong:5",
+ "#Sơ chế|Dưa cải ({dua_cai}) rửa qua nước, vắt bớt chua, cắt khúc 3cm.|Cá ({ca_basa}) cắt khúc, xát muối rửa sạch, thấm khô.|Cà chua bổ múi cau, hành tím băm, ớt cắt lát.|#Ướp|Ướp cá với một nửa nước mắm và hành tím 15 phút.|#Xào dưa|Cho dưa vào chảo khô đảo 3 phút cho bay bớt nước và mùi hăng.|Thêm {dau_an} dầu, hành tím còn lại và cà chua, xào 3 phút.|#Kho|Trải một nửa dưa xuống đáy nồi, xếp cá lên, phủ phần dưa còn lại.|Nêm nước mắm còn lại và {duong} đường, thêm nước xâm xấp.|Đun sôi rồi hạ lửa nhỏ, kho 25–30 phút tới khi nước còn sánh.|#Hoàn thành|Thả ớt, nếm lại, múc ra bát.",
+ "Xào khô dưa trước thì dưa bớt chua gắt và giòn lâu khi kho."],
+["Gà xào nấm",25,"","uc_ga:400,nam_rom:250,hanh_tay:100,toi:10,dau_an:20,nuoc_tuong:15,hanh_la:10,tieu:1",
+ "#Sơ chế|Ức gà ({uc_ga}) thái lát mỏng chéo thớ, dày khoảng 5mm.|Nấm rơm ({nam_rom}) gọt gốc, bổ đôi, ngâm nước muối loãng 5 phút rồi rửa nhanh, để ráo.|Hành tây bổ múi cau, tỏi băm, hành lá cắt khúc.|#Ướp|Ướp gà với {nuoc_tuong} nước tương, một nửa tỏi, 1 thìa dầu và chút tiêu trong 15 phút.|#Xào|Chảo nóng, xào gà lửa to 3 phút tới khi thịt trắng đều và săn, trút ra.|Phi tỏi còn lại, cho nấm vào xào lửa to 3 phút tới khi nấm tiết nước rồi cạn bớt.|Thêm hành tây, xào 1 phút.|Trả gà vào, đảo đều 1 phút.|#Hoàn thành|Thêm hành lá, rắc tiêu, tắt bếp.",
+ "Ướp ức gà với chút dầu và thái chéo thớ thì thịt không bị khô xác."],
+["Bò lúc lắc",20,"","bo_than:400,hanh_tay:150,ca_chua:150,toi:15,dau_an:25,nuoc_tuong:20,tieu:2,xa_lach:100",
+ "#Sơ chế|Bò thăn ({bo_than}) thấm khô, cắt khối vuông 2cm.|Hành tây cắt vuông, tỏi đập dập, cà chua thái lát, xà lách rửa sạch để ráo.|#Ướp|Ướp bò với {nuoc_tuong} nước tương, một nửa tỏi, {tieu} tiêu và 1 thìa dầu trong 20 phút.|#Áp chảo|Đun chảo gang hoặc chảo dày thật nóng, cho 1 thìa canh dầu.|Xếp bò thành một lớp, để yên 40 giây cho xém mặt dưới.|Lắc chảo cho bò lật các mặt, mỗi lần để yên 20 giây, tổng khoảng 2 phút là bò chín tái.|Cho tỏi còn lại và hành tây vào, lắc chảo thêm 1 phút.|#Hoàn thành|Lót xà lách và cà chua ra đĩa, đổ bò lên trên. Chấm muối tiêu chanh.",
+ "Đừng đảo liên tục. Để bò đứng yên cho xém mặt rồi mới lắc, bò sẽ mọng nước bên trong."],
+["Nem rán",70,"chien","thit_xay:400,mien:30,moc_nhi:10,ca_rot:100,trung_ga:60,banh_trang:80,dau_an:80,hanh_tim:20,nuoc_mam:10,tieu:1,gia_do:50",
+ "#Sơ chế|Miến ({mien}) ngâm nước ấm 10 phút, cắt ngắn 2cm. Mộc nhĩ ngâm nở, thái sợi.|Cà rốt ({ca_rot}) thái sợi nhỏ, giá đỗ cắt ngắn. Hành tím băm.|#Làm nhân|Trộn thịt xay, miến, mộc nhĩ, cà rốt, giá, hành tím, trứng ({trung_ga}), {nuoc_mam} nước mắm, tiêu.|Bóp kỹ tới khi nhân dính vào nhau. Nếu nhân ướt thì vắt bớt nước.|#Cuốn|Nhúng nhanh bánh tráng qua nước hoặc phết nước cho mềm.|Đặt 1 thìa nhân ở mép dưới, gấp mép dưới lên, gập hai bên vào, cuốn chặt tay thành thỏi dài 8cm.|Xếp nem ra khay, để 10 phút cho vỏ se lại.|#Rán|Cho nem vào chảo khi dầu ({dau_an}) còn ấm, chưa quá nóng.|Rán lửa vừa 10–12 phút, lật đều tới khi vỏ vàng ruộm và giòn.|Vớt ra giấy thấm dầu, dựng đứng cho ráo.|#Hoàn thành|Cắt đôi, ăn kèm rau sống và nước mắm chua ngọt.",
+ "Thả nem khi dầu còn ấm rồi mới tăng lửa. Dầu quá nóng từ đầu thì vỏ phồng, cháy mà nhân chưa chín."],
+["Chả lá lốt",40,"chien","thit_xay:400,la_lot:80,hanh_tim:20,nuoc_mam:15,dau_an:30,tieu:1,lac:20",
+ "#Sơ chế|Lá lốt ({la_lot}) ngắt từng lá, giữ lại cuống ngắn, rửa sạch, lau khô.|Hành tím băm. Lạc rang giã dập.|#Làm nhân|Trộn thịt xay ({thit_xay}) với hành tím, {nuoc_mam} nước mắm, tiêu, lạc giã. Nhồi đều 2 phút cho dính.|#Cuốn|Đặt lá lốt mặt bóng xuống dưới. Cho 1 thìa nhân vào phía cuống, vo thành thỏi dài.|Cuộn từ cuống lên đầu lá, xếp mép cuộn nằm dưới đáy khay.|#Rán|Đun {dau_an} dầu lửa vừa, xếp chả vào chảo sát nhau, mép cuộn quay xuống dưới.|Rán lửa nhỏ vừa 5 phút, lật mặt, rán tiếp 5–6 phút tới khi lá se, thẫm màu và thịt chín.|#Hoàn thành|Ăn kèm bún, rau sống, nước mắm chua ngọt, rắc lạc lên mặt.",
+ "Đặt mép cuộn xuống đáy chảo trước thì chả không bung ra khi rán."],
+["Đậu phụ rán chấm mắm hành",20,"chay chien","dau_phu:500,dau_an:40,hanh_la:30,nuoc_mam:20,ot:5,duong:3",
+ "#Sơ chế|Đậu phụ ({dau_phu}) cắt miếng vuông 3cm, đặt trên khăn giấy thấm khô hai mặt.|Hành lá thái nhỏ, ớt băm.|#Rán|Đun {dau_an} dầu tới khi nóng già. Thả đậu vào thành một lớp, không xếp chồng.|Rán lửa vừa 3 phút mỗi mặt, lật nhẹ tới khi vàng ươm và vỏ giòn.|Vớt ra giấy thấm dầu.|#Mắm hành|Trộn hành lá, ớt, {nuoc_mam} nước mắm, {duong} đường và 1 thìa dầu nóng.|#Hoàn thành|Xếp đậu ra đĩa, rưới mắm hành lên khi đậu còn nóng.",
+ "Đậu rán xong để trên giấy thấm dầu thì vỏ giòn lâu, không bị ỉu."],
+["Trứng hấp hành",20,"luoc","trung_ga:300,hanh_la:20,nuoc_mam:10,tieu:1",
+ "#Trộn|Đập trứng ({trung_ga}) vào bát, đánh tan nhẹ tay, không đánh nổi bọt.|Thêm nước ấm bằng khoảng nửa lượng trứng và {nuoc_mam} nước mắm, khuấy đều.|Lọc hỗn hợp qua rây vào bát hấp cho thật mịn. Hớt bọt trên mặt.|#Hấp|Bọc mặt bát bằng màng bọc thực phẩm hoặc úp đĩa lên.|Đặt vào nồi nước đã sôi, hạ lửa nhỏ, hấp 12–15 phút.|Nghiêng bát, thấy mặt trứng rung nhẹ như thạch và không còn chảy là chín.|#Hoàn thành|Rắc hành lá thái nhỏ, tiêu, rưới chút nước mắm hoặc dầu hành.",
+ "Lửa nhỏ và bọc kín mặt bát thì trứng mịn như thạch, không bị rỗ tổ ong."],
+["Cá chép om dưa",55,"","ca_chep:800,dua_cai:300,ca_chua:200,thi_la:20,nuoc_mam:20,dau_an:20,hanh_tim:15,ot:5",
+ "#Sơ chế|Cá chép ({ca_chep}) đánh vảy, bỏ mang, mổ bụng. Rạch sau mang và gần đuôi, rút bỏ sợi gân trắng hai bên thân.|Cắt khúc dày 3cm, xát muối rửa sạch, thấm khô.|Dưa cải vắt bớt chua, cắt khúc. Cà chua bổ múi cau, thì là cắt khúc, hành tím băm.|#Rán sơ|Rán cá với {dau_an} dầu lửa vừa mỗi mặt 3 phút cho săn. Vớt ra.|#Om|Chắt bớt dầu, phi hành tím, xào cà chua 3 phút rồi cho dưa vào xào tiếp 3 phút.|Đổ nước ngập dưa, đun sôi 5 phút cho nước dậy vị chua.|Thả cá vào, nêm {nuoc_mam} nước mắm, om lửa nhỏ 25 phút không đảo.|#Hoàn thành|Thả thì là và ớt, tắt bếp. Ăn nóng với cơm hoặc bún.",
+ "Rút gân trắng hai bên thân cá chép là bước quyết định, bỏ qua thì món cá tanh."],
+["Ức gà áp chảo sả",30,"","uc_ga:500,sa:30,toi:10,dau_an:10,nuoc_mam:10,tieu:2,xa_lach:100,ca_chua:100",
+ "#Sơ chế|Ức gà ({uc_ga}) lọc bỏ màng, cắt đôi theo chiều dày thành hai miếng mỏng khoảng 1,5cm.|Dùng sống dao dần nhẹ cho miếng thịt dày đều.|Sả ({sa}), tỏi băm nhỏ. Xà lách, cà chua rửa sạch.|#Ướp|Ướp gà với sả, tỏi, {nuoc_mam} nước mắm, {tieu} tiêu và 1 thìa dầu trong ít nhất 20 phút.|#Áp chảo|Đun chảo chống dính lửa vừa, cho dầu còn lại.|Đặt gà vào, để yên 5 phút tới khi mặt dưới vàng nâu.|Lật mặt, hạ lửa nhỏ, áp tiếp 4–5 phút. Ấn vào chỗ dày thấy thịt đàn hồi, không mềm nhũn là chín.|#Nghỉ thịt|Chuyển gà ra thớt, để yên 3 phút.|#Hoàn thành|Thái lát xiên, bày cùng xà lách và cà chua.",
+ "Để thịt nghỉ 3 phút trước khi thái thì nước ngọt không chảy ra, ức gà không khô."],
+["Xíu mại sốt cà",40,"","thit_xay:450,ca_chua:300,hanh_tay:80,hanh_tim:15,nuoc_mam:15,duong:5,dau_an:10,moc_nhi:5,hanh_la:10",
+ "#Sơ chế|Hành tây băm nhỏ, mộc nhĩ ngâm nở băm nhỏ, hành tím băm, hành lá thái nhỏ.|Cà chua ({ca_chua}) một nửa băm nhuyễn, một nửa bổ múi cau.|#Làm viên|Trộn thịt ({thit_xay}) với hành tây, mộc nhĩ, một nửa hành tím, một nửa nước mắm, tiêu.|Quật thịt vào thành bát 20 lần cho dai. Vo viên cỡ quả chanh nhỏ.|#Hấp|Xếp viên vào đĩa, hấp 10 phút cho định hình. Giữ lại nước hấp trong đĩa.|#Sốt|Phi hành tím còn lại với {dau_an} dầu, xào cà chua băm 4 phút, thêm cà chua múi cau xào 2 phút.|Đổ nước hấp thịt và 1/2 bát nước, nêm nước mắm còn lại và {duong} đường.|#Om|Thả viên thịt vào, om lửa nhỏ 10 phút, rưới sốt lên mặt.|#Hoàn thành|Rắc hành lá. Ăn với cơm hoặc bánh mì.",
+ "Quật thịt cho dai và hấp định hình trước thì viên không vỡ khi om."],
+["Tôm xào súp lơ",20,"","tom_the:300,bong_cai:400,ca_rot:80,toi:10,dau_an:20,hat_nem:5,tieu:1",
+ "#Sơ chế|Tôm ({tom_the}) bóc vỏ, chừa đuôi, rút chỉ lưng, ướp chút tiêu và muối.|Súp lơ ({bong_cai}) cắt bông nhỏ, ngâm nước muối 10 phút, rửa sạch. Cà rốt thái lát mỏng. Tỏi băm.|#Chần|Chần súp lơ và cà rốt trong nước sôi có muối 2 phút, vớt ra xả nước lạnh.|#Xào|Phi một nửa tỏi với 1 thìa dầu, xào tôm lửa to 2 phút tới khi tôm cong đỏ, trút ra.|Cho dầu còn lại và tỏi vào chảo, xào súp lơ, cà rốt lửa to 2 phút.|Thêm 2 thìa nước và {hat_nem} hạt nêm, đảo đều.|Trả tôm vào, đảo nhanh 30 giây.|#Hoàn thành|Rắc tiêu, tắt bếp.",
+ "Xào tôm riêng rồi mới gộp thì tôm chín vừa, giòn, không dai."],
+["Thịt heo xào sả ớt",20,"","nac_vai:400,sa:40,ot:10,hanh_tim:15,nuoc_mam:20,dau_an:20,duong:5",
+ "#Sơ chế|Thịt nạc vai ({nac_vai}) thái lát mỏng 3mm.|Sả ({sa}) băm nhỏ, ớt băm, hành tím băm.|#Ướp|Ướp thịt với một nửa sả, hành tím, {nuoc_mam} nước mắm, {duong} đường trong 15 phút.|#Xào|Phi phần sả và ớt còn lại với {dau_an} dầu lửa vừa tới khi sả vàng thơm.|Cho thịt vào, xào lửa to 4 phút tới khi thịt săn và cạn nước.|Nếm lại, thêm chút nước mắm nếu nhạt.|#Hoàn thành|Tắt bếp, bày ra đĩa.",
+ "Thịt nạc vai có chút mỡ xen nên xào mềm hơn thịt thăn."]
+);
+MAN.push(
+["Đậu phụ om nấm",25,"chay","dau_phu:400,nam_rom:200,ca_chua:150,hanh_la:15,nuoc_tuong:20,dau_an:15,toi:5",
+ "#Sơ chế|Đậu phụ ({dau_phu}) cắt khối vuông 2,5cm.|Nấm rơm ({nam_rom}) gọt gốc, bổ đôi, ngâm nước muối loãng 5 phút, rửa sạch.|Cà chua bổ múi cau, tỏi băm, hành lá thái nhỏ.|#Nấu|Phi tỏi với {dau_an} dầu, cho cà chua vào xào 3 phút tới khi mềm.|Thêm nấm, xào lửa vừa 2 phút.|Đổ 1/2 bát nước và {nuoc_tuong} nước tương, đun sôi.|Thả đậu vào, dùng thìa rưới nước om lên mặt đậu. Om lửa nhỏ 10 phút, không đảo mạnh tay.|#Hoàn thành|Nếm lại, rắc hành lá, tắt bếp.",
+ "Không rán đậu nên món nhẹ và ít dầu, hợp người ăn kiêng."],
+["Thịt băm rim trứng cút",35,"ngot","thit_xay:300,trung_cut:200,nuoc_mam:25,duong:10,hanh_tim:15,dau_an:10,tieu:1",
+ "#Sơ chế|Trứng cút ({trung_cut}) cho vào nồi nước lạnh, đun sôi rồi luộc thêm 4 phút.|Vớt ra ngâm ngay nước lạnh 5 phút, bóc vỏ.|Hành tím băm nhỏ.|#Nấu|Phi hành tím với {dau_an} dầu, cho thịt xay vào đánh tơi, xào 3 phút.|Thêm {duong} đường, đảo tới khi thịt lên màu nhẹ.|Cho trứng cút vào cùng {nuoc_mam} nước mắm và 1/2 bát nước.|Rim lửa nhỏ 15 phút, thỉnh thoảng lăn trứng cho lên màu đều.|#Hoàn thành|Khi nước sánh lại, rắc tiêu, tắt bếp.",
+ "Luộc xong ngâm nước lạnh ngay thì vỏ trứng cút tách dễ, không rỗ mặt."],
+["Cá basa chiên sả",25,"chien","ca_basa:500,sa:40,dau_an:40,nuoc_mam:10,ot:5,tieu:1,muoi:2",
+ "#Sơ chế|Cá basa ({ca_basa}) cắt miếng 5cm, rửa nước muối loãng, thấm khô.|Ướp cá với {nuoc_mam} nước mắm, tiêu 15 phút.|Sả ({sa}) băm thật nhỏ, ớt băm.|#Phi sả|Đun {dau_an} dầu lửa vừa, cho sả vào đảo liên tục 3 phút tới khi vàng giòn. Vớt sả ra giấy thấm dầu.|#Chiên cá|Dùng dầu phi sả chiên cá lửa vừa, mỗi mặt 4 phút tới khi vàng.|Vớt cá ra giấy thấm dầu.|#Hoàn thành|Xếp cá ra đĩa, rắc sả phi và ớt lên mặt.",
+ "Phi sả riêng trước để sả giòn. Chiên chung với cá thì sả cháy đen mà cá chưa chín."],
+["Gà rang gừng muối",30,"","dui_ga:600,gung:30,muoi:5,dau_an:15,tieu:2,hanh_tim:15",
+ "#Sơ chế|Đùi gà ({dui_ga}) chặt miếng nhỏ, rửa sạch, thấm khô.|Gừng ({gung}) thái sợi, hành tím thái lát.|#Ướp|Ướp gà với {muoi} muối, tiêu, hành tím 15 phút.|#Rang|Cho gà vào chảo với {dau_an} dầu, rang lửa vừa, để mặt da tiếp xúc chảo trước.|Rang 10 phút, đảo thưa tay tới khi gà ra mỡ và da vàng.|Cho gừng sợi vào, đảo tiếp 5 phút tới khi gừng se lại và gà săn chắc.|#Hoàn thành|Rắc tiêu, bày ra đĩa.",
+ "Để mặt da gà áp chảo trước cho ra mỡ, sẽ bớt được dầu ăn mà da vẫn giòn."],
+["Cánh gà chiên nước mắm",40,"chien ngot","canh_ga:700,nuoc_mam:30,duong:25,toi:20,ot:5,dau_an:60,muoi:2",
+ "#Sơ chế|Cánh gà ({canh_ga}) chặt đôi ở khớp, xát muối, rửa sạch, thấm thật khô.|Tỏi băm nhỏ, ớt băm.|#Chiên|Đun {dau_an} dầu vừa nóng, chiên cánh gà lửa vừa 12–15 phút, lật đều tới khi vàng giòn và chín tới xương.|Vớt ra giấy thấm dầu.|#Làm sốt|Chắt hết dầu, chừa 1 thìa canh. Phi tỏi, ớt tới khi thơm vàng.|Cho {nuoc_mam} nước mắm và {duong} đường vào, đun lửa nhỏ, khuấy tới khi sốt sủi bọt lăn tăn và sánh lại.|#Áo sốt|Trút cánh gà vào, đảo nhanh lửa to 1 phút cho sốt bám đều.|#Hoàn thành|Tắt bếp, bày ra đĩa, ăn ngay khi còn giòn.",
+ "Sốt phải sánh lại rồi mới cho gà vào. Sốt loãng làm lớp da giòn bị ỉu."],
+["Lươn xào sả ớt",40,"","luon:500,sa:50,ot:10,hanh_tim:20,nuoc_mam:20,dau_an:25,rau_thom:20,duong:5",
+ "#Sơ chế|Lươn ({luon}) cho vào chậu, đổ ít giấm hoặc muối, đậy nắp vài phút cho lươn ra nhớt.|Dùng lá chuối hoặc giấy vuốt sạch nhớt, rửa lại nhiều lần nước.|Mổ bụng, bỏ ruột, rửa sạch, cắt khúc 5cm.|Sả ({sa}) băm nhỏ, ớt băm, hành tím băm, rau răm thái nhỏ.|#Ướp|Ướp lươn với một nửa sả, hành tím, {nuoc_mam} nước mắm, {duong} đường trong 20 phút.|#Xào|Phi sả còn lại và ớt với {dau_an} dầu tới khi vàng thơm.|Cho lươn vào, đảo nhẹ lửa to 5 phút tới khi lươn săn.|Hạ lửa vừa, xào tiếp 7–8 phút tới khi lươn chín và thấm, nước cạn.|#Hoàn thành|Cho rau răm vào, đảo đều, tắt bếp.",
+ "Nhờ người bán làm sạch nhớt và mổ sẵn sẽ tiết kiệm được nhiều thời gian."],
+["Hoa lý xào thịt bò",20,"","bo_than:250,hoa_ly:300,toi:10,dau_an:20,nuoc_tuong:15,tieu:1",
+ "#Sơ chế|Hoa lý ({hoa_ly}) nhặt bỏ lá già và cuống dài, ngâm nước muối loãng 5 phút, rửa sạch, để ráo.|Bò ({bo_than}) thái lát mỏng ngang thớ, ướp {nuoc_tuong} nước tương, một nửa tỏi, 1 thìa dầu.|#Xào bò|Chảo thật nóng, xào bò lửa to 1 phút tới khi vừa tái, trút ra.|#Xào hoa lý|Phi tỏi còn lại với dầu, cho hoa lý vào xào lửa to 2 phút tới khi hoa chuyển xanh đậm.|Thêm 1 thìa nước và chút muối, đảo đều.|Trả bò vào, đảo nhanh 20 giây.|#Hoàn thành|Rắc tiêu, tắt bếp ngay.",
+ "Hoa lý rất nhanh chín, xào quá 3 phút là nhũn và mất vị ngọt."],
+["Mực xào sa tế",20,"","muc:400,sa_te:20,hanh_tay:100,ot:5,toi:10,dau_an:15,nuoc_mam:10,duong:5,hanh_la:10",
+ "#Sơ chế|Mực ({muc}) làm sạch, khía vảy rồng, cắt miếng vừa ăn.|Chần mực qua nước sôi 20 giây, vớt ra để ráo.|Hành tây bổ múi cau, tỏi băm, hành lá cắt khúc.|#Xào|Phi tỏi với {dau_an} dầu, cho {sa_te} sa tế vào đảo 20 giây cho dậy màu.|Cho hành tây vào xào 1 phút.|Trút mực vào, nêm {nuoc_mam} nước mắm và {duong} đường, đảo lửa to 1–2 phút.|#Hoàn thành|Thêm hành lá, tắt bếp.",
+ "Sa tế đã có dầu và muối, nêm nước mắm từ từ kẻo mặn."],
+["Cá nục hấp",30,"luoc","ca_nuc:600,gung:20,sa:30,hanh_la:20,nuoc_mam:15,ot:5,chanh:15,duong:5",
+ "#Sơ chế|Cá nục ({ca_nuc}) bỏ ruột, rửa sạch với nước muối loãng, để ráo.|Sả đập dập cắt khúc, gừng thái lát, hành lá cắt khúc.|#Hấp|Lót sả và gừng dưới xửng, xếp cá lên thành một lớp.|Hấp nước sôi mạnh 15 phút.|#Nước chấm|Pha {nuoc_mam} nước mắm, {duong} đường, nước cốt chanh, gừng ớt băm và 2 thìa nước.|#Hoàn thành|Xếp cá ra đĩa, rải hành lá. Cuốn cá với bánh tráng và rau sống hoặc ăn với cơm.",
+ "Cá nục hấp gỡ thịt cuốn rau sống rất hợp cho bữa nhẹ."],
+["Cá om dấm",45,"","ca_ro_phi:700,ca_chua:200,dua:150,rau_thom:20,hanh_tim:15,nuoc_mam:20,duong:5,dau_an:15,chanh:20",
+ "#Sơ chế|Cá ({ca_ro_phi}) đánh vảy, làm sạch, cắt khúc 4cm, xát muối rửa lại.|Cà chua bổ múi cau, dứa thái miếng, hành tím băm, rau thơm thái nhỏ.|#Rán sơ|Rán cá với {dau_an} dầu mỗi mặt 3 phút cho săn, vớt ra.|#Om|Phi hành tím, xào cà chua 3 phút, cho dứa vào xào tiếp 2 phút.|Thêm nước ngập cá, nêm {nuoc_mam} nước mắm, {duong} đường, vắt chanh hoặc 1–2 thìa giấm gạo.|Thả cá vào, om lửa nhỏ 20 phút.|#Hoàn thành|Nếm thấy chua dịu, mặn ngọt vừa thì rắc rau thơm, tắt bếp.",
+ "Vị chua nên cho từ từ, nếm dần. Chua gắt thì không cứu lại được."],
+["Chả cá thu chiên",40,"chien","ca_thu:500,thi_la:20,hanh_tim:15,nuoc_mam:10,tieu:1,dau_an:40,trung_ga:60",
+ "#Sơ chế|Cá thu ({ca_thu}) lọc bỏ da và xương, cắt nhỏ.|Thì là thái nhỏ, hành tím băm.|#Làm chả|Xay hoặc giã cá tới khi thịt dẻo dính.|Trộn cá với trứng ({trung_ga}), hành tím, thì là, {nuoc_mam} nước mắm, tiêu.|Quết đều tay theo một chiều 3 phút tới khi chả dai.|Xoa dầu vào tay, nặn thành miếng tròn dẹt dày 1cm.|#Chiên|Đun {dau_an} dầu lửa vừa, chiên chả mỗi mặt 3–4 phút tới khi vàng và phồng nhẹ.|#Hoàn thành|Vớt ra giấy thấm dầu. Ăn với cơm hoặc bún, chấm nước mắm ớt.",
+ "Quết theo một chiều thì chả dai giòn. Xay lâu quá làm thịt cá nóng lên và bở."],
+["Khổ qua nhồi thịt hấp",45,"luoc","kho_qua:500,thit_xay:250,moc_nhi:5,mien:10,hanh_tim:10,nuoc_mam:10,tieu:1,hanh_la:10",
+ "#Sơ chế|Khổ qua ({kho_qua}) cắt khúc 4cm, dùng thìa nạo sạch ruột và lớp màng trắng bên trong.|Ngâm khổ qua trong nước muối pha đá 10 phút cho bớt đắng.|Mộc nhĩ, miến ngâm nở, băm nhỏ. Hành tím băm.|#Làm nhân|Trộn thịt xay ({thit_xay}), mộc nhĩ, miến, hành tím, {nuoc_mam} nước mắm, tiêu.|Nhồi nhân chặt vào từng khúc khổ qua, miết phẳng hai đầu.|#Hấp|Xếp khổ qua đứng trên đĩa, hấp lửa vừa 25 phút tới khi vỏ mềm và nhân chín.|#Hoàn thành|Rắc hành lá. Chấm nước tương ớt.",
+ "Nạo sạch lớp màng trắng và ngâm nước muối đá là cách giảm vị đắng hiệu quả nhất."]
+);
+const RAU = [
+["Rau muống xào tỏi",15,"chay","rau_muong:500,toi:15,dau_an:25,hat_nem:5",
+ "#Sơ chế|Rau muống ({rau_muong}) nhặt bỏ lá úa và phần gốc già, ngắt khúc dài 8cm.|Ngâm nước muối loãng 5 phút, rửa lại 2–3 lần, để ráo thật khô trong rổ ít nhất 15 phút.|Tỏi ({toi}) đập dập, băm nhỏ.|#Chần (tùy chọn)|Muốn rau xanh mướt thì chần qua nước sôi 30 giây rồi thả ngay vào nước đá, vớt ra vẩy khô.|#Xào|Đun chảo lửa to nhất, cho {dau_an} dầu và một nửa tỏi phi tới khi vàng nhạt.|Trút rau vào, đảo liên tục bằng đũa dài 2–3 phút tới khi rau vừa chín tới, cọng còn giòn.|Nêm {hat_nem} hạt nêm, cho nốt tỏi sống vào đảo 10 giây.|#Hoàn thành|Tắt bếp, bày ra đĩa ngay, không để rau nằm trong chảo nóng.",
+ "Rau còn ướt là xào ra nước. Để ráo hẳn và xào ở lửa to nhất có thể."],
+["Rau muống luộc",12,"luoc chay","rau_muong:600,muoi:3,chanh:20",
+ "#Sơ chế|Rau muống ({rau_muong}) nhặt bỏ lá úa, ngắt khúc dài, rửa sạch.|#Luộc|Đun nồi nước thật nhiều, sôi già thì thêm {muoi} muối.|Thả rau vào, mở vung, dùng đũa nhấn cho rau ngập nước. Luộc 2–3 phút tới khi cọng rau chuyển xanh đậm.|Vớt rau ra rổ, dội qua nước nguội hoặc nhúng nước đá cho giòn.|#Nước canh|Vắt chanh ({chanh}) hoặc dầm vài quả sấu vào nước luộc, nêm chút muối làm canh.|#Hoàn thành|Xếp rau ra đĩa, chấm nước mắm tỏi ớt hoặc tương.",
+ "Mở vung khi luộc để hơi nóng thoát ra, rau giữ được màu xanh."],
+["Cải ngọt luộc",10,"luoc chay","cai_ngot:500,muoi:3,toi:5,nuoc_mam:10",
+ "#Sơ chế|Cải ngọt ({cai_ngot}) cắt bỏ gốc, tách từng cây, cắt khúc 6cm, rửa sạch.|#Luộc|Đun nước sôi già, thêm {muoi} muối.|Thả phần cọng vào trước 30 giây rồi mới thả phần lá.|Luộc tổng cộng khoảng 2 phút, vớt ra ngay.|#Nước chấm|Pha {nuoc_mam} nước mắm với tỏi băm và chút nước ấm.|#Hoàn thành|Bày rau ra đĩa, chấm nước mắm tỏi.",
+ "Cải ngọt chín rất nhanh, quá 3 phút là nhũn."],
+["Su hào cà rốt xào",15,"chay","su_hao:300,ca_rot:200,toi:10,dau_an:20,hat_nem:5,hanh_la:15",
+ "#Sơ chế|Su hào ({su_hao}) gọt sạch vỏ xơ, thái que dài 5cm dày 5mm.|Cà rốt ({ca_rot}) gọt vỏ, thái que mảnh hơn su hào một chút vì lâu chín hơn.|Tỏi băm, hành lá cắt khúc.|#Xào|Phi tỏi với {dau_an} dầu tới khi thơm.|Cho cà rốt vào xào lửa to 2 phút.|Thêm su hào, xào tiếp 3 phút. Thêm 2 thìa nước nếu chảo khô.|Nêm {hat_nem} hạt nêm, đảo đều. Rau vừa chín tới, còn giòn là được.|#Hoàn thành|Cho hành lá vào, tắt bếp.",
+ "Cà rốt thái mảnh hơn và cho vào trước thì hai loại chín cùng lúc."],
+["Bắp cải luộc",12,"luoc chay","bap_cai:600,muoi:3,gung:5,nuoc_mam:10",
+ "#Sơ chế|Bắp cải ({bap_cai}) bỏ lá già ngoài, bổ đôi, cắt bỏ lõi cứng.|Thái miếng to bản 4–5cm, ngâm nước muối loãng 5 phút, rửa sạch.|Gừng thái lát.|#Luộc|Đun sôi nước với {muoi} muối và gừng.|Thả bắp cải vào, luộc 4 phút tới khi lá mềm mà cọng vẫn giòn.|Vớt ra để ráo.|#Hoàn thành|Bày ra đĩa, chấm nước mắm hoặc trứng dầm nước mắm. Nước luộc nêm lại làm canh.",
+ "Vài lát gừng trong nồi làm nước luộc bắp cải ngọt và bớt hăng."],
+["Đậu cô ve xào tỏi",15,"chay","dau_cove:400,toi:10,dau_an:20,hat_nem:5",
+ "#Sơ chế|Đậu cô ve ({dau_cove}) bẻ hai đầu, tước xơ hai bên, cắt vát khúc 4cm, rửa sạch.|Tỏi băm nhỏ.|#Chần|Chần đậu trong nước sôi có muối 2–3 phút, vớt ra thả vào nước lạnh, để ráo.|#Xào|Phi tỏi với {dau_an} dầu tới khi thơm.|Trút đậu vào, xào lửa to 3 phút.|Nêm {hat_nem} hạt nêm, thêm 1 thìa nước, đảo đều 1 phút.|#Hoàn thành|Tắt bếp, bày ra đĩa.",
+ "Đậu cô ve phải chín kỹ mới ăn, đậu sống có chất gây đau bụng."],
+["Giá xào hành",10,"chay","gia_do:400,hanh_la:30,toi:8,dau_an:15,hat_nem:4",
+ "#Sơ chế|Giá đỗ ({gia_do}) nhặt bỏ vỏ đỗ còn sót, ngâm nước, vớt phần giá nổi lên, để thật ráo.|Hành lá cắt khúc 3cm, tỏi băm.|#Xào|Đun chảo thật nóng, phi tỏi với {dau_an} dầu.|Trút giá vào, đảo nhanh lửa to đúng 60–90 giây.|Nêm {hat_nem} hạt nêm, cho hành lá vào, đảo hai lượt.|#Hoàn thành|Tắt bếp, bày ra đĩa ngay.",
+ "Giá xào lâu là teo lại và ra nước. Canh đúng 90 giây ở lửa to."],
+["Cà chua xào trứng",15,"chien","trung_ga:180,ca_chua:300,hanh_la:15,dau_an:20,hat_nem:4",
+ "#Sơ chế|Cà chua ({ca_chua}) bổ múi cau. Hành lá thái nhỏ.|Đập trứng ({trung_ga}) ra bát, thêm chút hạt nêm, đánh tan.|#Xào trứng|Đun nóng một nửa lượng dầu, đổ trứng vào. Để yên 10 giây rồi dùng đũa kéo nhẹ cho trứng đông thành mảng lớn.|Trứng vừa đông, mặt còn hơi ướt thì trút ra đĩa.|#Xào cà chua|Cho dầu còn lại vào chảo, xào cà chua lửa vừa 3 phút tới khi mềm và ra nước.|Nêm hạt nêm còn lại.|#Gộp|Trả trứng vào, đảo nhẹ 30 giây cho trứng thấm sốt cà.|#Hoàn thành|Rắc hành lá, tắt bếp.",
+ "Xào trứng riêng rồi mới gộp. Làm cùng lúc thì trứng nát vụn."],
+["Nấm kim châm xào",12,"chay","nam_kim:300,toi:10,dau_an:15,nuoc_tuong:10,hanh_la:15",
+ "#Sơ chế|Nấm kim châm ({nam_kim}) cắt bỏ phần gốc dính mùn, tách tơi từng sợi.|Rửa nhanh dưới vòi nước, để ráo.|Tỏi băm, hành lá cắt khúc.|#Xào|Phi tỏi với {dau_an} dầu.|Cho nấm vào, xào lửa to 2 phút tới khi nấm mềm.|Nêm {nuoc_tuong} nước tương, đảo 30 giây.|#Hoàn thành|Cho hành lá, tắt bếp.",
+ "Nấm kim châm phải nấu chín, không ăn sống."],
+["Bí xanh xào tỏi",15,"chay","bi_xanh:500,toi:10,dau_an:20,hat_nem:5,hanh_la:10",
+ "#Sơ chế|Bí xanh ({bi_xanh}) gọt vỏ, bổ dọc, bỏ phần ruột xốp.|Thái lát mỏng 3mm. Tỏi băm, hành lá thái nhỏ.|#Xào|Phi tỏi với {dau_an} dầu lửa to.|Cho bí vào, xào lửa to 4 phút tới khi các lát bí trong cạnh.|Nêm {hat_nem} hạt nêm, đảo đều 1 phút.|#Hoàn thành|Rắc hành lá, tắt bếp.",
+ "Bí ra nhiều nước. Giữ lửa to suốt để nước bay hơi, đĩa rau không bị úng."],
+["Súp lơ luộc",12,"luoc chay","bong_cai:500,muoi:3,nuoc_mam:10,toi:5",
+ "#Sơ chế|Súp lơ ({bong_cai}) cắt thành bông nhỏ, cuống gọt vỏ thái lát.|Ngâm nước muối loãng 15 phút cho sâu nhỏ trong kẽ bông bò ra, rửa lại.|#Luộc|Đun nước sôi với {muoi} muối, thả phần cuống vào trước 1 phút rồi thả bông.|Luộc thêm 2–3 phút tới khi xiên dĩa vào thấy mềm mà vẫn giòn.|Vớt ra thả nước lạnh, để ráo.|#Hoàn thành|Chấm nước mắm tỏi hoặc muối vừng.",
+ "Luộc vừa tới thì súp lơ giữ được nhiều vitamin và độ giòn."],
+["Súp lơ xào tỏi",15,"chay","bong_cai:450,ca_rot:80,toi:15,dau_an:20,hat_nem:5",
+ "#Sơ chế|Súp lơ ({bong_cai}) cắt bông nhỏ, ngâm nước muối 15 phút, rửa sạch. Cà rốt thái lát.|Tỏi băm.|#Chần|Chần súp lơ và cà rốt 2 phút, vớt ra xả nước lạnh.|#Xào|Phi tỏi với {dau_an} dầu tới khi vàng thơm.|Trút rau vào, xào lửa to 2 phút, thêm 2 thìa nước.|Nêm {hat_nem} hạt nêm, đảo đều.|#Hoàn thành|Tắt bếp khi súp lơ còn xanh giòn.",
+ "Chần trước giúp súp lơ chín đều, xào nhanh không bị cháy tỏi."],
+["Cải thìa xào nấm",15,"chay","cai_thia:400,nam_rom:150,toi:10,dau_an:15,nuoc_tuong:15",
+ "#Sơ chế|Cải thìa ({cai_thia}) cắt bỏ gốc, bổ đôi hoặc bổ tư theo chiều dọc, rửa kỹ phần kẽ bẹ.|Nấm rơm gọt gốc, bổ đôi. Tỏi băm.|#Xào|Phi tỏi với {dau_an} dầu, cho nấm vào xào 2 phút.|Cho cải thìa vào, xào lửa to 2 phút.|Nêm {nuoc_tuong} nước tương, thêm 2 thìa nước, đảo đều 1 phút tới khi phần bẹ vừa chín.|#Hoàn thành|Tắt bếp, xếp cải ra đĩa, rưới nấm và nước sốt lên.",
+ "Rửa kỹ phần kẽ bẹ cải thìa, đất cát hay đọng ở đó."],
+["Mướp xào tỏi",12,"chay","muop:500,toi:10,dau_an:15,hat_nem:4,hanh_la:10",
+ "#Sơ chế|Mướp ({muop}) gọt vỏ vừa phải, chừa lại chút màu xanh cho đẹp.|Cắt khúc rồi bổ múi dài. Tỏi băm, hành lá thái nhỏ.|#Xào|Phi tỏi với {dau_an} dầu.|Cho mướp vào, đảo nhẹ lửa to 3 phút tới khi mướp mềm.|Nêm {hat_nem} hạt nêm, rắc hành lá.|#Hoàn thành|Tắt bếp ngay khi mướp vừa chín.",
+ "Mướp gọt xong để lâu sẽ thâm. Gọt xong xào luôn hoặc ngâm vào nước muối loãng."],
+["Khổ qua xào trứng",15,"chien","kho_qua:400,trung_ga:180,dau_an:20,hat_nem:4,hanh_la:10",
+ "#Sơ chế|Khổ qua ({kho_qua}) bổ dọc, nạo sạch ruột và lớp màng trắng.|Thái lát mỏng chéo 3mm. Ngâm nước muối pha đá 10 phút, vớt ra để ráo.|Đập trứng ({trung_ga}) ra bát, đánh tan với chút hạt nêm.|#Xào|Phi thơm với {dau_an} dầu, cho khổ qua vào xào lửa to 3 phút tới khi chuyển xanh đậm.|Nêm hạt nêm còn lại.|Đổ trứng rưới đều lên, để yên 20 giây rồi đảo nhẹ tới khi trứng đông và bám vào khổ qua.|#Hoàn thành|Rắc hành lá, tắt bếp.",
+ "Thái mỏng và ngâm nước muối đá làm khổ qua bớt đắng rõ rệt."],
+["Bầu xào tỏi",15,"chay","bau:500,toi:10,dau_an:15,hat_nem:4,hanh_la:10",
+ "#Sơ chế|Bầu ({bau}) gọt vỏ, cắt khúc rồi thái que hoặc thái lát mỏng.|Tỏi băm, hành lá thái nhỏ.|#Xào|Phi tỏi với {dau_an} dầu.|Cho bầu vào, xào lửa to 4 phút tới khi bầu trong và mềm.|Nêm {hat_nem} hạt nêm, rắc hành lá.|#Hoàn thành|Tắt bếp, bày ra đĩa.",
+ "Chọn bầu non còn lông tơ, vỏ bóng thì ngọt và ít hạt."],
+["Cải bẹ xanh xào tỏi",15,"chay","cai_be:500,toi:15,dau_an:20,hat_nem:5,gung:5",
+ "#Sơ chế|Cải bẹ xanh ({cai_be}) tách lá, cắt khúc 5cm, rửa sạch, để ráo.|Tỏi băm, gừng thái sợi.|#Xào|Phi tỏi và gừng với {dau_an} dầu.|Cho phần cọng vào xào trước 1 phút, rồi thêm phần lá.|Xào lửa to 2–3 phút tới khi lá vừa mềm.|Nêm {hat_nem} hạt nêm.|#Hoàn thành|Tắt bếp, bày ra đĩa.",
+ "Một lát gừng giúp át bớt vị hăng đắng của cải bẹ."],
+["Rau lang luộc",10,"luoc chay","rau_lang:500,muoi:3,toi:5,nuoc_mam:10",
+ "#Sơ chế|Rau lang ({rau_lang}) nhặt lấy ngọn non và lá non, bỏ cọng già.|Rửa sạch, để ráo.|#Luộc|Đun sôi nước với {muoi} muối, thả rau vào luộc 2 phút.|Vớt ra để ráo.|#Hoàn thành|Chấm nước mắm tỏi hoặc chao. Có thể xào tỏi thay vì luộc.",
+ "Ngọn rau lang rất nhanh nhũn, vừa chuyển màu xanh đậm là vớt."],
+["Đậu bắp luộc",10,"luoc chay","dau_bap:400,muoi:3,nuoc_tuong:15,ot:3",
+ "#Sơ chế|Đậu bắp ({dau_bap}) rửa sạch, chà nhẹ cho bớt lông tơ, cắt bỏ phần cuống cứng nhưng không cắt vào thân quả.|#Luộc|Đun sôi nước với {muoi} muối, thả đậu bắp vào luộc 3–4 phút.|Vớt ra thả vào nước lạnh, để ráo.|#Hoàn thành|Để nguyên quả hoặc cắt đôi, chấm nước tương ớt hoặc chao.",
+ "Không cắt vào thân quả trước khi luộc thì nhựa nhớt không chảy ra ngoài."],
+["Nộm dưa chuột cà rốt",15,"chay","dua_chuot:400,ca_rot:150,lac:30,rau_thom:15,nuoc_mam:15,duong:10,chanh:20,toi:5,ot:3",
+ "#Sơ chế|Dưa chuột ({dua_chuot}) rửa sạch, bổ dọc bỏ bớt ruột, thái lát mỏng.|Cà rốt ({ca_rot}) thái sợi. Trộn dưa và cà rốt với chút muối, để 10 phút rồi vắt nhẹ cho ra bớt nước.|Lạc rang giã dập, rau thơm thái nhỏ, tỏi ớt băm.|#Nước trộn|Hòa {nuoc_mam} nước mắm, {duong} đường, nước cốt chanh ({chanh}), tỏi ớt. Khuấy tới khi đường tan.|#Trộn|Đổ nước trộn vào dưa, cà rốt, trộn đều, để 5 phút cho thấm.|#Hoàn thành|Bày ra đĩa, rắc lạc rang và rau thơm lên mặt. Ăn ngay.",
+ "Rắc lạc lúc sắp ăn thì lạc còn giòn."],
+["Gỏi bắp cải",15,"chay","bap_cai:350,ca_rot:100,hanh_tay:50,lac:30,rau_thom:15,nuoc_mam:15,duong:10,chanh:20,toi:5,ot:3",
+ "#Sơ chế|Bắp cải ({bap_cai}) thái sợi thật mảnh, ngâm nước đá 10 phút cho giòn, vớt ra để ráo.|Cà rốt thái sợi, hành tây thái lát mỏng ngâm nước lạnh cho bớt hăng.|Lạc rang giã dập, rau thơm thái nhỏ.|#Nước trộn|Hòa {nuoc_mam} nước mắm, {duong} đường, nước cốt chanh, tỏi ớt băm.|#Trộn|Trộn bắp cải, cà rốt, hành tây với nước trộn ngay trước khi ăn.|#Hoàn thành|Rắc lạc và rau thơm.",
+ "Ngâm bắp cải thái sợi vào nước đá làm gỏi giòn sật."],
+["Cà tím nướng mỡ hành",30,"chay","ca_tim:500,hanh_la:30,dau_an:20,nuoc_mam:15,duong:5,toi:5,ot:3",
+ "#Sơ chế|Cà tím ({ca_tim}) rửa sạch, để nguyên quả.|Hành lá thái nhỏ, tỏi ớt băm.|#Nướng|Nướng cà trên bếp than, bếp ga hoặc lò 200°C khoảng 15–20 phút, xoay đều tới khi vỏ cháy xém và ruột mềm.|Để nguội bớt, bóc sạch vỏ cháy, xé dọc thành từng thanh.|#Mỡ hành|Đun {dau_an} dầu nóng, dội lên hành lá.|#Hoàn thành|Xếp cà ra đĩa, rưới mỡ hành.|Pha {nuoc_mam} nước mắm, {duong} đường, tỏi ớt, rưới lên hoặc chấm.",
+ "Bóc vỏ khi cà còn ấm thì vỏ tách rất dễ."],
+["Su su xào tỏi",15,"chay","su_su:500,toi:10,dau_an:15,hat_nem:4,ca_rot:50",
+ "#Sơ chế|Su su ({su_su}) gọt vỏ dưới vòi nước, bổ đôi, bỏ hạt.|Thái lát mỏng hoặc thái que. Cà rốt thái lát. Tỏi băm.|#Xào|Phi tỏi với {dau_an} dầu.|Cho su su và cà rốt vào, xào lửa to 3–4 phút.|Nêm {hat_nem} hạt nêm, thêm 1 thìa nước, đảo đều.|#Hoàn thành|Tắt bếp khi su su trong mà vẫn giòn.",
+ "Gọt su su dưới vòi nước để nhựa không dính tay."],
+["Xà lách trộn dầu giấm",10,"chay","xa_lach:300,ca_chua:150,hanh_tay:60,dau_an:15,chanh:20,duong:5,muoi:2,tieu:1",
+ "#Sơ chế|Xà lách ({xa_lach}) tách lá, ngâm nước muối loãng 5 phút, rửa sạch, vẩy thật khô.|Cà chua thái lát, hành tây thái vòng mỏng ngâm nước đá.|#Nước trộn|Khuấy {dau_an} dầu với nước cốt chanh hoặc giấm, {duong} đường, {muoi} muối, tiêu tới khi hòa quyện.|#Trộn|Cho xà lách, cà chua, hành tây vào tô lớn, rưới nước trộn, trộn nhẹ tay.|#Hoàn thành|Ăn ngay, để lâu xà lách sẽ héo.",
+ "Lá xà lách phải thật khô thì nước trộn mới bám đều."],
+["Cải thảo xào",15,"chay","cai_thao:500,toi:10,dau_an:15,nuoc_tuong:10,ca_rot:50",
+ "#Sơ chế|Cải thảo ({cai_thao}) tách lá, cắt riêng phần cọng trắng và phần lá xanh, thái miếng 4cm.|Cà rốt thái lát, tỏi băm.|#Xào|Phi tỏi với {dau_an} dầu.|Cho phần cọng trắng và cà rốt xào lửa to 2 phút.|Thêm phần lá, xào tiếp 1 phút.|Nêm {nuoc_tuong} nước tương, đảo đều.|#Hoàn thành|Tắt bếp, bày ra đĩa.",
+ "Phần cọng lâu chín hơn phần lá, xào tách hai lượt thì cả đĩa chín đều."],
+["Ngô xào tôm",15,"","ngo_ngot:300,tom_the:150,hanh_la:15,dau_an:15,hat_nem:4,ca_rot:50",
+ "#Sơ chế|Ngô ngọt ({ngo_ngot}) tách hạt. Cà rốt thái hạt lựu nhỏ.|Tôm ({tom_the}) bóc vỏ, rút chỉ, cắt hạt lựu.|Hành lá thái nhỏ.|#Xào|Phi hành với {dau_an} dầu, cho tôm vào xào 1 phút tới khi đỏ.|Cho ngô và cà rốt vào xào lửa vừa 4 phút.|Nêm {hat_nem} hạt nêm, thêm 2 thìa nước cho ngô chín mềm.|#Hoàn thành|Rắc hành lá, tắt bếp.",
+ "Ngô ngọt có nhiều bột đường, người ăn kiêng nên ăn ít."],
+["Rau muống xào thịt bò",20,"","rau_muong:400,bo_than:150,toi:15,dau_an:25,nuoc_tuong:10,hat_nem:3",
+ "#Sơ chế|Rau muống ({rau_muong}) ngắt khúc, rửa sạch, để ráo.|Bò ({bo_than}) thái mỏng, ướp {nuoc_tuong} nước tương, tỏi, 1 thìa dầu.|#Xào bò|Xào bò lửa to 1 phút tới khi vừa tái, trút ra.|#Xào rau|Phi tỏi còn lại với dầu, cho rau muống vào đảo nhanh lửa to 2 phút.|Nêm {hat_nem} hạt nêm, trả bò vào, đảo 20 giây.|#Hoàn thành|Tắt bếp, bày ra đĩa.",
+ "Xào bò trước và trả vào sau cùng thì bò mềm, rau vẫn xanh."]
+];
+const CANH = [
+["Canh chua cá",35,"ngot","ca_basa:400,ca_chua:200,dua:150,gia_do:100,rau_thom:20,nuoc_mam:20,duong:10,hanh_tim:15,dau_an:10,ot:3,chanh:15",
+ "#Sơ chế|Cá ({ca_basa}) cắt khúc 3cm, xát muối rửa sạch, ướp chút nước mắm và hành tím 10 phút.|Cà chua bổ múi cau, dứa thái lát, giá rửa sạch, rau thơm (ngò om, ngò gai) thái nhỏ.|Nếu có me chín thì dầm với nửa bát nước nóng, lọc lấy nước me.|#Nấu nước|Phi hành tím với {dau_an} dầu, xào cà chua 2 phút cho ra màu.|Đổ khoảng 1,2 lít nước, đun sôi.|#Nấu cá|Thả cá vào, hạ lửa vừa, hớt sạch bọt. Nấu 7–8 phút tới khi cá chín trắng.|Cho dứa vào, nêm {nuoc_mam} nước mắm, {duong} đường và nước me hoặc chanh cho vị chua ngọt hài hòa.|#Hoàn thành|Tắt bếp, thả giá đỗ và rau thơm, thêm ớt lát.",
+ "Giá và rau thơm cho vào sau khi tắt bếp thì giá giòn, rau giữ mùi."],
+["Canh rau ngót thịt băm",15,"","rau_ngot:300,thit_xay:100,nuoc_mam:10,hanh_tim:10,dau_an:8",
+ "#Sơ chế|Rau ngót ({rau_ngot}) tuốt lấy lá, bỏ lá úa. Rửa sạch, dùng tay vò nhẹ cho lá hơi dập.|Hành tím băm. Ướp thịt xay với chút nước mắm.|#Nấu|Phi hành tím với {dau_an} dầu, cho thịt vào xào tơi 2 phút tới khi săn.|Đổ khoảng 1 lít nước, đun sôi, hớt bọt.|Thả rau ngót, đun lửa to 3 phút.|#Hoàn thành|Nêm {nuoc_mam} nước mắm cho vừa, tắt bếp.",
+ "Vò rau ngót trước khi nấu thì lá mềm nhanh và nước canh ngọt hơn."],
+["Canh bí đỏ nấu tôm",25,"","bi_do:400,tom_the:150,hanh_la:15,nuoc_mam:10,hanh_tim:10,dau_an:8",
+ "#Sơ chế|Bí đỏ ({bi_do}) gọt vỏ, bỏ ruột, cắt miếng vuông 2–3cm.|Tôm ({tom_the}) bóc vỏ, rút chỉ, băm thô, ướp chút nước mắm và tiêu.|Hành tím băm, hành lá thái nhỏ.|#Nấu|Phi hành tím với {dau_an} dầu, cho tôm vào xào 1 phút tới khi đỏ.|Đổ khoảng 1 lít nước, đun sôi.|Cho bí vào, hạ lửa vừa, nấu 10–12 phút tới khi xiên đũa qua miếng bí dễ dàng.|#Hoàn thành|Nêm {nuoc_mam} nước mắm, rắc hành lá, tắt bếp.",
+ "Tắt bếp khi bí vừa mềm. Nấu lâu bí tan thành cháo."],
+["Canh cải thảo thịt băm",18,"","cai_thao:400,thit_xay:120,gung:5,nuoc_mam:10,hanh_la:15,dau_an:8",
+ "#Sơ chế|Cải thảo ({cai_thao}) tách lá, cắt riêng phần cọng và phần lá, thái khúc 3cm.|Gừng thái sợi, hành lá thái nhỏ.|Viên thịt xay thành viên nhỏ hoặc để tơi.|#Nấu|Xào thịt với {dau_an} dầu và gừng 2 phút cho săn.|Đổ khoảng 1 lít nước, đun sôi, hớt bọt.|Thả phần cọng cải vào nấu 2 phút, rồi mới thả phần lá, nấu thêm 2 phút.|#Hoàn thành|Nêm {nuoc_mam} nước mắm, rắc hành lá, tắt bếp.",
+ "Cọng cho trước, lá cho sau thì cả nồi chín đều."],
+["Canh mồng tơi mướp nấu tôm",20,"","mong_toi:250,muop:250,tom_the:120,nuoc_mam:10,hanh_tim:10,dau_an:8",
+ "#Sơ chế|Mồng tơi ({mong_toi}) nhặt lá, rửa sạch, thái khúc.|Mướp ({muop}) gọt vỏ, thái lát chéo.|Tôm bóc vỏ, băm thô. Hành tím băm.|#Nấu|Phi hành với {dau_an} dầu, xào tôm 1 phút.|Đổ khoảng 1 lít nước, đun sôi.|Cho mướp vào nấu 3 phút.|Thả mồng tơi, nấu thêm 2 phút.|#Hoàn thành|Nêm {nuoc_mam} nước mắm, tắt bếp.",
+ "Mồng tơi nấu quá 3 phút là nhớt và thâm màu."],
+["Canh khoai tây sườn",45,"","suon_non:300,khoai_tay:300,ca_rot:150,hanh_la:15,nuoc_mam:10,hanh_tim:10",
+ "#Sơ chế|Sườn ({suon_non}) chặt miếng 3cm, chần nước sôi 3 phút, rửa sạch.|Khoai tây ({khoai_tay}), cà rốt ({ca_rot}) gọt vỏ, cắt miếng vuông 3cm. Ngâm khoai tây vào nước lạnh.|Hành tím nướng hoặc đập dập, hành lá thái nhỏ.|#Ninh sườn|Cho sườn và hành tím vào nồi với khoảng 1,5 lít nước, đun sôi, hớt bọt kỹ.|Hạ lửa nhỏ, ninh 25 phút.|#Nấu rau củ|Cho cà rốt vào trước, 5 phút sau cho khoai tây.|Nấu thêm 10–12 phút tới khi khoai và cà rốt mềm.|#Hoàn thành|Nêm {nuoc_mam} nước mắm, rắc hành lá, tắt bếp.",
+ "Ngâm khoai tây đã cắt vào nước lạnh để khoai không thâm và bớt bột làm đục canh."],
+["Canh trứng cà chua",12,"","trung_ga:120,ca_chua:250,hanh_la:15,dau_an:10,nuoc_mam:10,hanh_tim:8",
+ "#Sơ chế|Cà chua ({ca_chua}) bổ múi cau. Hành tím băm, hành lá thái nhỏ.|Đập trứng ({trung_ga}) ra bát, đánh tan.|#Nấu|Phi hành tím với {dau_an} dầu, xào cà chua 3 phút tới khi mềm và ra nước đỏ.|Đổ khoảng 1 lít nước, đun sôi.|Hạ lửa vừa, rót trứng thành dòng mảnh từ trên cao vào nồi, đồng thời dùng đũa khuấy nhẹ một chiều.|Đun thêm 1 phút cho trứng chín.|#Hoàn thành|Nêm {nuoc_mam} nước mắm, rắc hành lá, tắt bếp.",
+ "Rót trứng thật chậm và khuấy một chiều thì trứng nổi thành vân đẹp, không vón cục."],
+["Canh bí xanh nấu sườn",45,"","suon_non:300,bi_xanh:400,hanh_la:15,nuoc_mam:10,hanh_tim:10",
+ "#Sơ chế|Sườn ({suon_non}) chặt nhỏ, chần nước sôi, rửa sạch.|Bí xanh ({bi_xanh}) gọt vỏ, bỏ ruột, cắt miếng dày 1,5cm.|Hành tím đập dập, hành lá thái nhỏ.|#Ninh sườn|Cho sườn và hành tím vào nồi với khoảng 1,5 lít nước, đun sôi.|Mở vung 5 phút đầu, hớt sạch bọt. Hạ lửa nhỏ, ninh 25 phút.|#Nấu bí|Thả bí vào, nấu lửa vừa 8 phút tới khi bí trong.|#Hoàn thành|Nêm {nuoc_mam} nước mắm, rắc hành lá.",
+ "Hớt bọt kỹ và ninh lửa nhỏ thì nước canh trong và ngọt."],
+["Canh rau dền nấu tôm",15,"","rau_den:300,tom_the:120,toi:8,nuoc_mam:10,dau_an:8",
+ "#Sơ chế|Rau dền ({rau_den}) nhặt lấy lá và ngọn non, rửa sạch.|Tôm bóc vỏ, băm thô, ướp chút nước mắm. Tỏi băm.|#Nấu|Phi tỏi với {dau_an} dầu, xào tôm 1 phút.|Đổ khoảng 1 lít nước, đun sôi.|Thả rau dền, nấu 3 phút.|#Hoàn thành|Nêm {nuoc_mam} nước mắm, tắt bếp.",
+ "Canh rau dền nên ăn hết trong bữa, để qua đêm dễ bị chua."],
+["Canh nấm đậu phụ",20,"chay","nam_rom:200,dau_phu:200,ca_chua:150,hanh_la:15,nuoc_mam:10,dau_an:10",
+ "#Sơ chế|Nấm rơm ({nam_rom}) gọt gốc, bổ đôi, ngâm nước muối loãng, rửa sạch.|Đậu phụ ({dau_phu}) cắt quân cờ. Cà chua bổ múi cau. Hành lá thái nhỏ.|#Nấu|Xào cà chua với {dau_an} dầu 2 phút.|Đổ khoảng 1 lít nước, đun sôi, cho nấm vào nấu 5 phút.|Thả đậu phụ nhẹ tay, nấu thêm 3 phút, không khuấy mạnh.|#Hoàn thành|Nêm {nuoc_mam} nước mắm hoặc nước tương cho người ăn chay, rắc hành lá.",
+ "Cho đậu phụ vào sau cùng và không khuấy mạnh thì miếng đậu còn nguyên."],
+["Canh khổ qua nhồi thịt",45,"","kho_qua:400,thit_xay:200,moc_nhi:5,hanh_la:15,nuoc_mam:10,tieu:1,hanh_tim:10",
+ "#Sơ chế|Khổ qua ({kho_qua}) cắt khúc 3cm, nạo sạch ruột và màng trắng. Ngâm nước muối đá 10 phút.|Mộc nhĩ ngâm nở băm nhỏ, hành tím băm, hành lá thái nhỏ.|#Làm nhân|Trộn thịt ({thit_xay}), mộc nhĩ, hành tím, một nửa nước mắm, tiêu. Nhồi chặt vào khổ qua.|#Nấu|Đun sôi khoảng 1,2 lít nước, thả khổ qua vào.|Hớt bọt, hạ lửa nhỏ, nấu 25–30 phút tới khi khổ qua mềm trong.|Nhân thịt thừa vo viên thả vào nồi cùng.|#Hoàn thành|Nêm nước mắm còn lại, rắc hành lá, tiêu.",
+ "Nấu lửa nhỏ lâu thì khổ qua mềm và vị đắng dịu đi nhiều."],
+["Canh cải bẹ xanh nấu thịt",20,"","cai_be:400,thit_xay:120,gung:10,nuoc_mam:10,hanh_tim:10,dau_an:8",
+ "#Sơ chế|Cải bẹ xanh ({cai_be}) cắt khúc 4cm, rửa sạch.|Gừng đập dập thái sợi. Hành tím băm. Ướp thịt với chút nước mắm.|#Nấu|Phi hành tím với {dau_an} dầu, xào thịt tơi 2 phút.|Đổ khoảng 1 lít nước, thêm gừng, đun sôi, hớt bọt.|Thả cải vào, nấu lửa vừa 5 phút tới khi cải mềm.|#Hoàn thành|Nêm {nuoc_mam} nước mắm, tắt bếp.",
+ "Gừng giúp át vị đắng hăng của cải bẹ xanh."],
+["Canh bầu nấu tôm",20,"","bau:400,tom_the:120,hanh_la:15,nuoc_mam:10,hanh_tim:10,dau_an:8",
+ "#Sơ chế|Bầu ({bau}) gọt vỏ, thái sợi hoặc thái lát mỏng.|Tôm bóc vỏ, băm thô. Hành tím băm, hành lá thái nhỏ.|#Nấu|Phi hành với {dau_an} dầu, xào tôm 1 phút.|Đổ khoảng 1 lít nước, đun sôi.|Cho bầu vào nấu 5 phút tới khi bầu mềm trong.|#Hoàn thành|Nêm {nuoc_mam} nước mắm, rắc hành lá.",
+ "Canh bầu mát, hợp ngày nắng nóng."],
+["Canh ngao nấu chua",25,"","ngheu:1000,ca_chua:200,dua:100,thi_la:15,hanh_tim:10,nuoc_mam:10,dau_an:10,chanh:15",
+ "#Sơ chế|Ngao ({ngheu}) ngâm nước vo gạo có ớt 1–2 tiếng cho nhả cát, chà sạch vỏ.|Cà chua bổ múi cau, dứa thái lát, thì là cắt khúc, hành tím băm.|#Luộc ngao|Cho ngao vào nồi với khoảng 1,2 lít nước, đun tới khi ngao há miệng.|Vớt ngao ra, gạn nước luộc để lắng cát, chắt lấy phần nước trong.|#Nấu|Phi hành tím với {dau_an} dầu, xào cà chua và dứa 3 phút.|Đổ nước ngao đã lọc vào, đun sôi, nêm {nuoc_mam} nước mắm và nước cốt chanh.|Thả ngao trở lại nồi.|#Hoàn thành|Cho thì là, tắt bếp.",
+ "Gạn nước luộc ngao cho lắng rồi chắt nhẹ thì canh không lợn cợn cát."],
+["Canh cua rau đay mồng tơi",35,"","cua_dong:300,mong_toi:200,muop:200,nuoc_mam:10,muoi:2",
+ "#Sơ chế|Cua đồng xay ({cua_dong}) hòa với khoảng 1,2 lít nước, khuấy đều, lọc qua rây lấy nước, bỏ bã.|Mồng tơi (hoặc rau đay) thái nhỏ. Mướp gọt vỏ, thái lát.|#Nấu riêu|Cho nước cua vào nồi, thêm chút muối, đun lửa vừa.|Khuấy nhẹ theo một chiều cho tới khi nước gần sôi để cua không lắng đáy.|Khi riêu cua bắt đầu kết mảng nổi lên thì hạ lửa nhỏ, ngưng khuấy.|#Nấu rau|Nhẹ tay thả mướp vào nấu 3 phút, rồi thả mồng tơi, đun thêm 2 phút.|#Hoàn thành|Nêm {nuoc_mam} nước mắm, tắt bếp. Ăn kèm cà pháo.",
+ "Ngưng khuấy khi riêu đã kết mảng, khuấy tiếp là riêu vỡ vụn."],
+["Canh su su cà rốt",25,"","su_su:350,ca_rot:150,thit_xay:100,hanh_la:10,nuoc_mam:10,dau_an:8",
+ "#Sơ chế|Su su ({su_su}) gọt vỏ, bỏ hạt, cắt miếng vừa ăn. Cà rốt cắt khoanh.|Viên thịt xay thành viên nhỏ. Hành lá thái nhỏ.|#Nấu|Đun sôi khoảng 1,2 lít nước, thả viên thịt vào, hớt bọt.|Cho cà rốt vào nấu 5 phút, thêm su su nấu tiếp 7 phút.|#Hoàn thành|Nêm {nuoc_mam} nước mắm, rắc hành lá.",
+ "Viên thịt thả vào nước sôi thì giữ nguyên hình, không vỡ."],
+["Canh cà chua đậu phụ",15,"chay","dau_phu:300,ca_chua:250,hanh_la:20,nuoc_mam:10,dau_an:10",
+ "#Sơ chế|Đậu phụ ({dau_phu}) cắt khối nhỏ. Cà chua bổ múi cau. Hành lá thái nhỏ, để riêng đầu hành.|#Nấu|Phi đầu hành với {dau_an} dầu, xào cà chua 3 phút tới khi nhũn.|Đổ khoảng 1 lít nước, đun sôi.|Thả đậu vào, nấu lửa vừa 5 phút.|#Hoàn thành|Nêm {nuoc_mam} nước mắm, rắc hành lá.",
+ "Xào cà chua kỹ cho ra màu thì nước canh đỏ đẹp và chua dịu."],
+["Canh gà nấu nấm",40,"","dui_ga:400,nam_rom:200,gung:15,hanh_la:15,nuoc_mam:10,hanh_tim:10",
+ "#Sơ chế|Đùi gà ({dui_ga}) chặt miếng nhỏ, bóp muối gừng rửa sạch.|Nấm rơm gọt gốc, bổ đôi. Gừng thái lát, hành tím đập dập, hành lá thái nhỏ.|#Nấu|Xào gà với hành tím và gừng 3 phút cho săn.|Đổ khoảng 1,5 lít nước, đun sôi, hớt bọt.|Hạ lửa nhỏ, nấu 20 phút.|Cho nấm vào nấu thêm 7 phút.|#Hoàn thành|Nêm {nuoc_mam} nước mắm, rắc hành lá.",
+ "Xào gà săn trước khi đổ nước thì thịt thơm và không tanh."],
+["Canh sườn nấu dưa chua",45,"","suon_non:300,dua_cai:250,ca_chua:150,hanh_la:10,nuoc_mam:10,hanh_tim:10,dau_an:8",
+ "#Sơ chế|Sườn ({suon_non}) chặt nhỏ, chần nước sôi, rửa sạch.|Dưa cải vắt bớt nước chua, cắt khúc. Cà chua bổ múi cau.|#Ninh sườn|Ninh sườn với khoảng 1,5 lít nước lửa nhỏ 25 phút, hớt bọt kỹ.|#Xào dưa|Phi hành tím với {dau_an} dầu, xào cà chua 2 phút rồi cho dưa vào xào tiếp 3 phút.|#Nấu|Trút dưa và cà chua vào nồi sườn, nấu thêm 10 phút.|#Hoàn thành|Nêm {nuoc_mam} nước mắm, rắc hành lá.",
+ "Xào dưa với cà chua trước thì canh bớt chua gắt và thơm hơn."],
+["Canh cải cúc thịt băm",15,"","cai_cuc:300,thit_xay:120,gung:5,nuoc_mam:10,hanh_tim:10,dau_an:8",
+ "#Sơ chế|Cải cúc ({cai_cuc}) nhặt bỏ gốc già, cắt khúc, rửa sạch.|Hành tím băm, gừng đập dập.|#Nấu|Phi hành với {dau_an} dầu, xào thịt tơi 2 phút.|Đổ khoảng 1 lít nước, thêm gừng, đun sôi, hớt bọt.|Thả cải cúc vào, đun 1–2 phút là tắt bếp.|#Hoàn thành|Nêm {nuoc_mam} nước mắm.",
+ "Cải cúc cho vào là tắt bếp gần như ngay, nấu lâu mất mùi thơm."],
+["Canh hẹ đậu phụ",15,"chay","he:150,dau_phu:300,thit_xay:80,nuoc_mam:10,dau_an:8",
+ "#Sơ chế|Hẹ ({he}) nhặt sạch, cắt khúc 3cm. Đậu phụ cắt khối nhỏ.|#Nấu|Xào thịt xay với {dau_an} dầu cho săn. Người ăn chay bỏ thịt, thay bằng nấm.|Đổ khoảng 1 lít nước, đun sôi, hớt bọt.|Thả đậu phụ vào nấu 3 phút.|Cho hẹ vào, đun thêm 30 giây.|#Hoàn thành|Nêm {nuoc_mam} nước mắm, tắt bếp.",
+ "Hẹ cho vào cuối cùng để giữ màu xanh và mùi thơm."],
+["Canh cá nấu thì là",30,"","ca_basa:400,ca_chua:200,thi_la:25,hanh_la:10,nuoc_mam:15,hanh_tim:10,dau_an:10,gung:5",
+ "#Sơ chế|Cá ({ca_basa}) cắt khúc, xát muối gừng rửa sạch, ướp chút nước mắm.|Cà chua bổ múi cau, thì là cắt khúc, hành tím băm.|#Rán sơ|Rán cá với {dau_an} dầu cho săn mặt, vớt ra.|#Nấu|Xào cà chua với hành tím 2 phút, đổ khoảng 1,2 lít nước, đun sôi.|Thả cá vào, nấu lửa nhỏ 10 phút, hớt bọt.|#Hoàn thành|Nêm {nuoc_mam} nước mắm, cho thì là và hành lá, tắt bếp.",
+ "Thì là khử tanh cá rất tốt, cho vào lúc tắt bếp để giữ mùi."],
+["Canh rong biển thịt băm",15,"","rong_bien:15,thit_xay:120,toi:5,nuoc_mam:10,dau_an:8",
+ "#Sơ chế|Rong biển khô ({rong_bien}) ngâm nước 10 phút cho nở, rửa sạch, cắt ngắn.|Tỏi băm.|#Nấu|Phi tỏi với {dau_an} dầu, xào thịt xay tơi 2 phút.|Cho rong biển vào đảo 1 phút.|Đổ khoảng 1 lít nước, đun sôi, hớt bọt, nấu thêm 5 phút.|#Hoàn thành|Nêm {nuoc_mam} nước mắm.",
+ "Rong biển nở gấp nhiều lần khi ngâm, đừng cho quá tay."],
+["Canh bắp cải cuộn thịt",40,"","bap_cai:300,thit_xay:250,hanh_la:20,nuoc_mam:10,hanh_tim:10,tieu:1",
+ "#Sơ chế|Tách lá bắp cải ({bap_cai}) nguyên tấm, chần nước sôi 1 phút cho mềm.|Hành lá chần qua để làm dây buộc. Hành tím băm.|#Làm nhân|Trộn thịt xay với hành tím, một nửa nước mắm, tiêu.|Đặt nhân lên lá bắp cải, cuộn chặt, buộc bằng cọng hành.|#Nấu|Đun sôi khoảng 1,2 lít nước, thả các cuộn vào.|Hớt bọt, nấu lửa nhỏ 15 phút.|#Hoàn thành|Nêm nước mắm còn lại, rắc tiêu.",
+ "Chần lá bắp cải cho mềm thì cuộn không bị gãy lá."],
+["Canh củ cải sườn",45,"","suon_non:300,cu_cai:400,ca_rot:100,hanh_la:10,nuoc_mam:10,hanh_tim:10",
+ "#Sơ chế|Sườn ({suon_non}) chặt nhỏ, chần nước sôi, rửa sạch.|Củ cải ({cu_cai}) gọt vỏ, cắt khoanh dày rồi bổ tư. Cà rốt cắt khoanh.|#Ninh|Ninh sườn với khoảng 1,5 lít nước và hành tím, lửa nhỏ 25 phút, hớt bọt.|#Nấu|Cho củ cải và cà rốt vào nấu thêm 15 phút tới khi củ cải trong và mềm.|#Hoàn thành|Nêm {nuoc_mam} nước mắm, rắc hành lá.",
+ "Củ cải nấu đủ mềm trong thì hết hăng, nước canh ngọt tự nhiên."],
+["Canh chua cá lóc",40,"ngot","ca_loc:500,ca_chua:200,dua:150,dau_bap:100,gia_do:100,rau_thom:20,nuoc_mam:20,duong:15,hanh_tim:15,toi:10,dau_an:10,chanh:20,ot:3",
+ "#Sơ chế|Cá lóc ({ca_loc}) làm sạch, cắt khoanh dày 2cm, xát muối rửa kỹ.|Cà chua, dứa thái miếng. Đậu bắp cắt xéo. Giá rửa sạch. Rau ngổ, ngò gai thái nhỏ.|Tỏi băm phi vàng để riêng.|#Nấu nước|Phi hành tím với dầu, xào cà chua. Đổ khoảng 1,5 lít nước, đun sôi.|Dầm me hoặc chuẩn bị chanh để tạo vị chua.|#Nấu cá|Thả cá vào, hớt bọt kỹ, nấu lửa vừa 8 phút.|Cho dứa và đậu bắp vào nấu 2 phút.|Nêm {nuoc_mam} nước mắm, {duong} đường, nước me hoặc chanh tới khi chua ngọt đậm đà.|#Hoàn thành|Tắt bếp, cho giá và rau thơm, rưới tỏi phi, thêm ớt.",
+ "Tỏi phi vàng rưới lên cuối cùng là mùi đặc trưng của canh chua miền Nam."],
+["Canh khổ qua chả cá",35,"","kho_qua:350,ca_basa:250,thi_la:15,hanh_la:15,nuoc_mam:10,tieu:1",
+ "#Sơ chế|Khổ qua ({kho_qua}) bổ dọc, bỏ ruột, thái lát mỏng, ngâm nước muối đá.|Cá ({ca_basa}) xay hoặc băm nhuyễn, trộn thì là, hành, một nửa nước mắm, tiêu, quết dẻo.|#Nấu|Đun sôi khoảng 1,2 lít nước.|Dùng thìa múc chả cá thả từng viên vào nồi.|Khi viên chả nổi lên, cho khổ qua vào nấu 5 phút.|#Hoàn thành|Nêm nước mắm còn lại, rắc hành lá.",
+ "Nhúng thìa vào nước trước khi múc chả thì viên chả không dính thìa."],
+["Canh cà chua trứng nấm",15,"chay","trung_ga:120,ca_chua:200,nam_kim:150,hanh_la:15,nuoc_mam:10,dau_an:8",
+ "#Sơ chế|Nấm kim châm ({nam_kim}) cắt gốc, tách tơi. Cà chua bổ múi cau. Đánh tan trứng.|#Nấu|Xào cà chua với {dau_an} dầu 3 phút, đổ khoảng 1 lít nước, đun sôi.|Cho nấm vào nấu 3 phút.|Rót trứng thành dòng mảnh, khuấy nhẹ một chiều.|#Hoàn thành|Nêm {nuoc_mam} nước mắm, rắc hành lá.",
+ "Món canh nấu 15 phút, hợp ngày bận."]
+];
+const CUOITUAN = [
+["Phở bò",210,"coban","banh_pho:800,xuong_ong:1000,bo_than:300,hanh_tay:150,gung:40,hanh_tim:40,que_hoi:15,nuoc_mam:40,duong:10,muoi:8,hanh_la:30,rau_thom:30,chanh:30,ot:10",
+ "#Nước dùng|Xương ống ({xuong_ong}) ngâm nước muối 1 tiếng, chần nước sôi 5 phút, đổ nước chần đi, rửa sạch từng khúc xương.|Nướng gừng ({gung}), hành tím và hành tây trên lửa tới khi cháy xém vỏ, cạo bỏ phần cháy đen, đập dập.|Rang quế, hồi, thảo quả ({que_hoi}) trên chảo khô 2 phút tới khi dậy mùi, cho vào túi vải.|Cho xương vào nồi lớn với khoảng 4 lít nước, đun sôi, hớt bọt thật kỹ.|Thả gừng, hành nướng, hạ lửa nhỏ để nước chỉ lăn tăn. Ninh ít nhất 2,5 tiếng, thỉnh thoảng hớt váng.|Thả túi gia vị vào 45 phút cuối. Nêm {nuoc_mam} nước mắm, {muoi} muối, {duong} đường.|#Chuẩn bị|Thịt bò thăn ({bo_than}) để ngăn đá 30 phút, thái thật mỏng ngang thớ.|Hành lá, rau húng, ngò gai thái nhỏ. Chanh cắt múi, ớt thái lát.|#Trụng bánh|Trụng bánh phở ({banh_pho}) qua nước sôi 10 giây, vẩy ráo, cho vào bát.|#Hoàn thành|Xếp thịt bò tái lên mặt bánh, rắc hành lá.|Chan nước dùng đang sôi sùng sục lên thịt cho bò chín tái.|Ăn kèm rau thơm, chanh, ớt.",
+ "Nước dùng phải sôi lăn tăn chứ không sôi bùng. Sôi mạnh làm nước đục và mất vị ngọt."],
+["Phở gà",120,"coban","banh_pho:800,ga_ta:1200,gung:30,hanh_tim:40,que_hoi:10,nuoc_mam:40,muoi:8,hanh_la:30,rau_thom:20,chanh:30,ot:10",
+ "#Luộc gà|Gà ta ({ga_ta}) làm sạch, xát muối gừng, rửa lại.|Nướng gừng và hành tím cho thơm, đập dập.|Cho gà vào nồi với khoảng 3,5 lít nước lạnh, thêm gừng và hành nướng.|Đun sôi, hớt bọt, hạ lửa nhỏ luộc 30 phút, tắt bếp ủ thêm 15 phút.|Vớt gà ngâm nước đá cho da giòn. Để nguội rồi xé hoặc thái thịt.|#Nước dùng|Lọc xương gà cho trở lại nồi nước luộc, ninh thêm 40 phút lửa nhỏ.|Rang quế hồi ({que_hoi}) thả vào 20 phút cuối. Nêm {nuoc_mam} nước mắm, {muoi} muối.|#Hoàn thành|Trụng bánh phở, cho vào bát, xếp thịt gà lên.|Rắc hành lá, lá chanh thái chỉ, chan nước dùng thật nóng.|Ăn kèm chanh, ớt, rau thơm.",
+ "Gà luộc lửa nhỏ và ủ trong nồi thì thịt mềm, da không nứt."],
+["Bún chả Hà Nội",75,"coban ngot","bun:800,ba_chi:400,thit_xay:300,nuoc_mam:60,duong:50,hanh_tim:40,toi:20,du_du_xanh:200,ca_rot:80,chanh:40,ot:10,xa_lach:150,rau_thom:60,tieu:3",
+ "#Ướp thịt|Ba chỉ ({ba_chi}) thái lát mỏng. Trộn với một nửa hành tím băm, 2 thìa canh nước mắm, 1 thìa canh đường, tiêu, 1 thìa nước màu.|Thịt xay ({thit_xay}) trộn với phần hành tím còn lại, 1 thìa canh nước mắm, 1 thìa cà phê đường, tiêu. Nặn thành miếng chả dẹt.|Ướp ít nhất 1 tiếng.|#Nướng|Nướng than hoa là ngon nhất. Nướng lò hoặc nồi chiên không dầu 200°C, 12–15 phút, lật một lần tới khi xém cạnh.|#Nước chấm|Đun khoảng 800ml nước với phần nước mắm và đường còn lại tới khi tan, để nguội.|Nêm chanh, tỏi ớt băm cho vị mặn ngọt chua cân bằng.|Đu đủ xanh, cà rốt thái lát mỏng, trộn chút muối đường giấm làm đồ chua, thả vào nước chấm.|#Hoàn thành|Thả chả và thịt nướng vào bát nước chấm ấm.|Ăn kèm bún ({bun}) và rau sống.",
+ "Hâm nước chấm hơi ấm rồi mới thả chả vào thì thịt ngấm và dậy mùi."],
+["Bún bò Huế",180,"coban","bun:800,bo_bap:500,chan_gio:500,sa:100,mam_tom:25,hanh_tim:30,toi:15,ot:15,nuoc_mam:40,duong:20,dau_an:20,rau_thom:60,chanh:30",
+ "#Sơ chế|Bắp bò ({bo_bap}) và chân giò ({chan_gio}) rửa sạch, chần nước sôi 5 phút, rửa lại.|Sả ({sa}): một nửa đập dập buộc thành bó, một nửa băm nhỏ.|#Ninh|Cho bắp bò, chân giò và bó sả vào nồi với khoảng 4 lít nước, đun sôi, hớt bọt kỹ.|Hạ lửa nhỏ ninh 1,5 tiếng. Vớt bắp bò ra khi đã mềm, ngâm nước lạnh rồi thái lát.|#Mắm ruốc|Hòa {mam_tom} mắm ruốc với 1 bát nước, để lắng 15 phút, chắt lấy phần nước trong đổ vào nồi.|#Sa tế sả|Phi hành tỏi và sả băm với {dau_an} dầu tới khi vàng, thêm ớt bột hoặc ớt băm, đảo 30 giây.|Đổ một nửa sa tế vào nồi nước dùng. Nêm {nuoc_mam} nước mắm, {duong} đường.|#Hoàn thành|Trụng bún, cho vào bát, xếp thịt bò, chân giò.|Chan nước dùng nóng, thêm sa tế tùy khẩu vị.|Ăn kèm rau sống, bắp chuối bào, chanh.",
+ "Chỉ lấy phần nước trong của mắm ruốc, cặn mắm làm nước dùng đục và gắt."],
+["Bún riêu cua",90,"coban","bun:800,cua_dong:500,ca_chua:300,dau_phu:200,trung_ga:120,mam_tom:15,nuoc_mam:30,hanh_tim:30,dau_an:30,rau_thom:60,chanh:30",
+ "#Lọc cua|Cua xay ({cua_dong}) hòa với khoảng 3 lít nước, khuấy đều, lọc qua rây 2 lần, bỏ bã.|Nếu muốn riêu dày hơn, đánh trứng ({trung_ga}) trộn vào nước cua.|#Nấu riêu|Cho nước cua vào nồi, thêm chút muối, đun lửa vừa và khuấy nhẹ một chiều để cua không bén đáy.|Khi gần sôi, riêu kết mảng nổi lên thì ngưng khuấy, hạ lửa nhỏ.|#Cà chua, đậu|Phi hành tím, xào cà chua ({ca_chua}) bổ múi cau tới khi mềm, cho vào nồi.|Đậu phụ ({dau_phu}) cắt miếng, rán vàng, thả vào nồi.|#Nêm|Nêm {nuoc_mam} nước mắm và một chút mắm tôm cho dậy mùi, thêm chút giấm bỗng nếu có.|#Hoàn thành|Trụng bún cho vào bát, múc riêu, cà chua, đậu lên.|Chan nước dùng, ăn kèm rau sống, mắm tôm, chanh ớt.",
+ "Nước cua sôi bùng thì riêu vỡ vụn. Giữ lửa nhỏ để riêu kết thành mảng."],
+["Bún thịt nướng",70,"coban ngot","bun:800,nac_vai:500,sa:30,hanh_tim:30,toi:15,nuoc_mam:60,duong:50,lac:40,dua_chuot:150,xa_lach:150,rau_thom:60,ca_rot:80,cu_cai:80,chanh:30,ot:10,dau_an:20",
+ "#Ướp thịt|Nạc vai ({nac_vai}) thái lát mỏng 3mm.|Ướp với sả, hành tím, tỏi băm, 2 thìa canh nước mắm, 1,5 thìa canh đường, 1 thìa dầu ăn. Ướp ít nhất 1 tiếng.|#Đồ chua|Cà rốt, củ cải thái sợi, bóp chút muối, rửa, ngâm với nước pha giấm đường 30 phút.|#Nướng|Xiên thịt hoặc kẹp vỉ, nướng than hoặc lò 200°C khoảng 12 phút, lật một lần.|#Nước mắm|Pha phần nước mắm và đường còn lại với nước ấm, chanh, tỏi ớt băm.|#Hoàn thành|Lót rau sống, dưa chuột thái sợi dưới bát, thêm bún ({bun}).|Xếp thịt nướng lên, rắc lạc rang và mỡ hành.|Chan nước mắm, thêm đồ chua.",
+ "Thêm chút dầu vào nước ướp thì thịt nướng mềm, không bị khô."],
+["Bún đậu mắm tôm",45,"coban chien","bun:600,dau_phu:600,ba_chi:400,mam_tom:40,dua_chuot:200,rau_thom:80,chanh:20,duong:10,dau_an:100,ot:5",
+ "#Luộc thịt|Ba chỉ ({ba_chi}) luộc với nước lạnh có chút muối và hành, sôi thì hạ lửa luộc 25 phút.|Vớt ra ngâm nước đá 2 phút, thái lát mỏng.|#Rán đậu|Đậu ({dau_phu}) cắt miếng vuông, thấm khô.|Rán ngập dầu nóng già tới khi vàng giòn các mặt, vớt ra giấy thấm dầu.|#Mắm tôm|Cho {mam_tom} mắm tôm vào bát, thêm {duong} đường, vắt chanh.|Rưới 1 thìa dầu nóng vào rồi đánh thật kỹ tới khi mắm sủi bọt trắng.|#Hoàn thành|Bún lá cắt miếng vuông, xếp ra mẹt cùng đậu, thịt, dưa chuột, rau thơm.|Chấm mắm tôm.",
+ "Đánh mắm tôm với chanh và dầu nóng tới khi nổi bọt thì mắm dậy mùi và bớt nồng."],
+["Bánh mì trứng ốp la",15,"coban chien","banh_mi:280,trung_ga:480,dau_an:30,nuoc_tuong:10,dua_chuot:100,rau_thom:20,ot:5,tieu:1",
+ "#Chuẩn bị|Bánh mì ({banh_mi}) nướng lại lò hoặc chảo khô 3 phút cho giòn.|Dưa chuột thái que, rau thơm rửa sạch.|#Ốp la|Đun chảo nóng vừa với chút dầu.|Đập 2 quả trứng vào mỗi lượt, để lửa nhỏ.|Rán 2–3 phút tới khi lòng trắng đông, lòng đỏ còn lòng đào. Muốn chín kỹ thì đậy vung thêm 1 phút.|#Hoàn thành|Rưới chút nước tương, rắc tiêu lên trứng.|Xẻ bánh mì kẹp trứng, dưa chuột, rau thơm, ớt. Hoặc ăn bánh mì chấm trứng.",
+ "Lửa nhỏ thì lòng trắng không phồng rộp cháy mép."],
+["Bánh mì thịt",20,"coban","banh_mi:280,gio_lua:200,pate:80,dua_chuot:120,ca_rot:60,cu_cai:60,rau_thom:30,nuoc_tuong:15,ot:5,duong:10",
+ "#Đồ chua|Cà rốt, củ cải thái sợi, bóp chút muối, rửa, ngâm nước pha {duong} đường và giấm 30 phút.|#Chuẩn bị|Giò lụa ({gio_lua}) thái lát mỏng. Dưa chuột thái que. Rau mùi rửa sạch.|Bánh mì ({banh_mi}) nướng lại cho giòn.|#Kẹp bánh|Xẻ dọc bánh mì, phết đều pa tê ({pate}) hai mặt trong.|Xếp giò lụa, dưa chuột, đồ chua vắt ráo, rau mùi, ớt.|#Hoàn thành|Rưới chút nước tương hoặc xì dầu, ăn ngay.",
+ "Vắt ráo đồ chua trước khi kẹp thì vỏ bánh không bị ỉu."],
+["Bánh xèo",60,"coban chien","bot_gao:300,nuoc_cot_dua:150,tom_the:300,ba_chi:250,gia_do:300,hanh_la:30,dau_an:80,xa_lach:200,rau_thom:80,nuoc_mam:40,duong:40,chanh:30,toi:10,ot:5,nghe:5",
+ "#Bột|Hòa bột gạo ({bot_gao}) với {nuoc_cot_dua} nước cốt dừa, khoảng 700ml nước, 1 thìa cà phê bột nghệ, chút muối và hành lá thái nhỏ.|Khuấy tan, để bột nghỉ ít nhất 30 phút.|#Nhân|Ba chỉ ({ba_chi}) thái lát mỏng. Tôm ({tom_the}) cắt râu hoặc bóc vỏ.|Giá rửa sạch, để ráo.|#Đổ bánh|Đun chảo gang hoặc chảo chống dính thật nóng, tráng 1 thìa dầu.|Cho vài lát thịt và tôm vào xào 1 phút.|Múc một vá bột, xoay chảo cho bột láng mỏng đều.|Thêm một nắm giá lên một nửa bánh, đậy vung 2 phút.|Mở vung, rưới chút dầu quanh mép, để lửa vừa tới khi mép bánh giòn và tự tách khỏi chảo, khoảng 3 phút.|Gập đôi bánh, trượt ra đĩa.|#Nước chấm|Pha {nuoc_mam} nước mắm, {duong} đường, chanh, tỏi ớt với nước ấm.|#Hoàn thành|Cuốn bánh với xà lách, rau thơm, chấm nước mắm.",
+ "Chảo phải thật nóng khi đổ bột và bột phải láng mỏng thì bánh mới giòn rụm."],
+["Gỏi cuốn tôm thịt",45,"coban luoc","banh_trang:120,bun:250,tom_the:300,ba_chi:300,xa_lach:150,rau_thom:60,he:30,tuong_den:60,lac:30,toi:5,ot:5",
+ "#Luộc|Ba chỉ ({ba_chi}) luộc 25 phút, ngâm nước đá, thái lát mỏng.|Tôm ({tom_the}) luộc 3 phút, bóc vỏ, chẻ đôi theo chiều dọc.|#Chuẩn bị|Xà lách, rau thơm rửa sạch, vẩy khô. Hẹ cắt khúc dài.|Trụng bún ({bun}), để ráo.|#Cuốn|Nhúng bánh tráng qua nước cho vừa mềm, trải ra thớt.|Xếp 3 nửa con tôm ở phần giữa bánh, mặt đỏ úp xuống.|Đặt xà lách, rau thơm, bún, 2 lát thịt phía dưới tôm.|Gập mép dưới lên, gập hai bên vào, cuộn chặt tay. Đặt cọng hẹ ló ra ở một đầu trước khi cuộn nốt.|#Nước chấm|Đun {tuong_den} tương đen với chút nước, tỏi phi và bơ lạc hoặc lạc giã tới khi sánh.|#Hoàn thành|Chấm tương, rắc lạc rang và ớt.",
+ "Xếp tôm trước tiên sát bánh tráng thì cuộn xong nhìn thấy tôm đỏ bên ngoài rất đẹp."],
+["Bánh cuốn nhân thịt",60,"coban","bot_gao:300,thit_xay:250,moc_nhi:10,hanh_tim:30,dau_an:30,gio_lua:150,nuoc_mam:40,duong:30,chanh:20,rau_thom:30,ot:5",
+ "#Bột|Hòa bột gạo ({bot_gao}) với khoảng 700ml nước, chút muối và 1 thìa dầu. Để nghỉ 30 phút.|#Nhân|Mộc nhĩ ngâm nở băm nhỏ. Phi hành tím băm, xào thịt xay với mộc nhĩ, nêm chút nước mắm, tiêu tới khi khô.|Phi riêng một ít hành tím với dầu làm hành phi.|#Tráng bánh|Căng vải trên nồi nước sôi hoặc dùng chảo chống dính lửa vừa, quét mỏng dầu.|Múc một vá nhỏ bột láng thật mỏng, đậy vung 1 phút tới khi bánh trong.|Dùng que tre lấy bánh ra đĩa đã quét dầu, rải nhân, gấp hai mép vào.|#Nước chấm|Pha {nuoc_mam} nước mắm, {duong} đường, chanh, ớt với nước ấm.|#Hoàn thành|Rắc hành phi, ăn kèm giò lụa thái lát, rau thơm, chấm nước mắm.",
+ "Tráng bằng chảo chống dính ở nhà thì láng bột thật mỏng và đậy vung, bánh vẫn mềm mướt."],
+["Hủ tiếu Nam Vang",120,"coban","hu_tieu:400,xuong_ong:800,tom_the:250,thit_xay:200,nac_vai:250,trung_cut:120,gia_do:150,he:40,hanh_tim:40,toi:15,nuoc_mam:30,duong:15,muoi:6,dau_an:20,rau_thom:30",
+ "#Nước dùng|Xương ({xuong_ong}) chần sạch, ninh với khoảng 3,5 lít nước và hành tím nướng, lửa nhỏ 1,5 tiếng, hớt bọt.|Luộc nạc vai ({nac_vai}) trong nồi nước dùng 25 phút, vớt ra thái lát.|Nêm {nuoc_mam} nước mắm, {muoi} muối, {duong} đường.|#Chuẩn bị|Tôm luộc chín, bóc vỏ. Trứng cút luộc bóc vỏ.|Thịt xay xào với tỏi phi và chút nước mắm.|Tỏi băm phi vàng làm tỏi phi.|#Trụng|Ngâm hủ tiếu ({hu_tieu}) nước ấm 10 phút, trụng nước sôi 30 giây.|#Hoàn thành|Cho hủ tiếu vào bát, xếp thịt, tôm, trứng cút, thịt băm.|Chan nước dùng, rắc hẹ, tỏi phi, ăn kèm giá sống.",
+ "Muốn ăn khô thì trộn hủ tiếu với nước tương, dầu tỏi phi, nước dùng để riêng bát."],
+["Mì Quảng",90,"coban","mi_quang:800,tom_the:300,ba_chi:300,trung_cut:120,lac:50,banh_trang:40,hanh_tim:30,toi:10,nuoc_mam:30,duong:10,dau_an:30,nghe:5,rau_thom:80,xa_lach:100,chanh:20,ot:5",
+ "#Ướp|Ba chỉ ({ba_chi}) thái miếng nhỏ, tôm ({tom_the}) cắt râu.|Ướp thịt và tôm với hành tỏi băm, {nuoc_mam} nước mắm, {duong} đường, 1 thìa cà phê bột nghệ trong 20 phút.|#Nấu nhân|Phi hành với {dau_an} dầu, xào thịt 5 phút tới khi săn, thêm tôm xào 2 phút.|Đổ khoảng 800ml nước, đun lửa nhỏ 15 phút. Nước nhân đậm, sánh và ít.|Thả trứng cút luộc vào.|#Chuẩn bị|Lạc rang giã dập. Bánh tráng nướng giòn bẻ miếng.|#Hoàn thành|Lót rau sống dưới bát, cho mì ({mi_quang}) lên.|Múc thịt tôm và một ít nước nhân rưới lên, chỉ xâm xấp mặt mì.|Rắc lạc, ăn kèm bánh tráng, chanh ớt.",
+ "Mì Quảng chỉ chan xâm xấp nước, không chan ngập như phở."],
+["Cơm tấm sườn trứng",60,"coban ngot","gao_te:400,nac_vai:600,trung_ga:240,dua_chuot:150,ca_rot:60,cu_cai:60,hanh_la:30,nuoc_mam:60,duong:50,sa:20,toi:15,dau_an:30,chanh:20,ot:5",
+ "#Ướp sườn|Dùng thịt cốt lết hoặc nạc vai ({nac_vai}) thái miếng dày 1cm, dần nhẹ cho mỏng đều.|Ướp với sả, tỏi băm, 3 thìa canh nước mắm, 2 thìa canh đường, 1 thìa dầu ăn, ít nhất 2 tiếng.|#Nấu cơm|Vo gạo tấm hoặc gạo tẻ ({gao_te}), nấu với lượng nước ít hơn bình thường một chút cho cơm tơi.|#Nướng|Nướng sườn than hoa hoặc lò 200°C 15 phút, lật một lần, quét nước ướp lên mặt.|#Trứng, mỡ hành|Ốp la trứng ({trung_ga}). Đun dầu nóng dội lên hành lá thái nhỏ.|#Nước mắm|Pha phần nước mắm, đường còn lại với nước ấm, chanh, tỏi ớt.|#Hoàn thành|Xới cơm, đặt sườn, trứng, dưa chuột, đồ chua, rưới mỡ hành. Chan nước mắm.",
+ "Ướp sườn qua đêm trong tủ lạnh thì thịt thấm tới tận giữa."],
+["Cháo gà",75,"coban","gao_te:200,gao_nep:50,ga_ta:800,gung:30,hanh_tim:30,hanh_la:30,rau_thom:20,nuoc_mam:30,muoi:5,tieu:2,chanh:20",
+ "#Luộc gà|Gà ({ga_ta}) làm sạch, luộc với khoảng 3 lít nước, gừng, hành tím nướng, lửa nhỏ 25 phút, ủ thêm 10 phút.|Vớt gà ra, xé thịt, trộn với chút nước mắm, tiêu. Giữ lại nước luộc.|#Rang gạo|Vo gạo tẻ ({gao_te}) và gạo nếp, để ráo, rang trên chảo khô lửa vừa 5 phút tới khi hạt gạo hơi vàng.|#Nấu cháo|Cho gạo vào nồi nước luộc gà, đun sôi rồi hạ lửa nhỏ.|Nấu 40 phút, khuấy thường xuyên để không bén đáy, tới khi hạt gạo nở bung.|Nêm {nuoc_mam} nước mắm và {muoi} muối.|#Hoàn thành|Múc cháo ra bát, thêm thịt gà xé, hành lá, rau răm, gừng thái sợi, tiêu. Vắt chanh tùy thích.",
+ "Rang gạo trước khi nấu thì cháo thơm và hạt gạo nhanh nở."],
+["Xôi xéo",90,"coban","gao_nep:500,dau_xanh:200,hanh_tim:80,dau_an:60,nghe:5,muoi:6",
+ "#Ngâm|Gạo nếp ({gao_nep}) ngâm nước ấm có 1 thìa cà phê bột nghệ ít nhất 4 tiếng, tốt nhất qua đêm.|Đậu xanh cà vỏ ({dau_xanh}) ngâm 2 tiếng.|#Đồ đậu|Hấp đậu xanh 25 phút tới khi mềm, thêm chút muối, giã hoặc xay nhuyễn, nắm thành nắm tròn chắc.|#Đồ xôi|Vớt gạo, xả sạch, trộn {muoi} muối.|Đồ gạo trong chõ 25 phút. Mở ra rưới 1 thìa mỡ hành, xới đều, đồ thêm 15 phút tới khi hạt dẻo.|#Hành phi|Hành tím ({hanh_tim}) thái lát mỏng, phi với {dau_an} dầu lửa vừa tới khi vàng giòn. Giữ lại mỡ hành.|#Hoàn thành|Xới xôi ra đĩa, dùng dao thái mỏng nắm đậu xanh rắc lên mặt.|Rưới mỡ hành và rắc hành phi.",
+ "Thái nắm đậu xanh thật mỏng như tuyết rơi lên mặt xôi mới đúng kiểu xôi xéo Hà Nội."],
+["Miến gà",80,"coban","mien:300,ga_ta:800,moc_nhi:10,hanh_tim:30,gung:20,hanh_la:30,rau_thom:20,nuoc_mam:30,muoi:5,chanh:20,ot:5",
+ "#Luộc gà|Gà ({ga_ta}) làm sạch, luộc với khoảng 3 lít nước, gừng và hành tím nướng, lửa nhỏ 25 phút, ủ 10 phút.|Vớt gà, xé thịt. Cho xương trở lại nồi ninh thêm 30 phút.|#Chuẩn bị|Miến ({mien}) ngâm nước ấm 10 phút cho mềm.|Mộc nhĩ ngâm nở, thái sợi, xào qua với chút dầu và hành.|#Nêm|Lọc nước dùng, nêm {nuoc_mam} nước mắm, {muoi} muối.|#Hoàn thành|Trụng miến qua nước dùng sôi 30 giây, cho vào bát.|Xếp thịt gà, mộc nhĩ, hành lá, rau răm lên, chan nước dùng nóng.|Ăn kèm chanh, ớt.",
+ "Miến trụng nhanh thôi, để lâu trong nước sôi sẽ nở nát."]
+];
+CUOITUAN.push(
+["Bánh canh giò heo",120,"coban","banh_canh:800,chan_gio:800,tom_the:200,hanh_tim:40,hanh_la:30,rau_thom:20,nuoc_mam:30,muoi:6,duong:10,tieu:2,chanh:20,ot:5",
+ "#Sơ chế|Chân giò ({chan_gio}) cạo sạch lông, chặt khoanh, chần nước sôi 5 phút, rửa sạch.|Tôm ({tom_the}) bóc vỏ, giữ lại đầu vỏ tôm.|#Nước dùng|Cho chân giò, đầu vỏ tôm và hành tím nướng vào nồi với khoảng 3 lít nước.|Đun sôi, hớt bọt, hạ lửa nhỏ ninh 1,5 tiếng tới khi chân giò mềm. Vớt bỏ vỏ tôm.|Thả tôm vào nấu 3 phút.|Nêm {nuoc_mam} nước mắm, {muoi} muối, {duong} đường.|#Hoàn thành|Trụng bánh canh ({banh_canh}) trong nước sôi 1–2 phút tới khi sợi trong.|Cho vào bát, xếp chân giò, tôm, chan nước dùng.|Rắc hành lá, ngò, tiêu. Ăn kèm chanh ớt.",
+ "Ninh cùng đầu vỏ tôm thì nước dùng ngọt đậm mà không cần bột ngọt."],
+["Lẩu thái hải sản",60,"lau","tom_the:400,muc:300,ngheu:600,ca_basa:300,nam_kim:200,ca_chua:200,sa:60,gung:20,ot:15,chanh:40,nuoc_mam:40,duong:20,cai_thao:300,rau_muong:300,bun:500,lau_thai:40",
+ "#Nước lẩu|Sả ({sa}) đập dập cắt khúc, gừng thái lát, cà chua bổ múi cau.|Đun khoảng 2 lít nước với sả, gừng, lá chanh 15 phút cho dậy mùi.|Cho {lau_thai} gói gia vị lẩu thái và cà chua vào, đun tiếp 5 phút.|Nêm {nuoc_mam} nước mắm, {duong} đường, nước cốt chanh, ớt tới khi chua cay mặn ngọt vừa ý.|#Hải sản|Tôm cắt râu, mực làm sạch cắt khoanh, nghêu ngâm nhả cát, cá cắt miếng.|Xếp ra đĩa, để ngăn mát tới khi ăn.|#Rau và bún|Nấm kim châm cắt gốc, cải thảo và rau muống cắt khúc. Trụng bún.|#Hoàn thành|Đặt nồi lẩu lên bếp ga mini, giữ nước lăn tăn.|Nhúng nghêu và tôm trước, mực và cá sau, rau cuối cùng. Ăn kèm bún.",
+ "Mực chỉ nhúng 30 giây là vớt. Để lâu trong nồi lẩu sẽ dai."],
+["Lẩu gà nấm",75,"lau","ga_ta:1200,nam_rom:300,nam_kim:200,gung:30,hanh_tim:30,nuoc_mam:40,muoi:6,cai_thao:300,cai_ngot:300,bun:500,rau_thom:20",
+ "#Chuẩn bị gà|Gà ({ga_ta}) làm sạch, xát muối gừng, chặt miếng vừa ăn. Riêng phần xương, cổ, cánh để nấu nước.|#Nước lẩu|Ninh xương gà với khoảng 2,5 lít nước, gừng, hành tím nướng, lửa nhỏ 40 phút, hớt bọt.|Nêm {nuoc_mam} nước mắm, {muoi} muối.|#Nấm và rau|Nấm rơm gọt gốc bổ đôi, nấm kim châm cắt gốc.|Cải thảo, cải ngọt cắt khúc. Trụng bún.|#Hoàn thành|Cho thịt gà vào nồi lẩu nấu 15 phút tới khi chín.|Thả nấm vào, sau đó nhúng rau và ăn cùng bún.|Chấm muối tiêu chanh lá chanh.",
+ "Nấu thịt gà trong nồi trước khi mang ra bàn để chắc chắn gà chín kỹ."],
+["Lẩu bò nhúng giấm",60,"lau","bo_than:600,hanh_tay:150,sa:40,dua:150,toi:15,nuoc_mam:20,duong:20,banh_trang:150,bun:400,xa_lach:200,rau_thom:80,dua_chuot:150,mam_tom:30,chanh:20",
+ "#Nước nhúng|Phi tỏi, xào dứa ({dua}) và sả đập dập 3 phút.|Đổ khoảng 1,5 lít nước, thêm 4–5 thìa canh giấm gạo, {duong} đường, {nuoc_mam} nước mắm. Đun sôi.|Nếm thấy chua ngọt thanh là được, thả hành tây thái vòng.|#Thịt bò|Bò ({bo_than}) để ngăn đá 30 phút, thái thật mỏng ngang thớ, xếp ra đĩa.|#Rau|Xà lách, rau thơm, dưa chuột thái que. Bún trụng sẵn.|#Mắm nêm|Pha mắm nêm hoặc mắm tôm với dứa băm, đường, tỏi ớt, chanh.|#Hoàn thành|Nhúng từng lát bò trong nước giấm sôi 10–15 giây.|Cuốn bò với bánh tráng, rau sống, bún, chấm mắm.",
+ "Bò thái càng mỏng nhúng càng nhanh chín và càng mềm."],
+["Bún cá",60,"coban","bun:800,ca_basa:600,ca_chua:300,thi_la:30,hanh_tim:30,nghe:5,xuong_ong:500,nuoc_mam:30,muoi:6,dau_an:40,rau_thom:40,chanh:20,ot:5",
+ "#Nước dùng|Xương ({xuong_ong}) chần sạch, ninh với khoảng 3 lít nước lửa nhỏ 1 tiếng, hớt bọt.|#Cá|Cá ({ca_basa}) cắt miếng, ướp chút muối, nghệ, tiêu 15 phút.|Rán cá với {dau_an} dầu tới khi vàng giòn.|#Cà chua|Phi hành tím, xào cà chua ({ca_chua}) bổ múi cau tới khi mềm, đổ vào nồi nước dùng.|Nêm {nuoc_mam} nước mắm, {muoi} muối, thêm chút giấm bỗng hoặc chanh cho chua nhẹ.|#Hoàn thành|Trụng bún, cho vào bát, xếp cá rán lên.|Chan nước dùng, rắc thì là và hành lá. Ăn kèm rau sống.",
+ "Ướp cá với nghệ trước khi rán thì cá vàng đẹp và bớt tanh."],
+["Mì xào bò",25,"coban chien","mi_trung:250,bo_than:300,cai_ngot:300,ca_rot:80,hanh_tay:100,toi:15,nuoc_tuong:30,dau_an:40,tieu:2",
+ "#Chuẩn bị|Mì trứng ({mi_trung}) luộc 2 phút, xả nước lạnh, trộn 1 thìa dầu cho khỏi dính.|Bò ({bo_than}) thái mỏng, ướp một nửa nước tương, tỏi, tiêu.|Cải ngọt cắt khúc, cà rốt thái sợi, hành tây thái múi cau.|#Xào bò|Xào bò lửa to 1 phút, trút ra.|#Xào rau|Phi tỏi, xào cà rốt, hành tây, cải ngọt lửa to 2 phút.|#Xào mì|Cho mì vào, nêm phần nước tương còn lại, dùng đũa đảo tơi 2 phút cho mì thấm và hơi xém.|Trả bò vào, đảo đều 30 giây.|#Hoàn thành|Rắc tiêu, bày ra đĩa.",
+ "Luộc mì vừa chín tới rồi xả nước lạnh, khi xào mì dai và không nát."],
+["Cơm rang dưa bò",25,"coban chien","gao_te:320,bo_than:250,dua_cai:200,trung_ga:120,hanh_la:30,toi:10,dau_an:40,nuoc_mam:15,tieu:1",
+ "#Chuẩn bị|Nấu cơm ({gao_te}) từ trước và để nguội, tốt nhất là cơm nguội để qua đêm.|Dưa cải vắt thật khô, thái nhỏ. Bò thái mỏng, ướp chút nước mắm, tỏi.|Hành lá thái nhỏ.|#Xào dưa, bò|Xào bò lửa to 1 phút, trút ra. Xào dưa cải khô 3 phút, trút ra.|#Rang cơm|Cho dầu vào chảo, đập trứng ({trung_ga}) vào đảo sơ.|Cho cơm vào, dùng muôi dầm tơi, rang lửa to 5 phút tới khi hạt cơm săn và hơi xém.|Trả dưa và bò vào, nêm {nuoc_mam} nước mắm, đảo đều.|#Hoàn thành|Rắc hành lá, tiêu, tắt bếp.",
+ "Cơm nguội khô hạt mới rang tơi. Cơm mới nấu rang sẽ bị dính bết."],
+["Phở cuốn",40,"coban","banh_pho:500,bo_than:400,toi:15,nuoc_tuong:20,dau_an:20,xa_lach:150,rau_thom:80,dua_chuot:100,nuoc_mam:30,duong:25,chanh:20,ot:5",
+ "#Bánh|Dùng bánh phở lá to chưa cắt sợi ({banh_pho}), cắt thành miếng chữ nhật cỡ bàn tay.|#Xào bò|Bò ({bo_than}) thái mỏng, ướp {nuoc_tuong} nước tương, tỏi, dầu.|Xào bò lửa to với tỏi phi 1–2 phút tới khi vừa chín.|#Cuốn|Trải miếng bánh phở, đặt xà lách, rau thơm, dưa chuột, vài lát bò.|Cuộn chặt tay thành cuốn dài.|#Nước chấm|Pha {nuoc_mam} nước mắm, {duong} đường, chanh, tỏi ớt với nước ấm, thêm chút đu đủ xanh thái mỏng nếu có.|#Hoàn thành|Xếp ra đĩa, chấm nước mắm.",
+ "Nếu bánh phở cứng thì hấp qua 1 phút cho mềm dẻo rồi mới cuốn."],
+["Bò kho bánh mì",150,"coban","bo_bap:800,ca_rot:300,sa:50,hanh_tim:30,toi:15,gung:10,que_hoi:10,nuoc_mam:40,duong:20,dau_an:20,cachua_sot:60,banh_mi:280,rau_thom:30",
+ "#Sơ chế|Bắp bò ({bo_bap}) cắt khối vuông 3cm, rửa sạch, thấm khô.|Cà rốt ({ca_rot}) cắt khúc. Sả đập dập, hành tỏi gừng băm.|#Ướp|Ướp bò với hành tỏi gừng, sả băm, {nuoc_mam} nước mắm, {duong} đường, 1 gói gia vị bò kho hoặc ngũ vị hương trong 1 tiếng.|#Xào|Phi thơm với {dau_an} dầu, cho bò vào xào lửa to 5 phút cho săn.|Thêm {cachua_sot} sốt cà chua hoặc hạt điều màu cho lên màu đỏ.|#Hầm|Đổ nước ngập thịt, thêm bó sả và quế hồi ({que_hoi}).|Đun sôi, hớt bọt, hạ lửa nhỏ hầm 1,5 tiếng tới khi bò mềm.|Cho cà rốt vào hầm thêm 20 phút.|#Hoàn thành|Nêm lại, múc ra bát, rắc rau húng quế. Ăn với bánh mì ({banh_mi}) nóng giòn.",
+ "Nồi áp suất rút thời gian hầm còn 25 phút, nhưng hầm lửa nhỏ nước kho sánh và thơm hơn."],
+["Bánh đa cua",90,"coban","banh_da:300,cua_dong:400,ca_chua:200,gio_lua:150,ba_chi:200,rau_muong:300,hanh_tim:30,mam_tom:10,nuoc_mam:30,dau_an:30,rau_thom:30",
+ "#Nước riêu|Lọc cua xay ({cua_dong}) với khoảng 2,5 lít nước, bỏ bã.|Đun nước cua lửa vừa, khuấy nhẹ tới khi riêu kết mảng thì ngưng khuấy, hạ lửa nhỏ.|Phi hành, xào cà chua cho vào nồi. Nêm {nuoc_mam} nước mắm và chút mắm tôm.|#Chuẩn bị|Ba chỉ ({ba_chi}) luộc chín, thái lát. Giò lụa thái lát.|Rau muống chẻ nhỏ, ngâm nước cho cong.|#Bánh đa|Luộc bánh đa ({banh_da}) 5–7 phút tới khi mềm dai, xả nước lạnh.|#Hoàn thành|Cho bánh đa và rau muống chần vào bát, xếp thịt, giò.|Chan riêu cua nóng, rắc hành phi và rau thơm.",
+ "Bánh đa đỏ Hải Phòng phải luộc riêng rồi xả lạnh mới dai, luộc trong nước riêu sẽ nát."],
+["Bánh mì chảo",20,"coban chien","banh_mi:280,trung_ga:240,pate:80,xuc_xich:200,thit_xay:150,hanh_tay:80,ca_chua:100,dau_an:30,nuoc_tuong:10,tieu:1",
+ "#Xốt thịt|Phi hành tây, xào thịt xay với cà chua băm và nước tương 5 phút tới khi sánh.|#Chảo|Làm nóng chảo gang nhỏ với dầu.|Áp chảo xúc xích ({xuc_xich}) thái đôi 2 phút.|Đập 2 trứng vào mỗi chảo, thêm 1 thìa pa tê và 1 thìa xốt thịt bên cạnh.|Đậy vung 2 phút tới khi lòng trắng chín.|#Hoàn thành|Rắc tiêu, mang cả chảo ra bàn, ăn với bánh mì ({banh_mi}) nướng giòn.",
+ "Chảo gang giữ nhiệt lâu, trứng vẫn nóng tới miếng cuối."],
+["Miến lươn",60,"coban","mien:300,luon:500,gia_do:150,hanh_tim:30,toi:10,nuoc_mam:30,dau_an:40,rau_thom:40,xuong_ong:500,muoi:5,chanh:20,ot:5",
+ "#Làm lươn|Lươn ({luon}) nhờ người bán làm sạch nhớt, mổ bỏ ruột. Về nhà rửa lại, cắt khúc 5cm.|Ướp lươn với hành tím băm, chút nước mắm và tiêu.|#Nước dùng|Xương ({xuong_ong}) chần sạch, ninh khoảng 2,5 lít nước lửa nhỏ 1 tiếng. Nêm {nuoc_mam} nước mắm, {muoi} muối.|#Xào lươn|Phi tỏi hành với {dau_an} dầu, xào lươn lửa vừa 8 phút tới khi săn và chín.|Muốn ăn lươn giòn thì chiên ngập dầu tới khi vàng giòn.|#Miến|Ngâm miến ({mien}) nước ấm 10 phút, trụng qua nước dùng sôi.|#Hoàn thành|Cho miến vào bát, xếp lươn, giá, rau răm, hành phi.|Chan nước dùng nóng, ăn kèm chanh ớt.",
+ "Ăn miến lươn trộn thì bỏ nước dùng, trộn miến với lươn xào và nước mắm pha."],
+["Xôi đậu xanh",60,"coban","gao_nep:500,dau_xanh:150,muoi:5,lac:40,duong:15",
+ "#Ngâm|Gạo nếp ({gao_nep}) ngâm nước ít nhất 4 tiếng. Đậu xanh ({dau_xanh}) ngâm 2 tiếng.|#Trộn|Vớt gạo và đậu, xả sạch, để ráo, trộn đều với {muoi} muối.|#Đồ xôi|Đồ trong chõ hoặc xửng hấp 30 phút.|Mở ra rưới 3 thìa nước, xới đều, đồ thêm 15 phút tới khi hạt nếp trong và dẻo.|#Muối vừng lạc|Giã dập lạc rang ({lac}) với chút muối và {duong} đường.|#Hoàn thành|Xới xôi ra lá chuối hoặc bát, ăn kèm muối vừng lạc.",
+ "Rưới thêm nước giữa chừng khi đồ thì hạt xôi chín đều, không bị sượng lõi."],
+["Cơm gà Hội An",90,"coban","gao_te:400,ga_ta:1000,nghe:5,hanh_tim:40,gung:20,rau_thom:40,hanh_tay:100,chanh:20,nuoc_mam:20,muoi:6,dau_an:20,ot:5",
+ "#Luộc gà|Gà ({ga_ta}) làm sạch, luộc với nước lạnh, gừng, hành tím nướng, lửa nhỏ 25 phút, ủ 10 phút. Ngâm nước đá.|Giữ lại nước luộc gà.|#Nấu cơm|Vo gạo ({gao_te}), để ráo. Phi hành tím với {dau_an} dầu, cho gạo vào rang 3 phút với 1 thìa cà phê bột nghệ tới khi hạt gạo vàng đều.|Cho gạo vào nồi cơm, dùng nước luộc gà thay nước lã, thêm {muoi} muối. Nấu chín.|#Gỏi gà|Xé thịt gà. Hành tây thái lát mỏng ngâm nước lạnh.|Trộn gà với hành tây, rau răm, chút muối tiêu, chanh.|#Hoàn thành|Xới cơm vàng ra đĩa, xếp gà xé và gỏi lên trên.|Ăn kèm nước mắm gừng hoặc tương ớt.",
+ "Nấu cơm bằng nước luộc gà là bí quyết để hạt cơm thơm và ngậy."],
+["Bò sốt vang",150,"","bo_bap:800,ca_rot:300,hanh_tay:150,ruou_vang:150,cachua_sot:80,toi:15,sa:30,que_hoi:10,nuoc_mam:20,duong:10,dau_an:20,banh_mi:280",
+ "#Sơ chế|Bắp bò ({bo_bap}) cắt khối 3cm. Cà rốt cắt khúc, hành tây bổ múi cau. Tỏi, sả băm.|#Ướp|Ướp bò với tỏi, sả, {nuoc_mam} nước mắm, {duong} đường và một nửa rượu vang trong 1 tiếng.|#Xào|Phi tỏi với {dau_an} dầu, cho bò vào xào lửa to 5 phút cho săn.|Thêm {cachua_sot} sốt cà chua, đảo đều 2 phút.|#Hầm|Đổ phần rượu vang ({ruou_vang}) còn lại và nước ngập thịt, thêm quế hồi.|Đun sôi, hạ lửa nhỏ hầm 1,5 tiếng tới khi bò mềm.|Thả cà rốt, hầm thêm 20 phút. Cho hành tây 5 phút cuối.|#Hoàn thành|Nêm lại, rắc tiêu. Ăn với bánh mì hoặc bún. Người ăn kiêng tinh bột ăn riêng không kèm bánh mì.",
+ "Rượu vang đỏ loại rẻ vẫn dùng được, cồn bay hết khi hầm lâu, chỉ còn mùi thơm."],
+["Gà nướng mật ong",70,"ngot","dui_ga:1000,mat_ong:40,toi:20,sa:30,nuoc_tuong:30,nuoc_mam:15,tieu:2,dau_an:15,xa_lach:150,dua_chuot:150",
+ "#Sơ chế|Đùi gà ({dui_ga}) rửa sạch, thấm khô, khứa vài đường sâu trên thịt.|Tỏi, sả băm nhỏ.|#Ướp|Trộn {mat_ong} mật ong, {nuoc_tuong} nước tương, {nuoc_mam} nước mắm, tỏi, sả, tiêu, dầu ăn.|Xoa đều vào gà, ướp ít nhất 2 tiếng hoặc qua đêm.|#Nướng|Làm nóng lò hoặc nồi chiên không dầu 190°C.|Nướng mặt da xuống dưới 20 phút, lật lên, quét nước ướp, nướng tiếp 15 phút tới khi da vàng óng.|Xiên đũa vào chỗ dày nhất, nước chảy ra trong là chín.|#Hoàn thành|Để nghỉ 5 phút, bày cùng xà lách, dưa chuột.",
+ "Mật ong dễ cháy. Quét lớp mật ở lượt nướng sau thì da vàng đẹp mà không đen."],
+["Bò nướng lá lốt",45,"","bo_bap:400,ba_chi:100,la_lot:80,sa:30,toi:10,hanh_tim:15,nuoc_mam:15,tieu:2,dau_an:15,lac:30,xa_lach:150,rau_thom:60",
+ "#Làm nhân|Băm nhỏ bò ({bo_bap}) với ba chỉ ({ba_chi}) để thịt có chút mỡ.|Trộn với sả, tỏi, hành tím băm, {nuoc_mam} nước mắm, tiêu, 1 thìa dầu. Để 20 phút.|#Cuốn|Đặt lá lốt mặt bóng xuống, cho nhân vào, cuộn chặt thành thỏi dài 6cm.|Xiên vài cuốn vào que tre.|#Nướng|Nướng than hoa hoặc áp chảo ít dầu, lửa vừa, lật đều 8–10 phút tới khi lá se thẫm và thịt chín.|#Hoàn thành|Rắc lạc rang giã dập và mỡ hành.|Ăn kèm rau sống, chấm mắm nêm hoặc nước mắm chua ngọt.",
+ "Pha thêm chút mỡ ba chỉ thì thịt bò nướng không bị khô."],
+["Bò bít tết bơ tỏi",30,"","bo_than:700,bo_lat:40,toi:20,tieu:4,muoi:6,xa_lach:150,ca_chua:150,dau_an:15",
+ "#Chuẩn bị thịt|Bò thăn ({bo_than}) cắt miếng dày 2,5cm, để ngoài tủ lạnh 20 phút cho về nhiệt độ phòng.|Thấm thật khô hai mặt. Xoa {muoi} muối và {tieu} tiêu thô ngay trước khi áp chảo.|Tỏi đập dập để nguyên tép.|#Áp chảo|Đun chảo gang lửa to tới khi bốc khói nhẹ, cho {dau_an} dầu.|Đặt bò vào, để yên 2 phút tới khi mặt dưới xém nâu.|Lật mặt, áp thêm 2 phút.|#Rưới bơ|Hạ lửa vừa, cho bơ ({bo_lat}) và tỏi vào chảo.|Nghiêng chảo, dùng thìa múc bơ tỏi rưới liên tục lên mặt thịt 1 phút.|Bò tái vừa khi ấn vào thấy đàn hồi như ấn vào lòng bàn tay dưới ngón cái.|#Nghỉ thịt|Chuyển bò ra thớt, để yên 5 phút.|#Hoàn thành|Thái xéo, rưới bơ tỏi còn trong chảo, ăn kèm xà lách cà chua.",
+ "Để thịt nghỉ 5 phút trước khi thái thì nước thịt không chảy ra đĩa."],
+["Cá hồi áp chảo",25,"","ca_hoi:600,bo_lat:20,toi:10,chanh:30,muoi:4,tieu:2,bong_cai:300,dau_an:10",
+ "#Chuẩn bị|Cá hồi ({ca_hoi}) cắt miếng 150g, để nguyên da, thấm thật khô.|Rắc {muoi} muối, tiêu hai mặt.|Súp lơ cắt bông, luộc hoặc hấp 3 phút.|#Áp chảo|Đun chảo lửa vừa với {dau_an} dầu. Đặt cá mặt da xuống, dùng thìa ấn nhẹ 10 giây cho da không cong.|Áp mặt da 5 phút tới khi da giòn và phần thịt chín trắng lên hơn nửa miếng.|Lật mặt, cho bơ và tỏi băm vào, áp thêm 1–2 phút.|#Hoàn thành|Vắt chanh, bày cá cùng súp lơ, rưới bơ tỏi lên.",
+ "Áp mặt da thật lâu và chỉ lật một lần thì da giòn mà thịt cá vẫn mọng."],
+["Gà nướng muối ớt",60,"","dui_ga:1000,muoi:10,ot:15,sa:40,toi:15,chanh:20,dau_an:15,rau_thom:40,dua_chuot:150",
+ "#Sơ chế|Đùi gà ({dui_ga}) rửa sạch, thấm khô, khứa vài đường sâu.|Sả, tỏi, ớt băm nhỏ.|#Ướp|Giã {muoi} muối với ớt, sả, tỏi thành hỗn hợp sệt, thêm {dau_an} dầu.|Xoa đều khắp gà, nhét vào các vết khứa. Ướp ít nhất 1 tiếng.|#Nướng|Nướng than, lò hoặc nồi chiên không dầu 190°C.|Nướng mặt da xuống dưới 20 phút, lật lên nướng tiếp 15–20 phút tới khi da phồng vàng.|Xiên vào chỗ dày nhất, nước chảy ra trong là chín.|#Hoàn thành|Ăn kèm rau răm, dưa chuột, chấm muối ớt chanh.",
+ "Không dùng đường và mật ong nên món hợp chế độ Keto và người tiểu đường."],
+["Gỏi gà bắp cải",45,"","ga_ta:800,bap_cai:400,ca_rot:100,hanh_tay:100,rau_thom:40,lac:40,nuoc_mam:30,duong:20,chanh:40,toi:10,ot:5",
+ "#Luộc gà|Gà ({ga_ta}) luộc với gừng và hành, lửa nhỏ 25 phút, ủ 10 phút, ngâm nước đá.|Xé thịt gà thành sợi vừa ăn.|#Rau|Bắp cải ({bap_cai}) thái sợi mảnh, ngâm nước đá 10 phút cho giòn.|Cà rốt thái sợi. Hành tây thái lát mỏng ngâm nước lạnh. Rau răm thái khúc.|#Nước trộn|Pha {nuoc_mam} nước mắm, {duong} đường, nước cốt chanh, tỏi ớt băm tới khi đường tan.|#Trộn|Vắt ráo rau, trộn với gà xé và nước trộn ngay trước khi ăn.|#Hoàn thành|Rắc lạc rang và rau răm. Ăn kèm bánh đa nướng nếu thích.",
+ "Trộn gỏi sát giờ ăn thì bắp cải còn giòn, không bị ra nước."]
+);
+
+/* =========================================================================
+   GIA — cap nhat boi cap_nhat_gia.py (dung sua tay hai dong nay)
+   ========================================================================= */
+const NGAY_GIA = "2026-09-17";
+const NGUON_GIA = "gia247.com, bảng giá thịt, rau củ, thủy hải sản, gạo, rau củ nhân 1,4, hải sản nhân 1,15 so với giá chợ đầu mối";
+
+/* =========================================================================
+   CHUAN HOA DU LIEU
+   ========================================================================= */
+function chuanHoa(ds, nhom){
+  const ra = [];
+  ds.forEach((r, i) => {
+    const nl = r[3].split(",").map(x => { const p = x.split(":"); return [p[0], +p[1]]; });
+    const hong = nl.filter(x => !NL[x[0]]);
+    if (hong.length){ console.error("Món thiếu nguyên liệu trong bảng:", r[0], hong); return; }
+    ra.push({ id: nhom + i, nhom, ten: r[0], phut: r[1], the: r[2] ? r[2].split(" ") : [], nl, buoc: r[4], meo: r[5] });
+  });
+  return ra;
+}
+const MON = [].concat(chuanHoa(MAN, "man"), chuanHoa(RAU, "rau"), chuanHoa(CANH, "canh"));
+const MON_CT = chuanHoa(CUOITUAN, "choi");
+const THEO_ID = {};
+MON.concat(MON_CT).forEach(m => THEO_ID[m.id] = m);
+
+/* =========================================================================
+   CHE DO AN
+   ========================================================================= */
+const CHE_BIEN_SAN = ["gio_lua","pate","xuc_xich","mi_trung","lau_thai","cachua_sot","sa_te","dua_cai"];
+const CHEDO = {
+  thuong: {
+    ten:"Bình thường", phu:"Ăn no đủ", tb:1, heRau:1,
+    com:{nl:"gao_te", g:90, ten:"hai lưng bát cơm trắng"},
+    giai:"Mâm cơm theo nếp quen: <b>một món mặn, một món rau, một bát canh</b>. Cơm không tính vào món, chỉ gợi ý khẩu phần.",
+    loc:() => true
+  },
+  giamcan: {
+    ten:"Giảm cân", phu:"≈ 500 kcal/bữa", tb:0.6, heRau:1.5,
+    com:{nl:"gao_lut", g:50, ten:"một lưng bát cơm gạo lứt"},
+    giai:"Bỏ món rán ngập dầu, ưu tiên <b>luộc, hấp, xào ít dầu</b>. Rau tăng gấp rưỡi, cơm giảm còn nửa và đổi sang gạo lứt. Mục tiêu <b>500–600 kcal một bữa</b>, tức thâm hụt khoảng 300–500 kcal mỗi ngày.",
+    loc:(m, d) => {
+      if (m.the.includes("chien")) return false;
+      return d.kcal <= ({man:300, rau:170, canh:130, choi:600})[m.nhom];
+    }
+  },
+  tieuduong: {
+    ten:"Tiểu đường", phu:"Ít bột đường", tb:0.5, heRau:1.5,
+    com:{nl:"gao_lut", g:60, ten:"một lưng bát cơm gạo lứt"},
+    giai:"Loại món kho rim nhiều đường, giữ bột đường cả bữa quanh <b>45–60g</b>. Ăn theo thứ tự <b>rau và canh trước, đạm giữa, cơm sau cùng</b> để đường huyết lên chậm. Món cuối tuần tự giảm một nửa phần bún, phở, bánh.",
+    loc:(m, d) => {
+      if (m.the.includes("ngot")) return false;
+      return d.carb <= ({man:14, rau:16, canh:14, choi:65})[m.nhom];
+    }
+  },
+  keto: {
+    ten:"Keto", phu:"Rất ít tinh bột", tb:0, heRau:1.2,
+    com:null,
+    giai:"Keto giữ bột đường <b>dưới khoảng 20–30g mỗi ngày</b>, lấy năng lượng chủ yếu từ chất béo và đạm. Bữa ăn <b>không cơm, không bún phở bánh mì</b>, bỏ món có đường và củ nhiều bột. <b>Người bệnh thận, gan, người đang dùng thuốc tiểu đường, phụ nữ mang thai không tự áp dụng</b> khi chưa hỏi bác sĩ.",
+    loc:(m, d) => {
+      if (m.the.includes("ngot") || m.the.includes("coban")) return false;
+      return d.carb <= ({man:6, rau:7, canh:6, choi:15})[m.nhom];
+    }
+  },
+  nhin: {
+    ten:"Nhịn gián đoạn", phu:"IF 16:8", tb:0.8, heRau:1.2,
+    com:{nl:"gao_lut", g:70, ten:"một lưng rưỡi bát cơm gạo lứt"},
+    giai:"Nhịn ăn gián đoạn không giới hạn món, chỉ giới hạn <b>giờ ăn</b>. Chỉ ăn trong khung giờ đã chọn, ngoài giờ chỉ uống nước lọc, trà hoặc cà phê không đường. Hai bữa trong khung nên <b>đủ đạm</b> để giữ cơ, nên món mặn được chọn có từ 15g đạm mỗi người. <b>Không hợp người tiểu đường đang dùng thuốc hạ đường huyết, phụ nữ mang thai, người từng rối loạn ăn uống.</b>",
+    loc:(m, d) => {
+      if (m.the.includes("chien")) return false;
+      if (m.nhom === "man") return d.dam >= 15;
+      return true;
+    }
+  },
+  eatclean: {
+    ten:"Eat Clean", phu:"Tươi, ít chế biến", tb:0.8, heRau:1.3,
+    com:{nl:"gao_lut", g:70, ten:"một lưng rưỡi bát cơm gạo lứt"},
+    giai:"Eat Clean ưu tiên <b>thực phẩm tươi nguyên bản</b>, nấu đơn giản. Bỏ món rán, món kho rim đường và món dùng đồ chế biến sẵn như giò chả, pa tê, xúc xích, dưa muối, gia vị gói. Nên nêm <b>muối thay hạt nêm</b> và dùng gạo lứt.",
+    loc:(m) => {
+      if (m.the.includes("chien") || m.the.includes("ngot")) return false;
+      return !m.nl.some(x => CHE_BIEN_SAN.includes(x[0]));
+    }
+  }
+};
+const KHUNG_IF = {
+  "16:8": {ten:"16:8 · ăn 12:00–20:00", trua:"12:00", toi:"19:30"},
+  "14:10":{ten:"14:10 · ăn 10:00–20:00", trua:"11:00", toi:"19:00"},
+  "18:6": {ten:"18:6 · ăn 13:00–19:00", trua:"13:00", toi:"18:30"}
+};
+
+/* =========================================================================
+   TRANG THAI + LUU
+   ========================================================================= */
+const KHOA_GIA = "mamcom.gia.v2", KHOA_CAIDAT = "mamcom.caidat.v2";
+const GIA_GOC = {};
+for (const k in NL) GIA_GOC[k] = NL[k][5];
+let giaSua = {};
+let tab = "mam", cheDo = "thuong", soNguoi = 4, nganSach = 0, soBua = 1, khungIF = "16:8";
+let buaAn = [];          // [{man, rau, canh, khoa:{man,rau,canh}}]
+let monChoi = null;
+
+function docLuu(){
+  try{
+    giaSua = JSON.parse(localStorage.getItem(KHOA_GIA) || "{}") || {};
+    const c = JSON.parse(localStorage.getItem(KHOA_CAIDAT) || "{}") || {};
+    if (CHEDO[c.cheDo]) cheDo = c.cheDo;
+    if (c.soNguoi >= 1 && c.soNguoi <= 12) soNguoi = c.soNguoi;
+    if (c.soBua === 1 || c.soBua === 2) soBua = c.soBua;
+    if (KHUNG_IF[c.khungIF]) khungIF = c.khungIF;
+  }catch(e){ giaSua = {}; }
+}
+function ghiLuu(){
+  try{
+    localStorage.setItem(KHOA_GIA, JSON.stringify(giaSua));
+    localStorage.setItem(KHOA_CAIDAT, JSON.stringify({cheDo, soNguoi, soBua, khungIF}));
+  }catch(e){}
+}
+const gia = ma => (giaSua[ma] != null ? giaSua[ma] : GIA_GOC[ma]);
+
+/* =========================================================================
+   TINH TOAN
+   ========================================================================= */
+const KHAU_PHAN_GOC = 4;
+
+// he so nhan cho tung nguyen lieu cua mot mon, theo so nguoi + che do
+function heSo(m, ma){
+  let h = soNguoi / KHAU_PHAN_GOC;
+  if (m.nhom === "rau") h *= CHEDO[cheDo].heRau;
+  if (NL[ma][6] === "tb") h *= CHEDO[cheDo].tb;
+  return h;
+}
+function tinhMon(m){
+  let kcal = 0, dam = 0, beo = 0, carb = 0, tien = 0;
+  const ds = [];
+  for (const [ma, g0] of m.nl){
+    const n = NL[ma], g = g0 * heSo(m, ma);
+    if (g <= 0) continue;
+    const k = n[1] * g / 100, t = gia(ma) * g / 1000;
+    kcal += k; dam += n[2] * g / 100; beo += n[3] * g / 100; carb += n[4] * g / 100; tien += t;
+    ds.push({ma, ten:n[0], g, kcal:k, tien:t});
+  }
+  return {ds, kcal:kcal/soNguoi, dam:dam/soNguoi, beo:beo/soNguoi, carb:carb/soNguoi, tienTong:tien, tienNguoi:tien/soNguoi};
+}
+function hopCheDo(m){ return CHEDO[cheDo].loc(m, tinhMon(m)); }
+function monHop(nhom){ return MON.filter(m => m.nhom === nhom && hopCheDo(m)); }
+const batKy = ds => ds[Math.floor(Math.random() * ds.length)];
+
+function comGoiY(){
+  const c = CHEDO[cheDo].com;
+  if (!c) return null;
+  const n = NL[c.nl];
+  return {ten:c.ten, loai:n[0], g:c.g, kcal:n[1]*c.g/100, carb:n[4]*c.g/100, tien:gia(c.nl)*c.g/1000};
+}
+
+function quayBua(bua){
+  const nhoms = ["man","rau","canh"];
+  let tot = null, tienTot = Infinity;
+  for (let lan = 0; lan < 80; lan++){
+    const thu = {};
+    for (const n of nhoms){
+      if (bua && bua.khoa[n] && bua[n] && hopCheDo(bua[n])){ thu[n] = bua[n]; continue; }
+      const ds = monHop(n).filter(m => !bua || m !== bua[n] || monHop(n).length === 1);
+      if (!ds.length) return null;
+      thu[n] = batKy(ds);
+    }
+    const tien = nhoms.reduce((s, n) => s + tinhMon(thu[n]).tienNguoi, 0);
+    if (!nganSach || tien <= nganSach){ tot = thu; break; }
+    if (tien < tienTot){ tienTot = tien; tot = thu; }
+  }
+  return {man:tot.man, rau:tot.rau, canh:tot.canh, khoa: bua ? bua.khoa : {man:false, rau:false, canh:false}};
+}
+function quayMonChoi(){
+  const ds = MON_CT.filter(hopCheDo);
+  if (!ds.length) return null;
+  let tot = null, tienTot = Infinity;
+  for (let lan = 0; lan < 60; lan++){
+    const cu = ds.length > 1 ? ds.filter(m => m !== monChoi) : ds;
+    const m = batKy(cu), t = tinhMon(m).tienNguoi;
+    if (!nganSach || t <= nganSach) return m;
+    if (t < tienTot){ tienTot = t; tot = m; }
+  }
+  return tot;
+}
+
+/* =========================================================================
+   DINH DANG
+   ========================================================================= */
+const d0 = n => Math.round(n).toLocaleString("vi-VN");
+const d1 = n => (Math.round(n * 10) / 10).toLocaleString("vi-VN");
+const tienGon = n => d0(Math.round(n / 100) * 100) + "đ";
+function kL(g){ return g >= 1000 ? d1(g / 1000) + " kg" : (g >= 10 ? Math.round(g) : d1(g)) + " g"; }
+function nuaDonVi(x){ const r = Math.max(0.5, Math.round(x * 2) / 2); return r.toLocaleString("vi-VN"); }
+const THIA = {nuoc_mam:15, nuoc_tuong:15, duong:12, dau_an:13, hat_nem:10, mam_tom:18, mat_ong:20, sa_te:15, cachua_sot:18, tuong_den:18};
+const THIA_NHO = {muoi:6, tieu:2.5, nghe:3};
+function luong(ma, g){
+  if (ma === "trung_ga") return Math.max(1, Math.round(g / 60)) + " quả trứng";
+  if (ma === "trung_cut") return Math.max(1, Math.round(g / 10)) + " quả trứng cút";
+  if (THIA[ma]){
+    const s = g / THIA[ma];
+    return s < 1 ? kL(g) + " (≈ " + nuaDonVi(s * 3) + " thìa cà phê)" : kL(g) + " (≈ " + nuaDonVi(s) + " thìa canh)";
+  }
+  if (THIA_NHO[ma]) return kL(g) + " (≈ " + nuaDonVi(g / THIA_NHO[ma]) + " thìa cà phê)";
+  return kL(g);
+}
+const NHAN_NHOM = {man:"Mặn", rau:"Rau", canh:"Canh", choi:"Cuối tuần"};
+const NHAN_THE = {luoc:"Luộc · hấp", chien:"Nhiều dầu", ngot:"Có đường", chay:"Chay được", lau:"Lẩu"};
+
+/* =========================================================================
+   VE GIAO DIEN
+   ========================================================================= */
+const $ = id => document.getElementById(id);
+
+function veDieuKhien(){
+  $("o-chedo").innerHTML = Object.keys(CHEDO).map(k =>
+    `<button aria-pressed="${k === cheDo}" onclick="datCheDo('${k}')"><b>${CHEDO[k].ten}</b><small>${CHEDO[k].phu}</small></button>`).join("");
+  let g = CHEDO[cheDo].giai;
+  if (cheDo === "nhin"){
+    g += `<div style="margin-top:9px"><select id="o-khungif" onchange="datKhungIF(this.value)">` +
+      Object.keys(KHUNG_IF).map(k => `<option value="${k}" ${k === khungIF ? "selected" : ""}>${KHUNG_IF[k].ten}</option>`).join("") +
+      `</select></div>`;
+  }
+  $("o-giaithich").innerHTML = g;
+  $("o-nguoi").textContent = soNguoi;
+  $("o-sobua").value = String(soBua);
+  $("o-o-sobua").classList.toggle("an", tab !== "mam");
+  $("o-nutquay").textContent = tab === "mam" ? (soBua === 2 ? "Quay thực đơn cả ngày" : "Quay mâm cơm khác") : "Quay món cuối tuần khác";
+}
+function datCheDo(k){ cheDo = k; if (k === "nhin") soBua = 2; ghiLuu(); veDieuKhien(); quay(false); }
+function datKhungIF(k){ khungIF = k; ghiLuu(); veKetQua(); }
+function doiNguoi(b){ soNguoi = Math.min(12, Math.max(1, soNguoi + b)); ghiLuu(); veDieuKhien(); if (tab === "mam" && !buaAn.length) quay(true); else veKetQua(); }
+function datNganSach(v){ nganSach = +v; quay(true); }
+function datSoBua(v){ soBua = +v; ghiLuu(); veDieuKhien(); quay(true); }
+
+function quay(giuKhoa){
+  if (tab === "cuoituan"){ monChoi = quayMonChoi(); veKetQua(); return; }
+  const moi = [];
+  for (let i = 0; i < soBua; i++){
+    const cu = giuKhoa ? buaAn[i] : null;
+    const b = quayBua(cu);
+    if (!b){ buaAn = []; veKetQua(); return; }
+    moi.push(b);
+  }
+  buaAn = moi;
+  veKetQua();
+}
+function doiMot(i, nhom){
+  const ds = monHop(nhom).filter(m => m !== buaAn[i][nhom]);
+  if (ds.length) buaAn[i][nhom] = batKy(ds);
+  veKetQua();
+}
+function datKhoa(i, nhom){ buaAn[i].khoa[nhom] = !buaAn[i].khoa[nhom]; veKetQua(); }
+
+function thieuMon(chu){
+  return `<div class="phieu"><div class="phieu-dau"><b>${chu}</b>
+    <p class="phu" style="margin-top:8px">Thử bỏ giới hạn tiền chợ hoặc chọn chế độ ăn khác.</p></div></div>`;
+}
+
+function tongHop(ds){
+  const t = {kcal:0, dam:0, beo:0, carb:0, tien:0, phut:0};
+  for (const x of ds){ t.kcal += x.d.kcal; t.dam += x.d.dam; t.beo += x.d.beo; t.carb += x.d.carb; t.tien += x.d.tienTong; t.phut = Math.max(t.phut, x.m.phut); }
+  return t;
+}
+function veTong(t, nhanKcal){
+  const eD = t.dam*4, eB = t.beo*9, eC = t.carb*4, eT = Math.max(1, eD + eB + eC);
+  const pc = x => (x / eT * 100).toFixed(1) + "%";
+  return `<div class="tong">
+      <div><div class="v">${d0(t.kcal)}</div><div class="k">${nhanKcal}</div></div>
+      <div><div class="v">${tienGon(t.tien / soNguoi)}</div><div class="k">tiền chợ mỗi người</div></div>
+      <div><div class="v">${t.phut}′</div><div class="k">món lâu nhất</div></div>
+    </div>
+    <div class="thanh" role="img" aria-label="Tỉ lệ năng lượng: đạm ${pc(eD)}, béo ${pc(eB)}, bột đường ${pc(eC)}">
+      <i style="width:${pc(eD)};background:var(--nhan)"></i><i style="width:${pc(eB)};background:var(--nghe)"></i><i style="width:${pc(eC)};background:var(--ot)"></i>
+    </div>
+    <div class="chu-thanh">
+      <span><i style="background:var(--nhan)"></i>Đạm ${d0(t.dam)}g</span>
+      <span><i style="background:var(--nghe)"></i>Béo ${d0(t.beo)}g</span>
+      <span><i style="background:var(--ot)"></i>Bột đường ${d0(t.carb)}g</span>
+      <span>Cả nhà: <b>${tienGon(t.tien)}</b></span>
+    </div>`;
+}
+function veDongMon(x, i, coNut){
+  const the = x.m.the.filter(k => NHAN_THE[k]).map(k => NHAN_THE[k]).join(" · ");
+  return `<div class="mon">
+    <div class="mon-dau">
+      <span class="vai ${x.m.nhom}">${NHAN_NHOM[x.m.nhom]}</span>
+      <div class="mon-ten">
+        <b>${x.m.ten}</b>
+        <div class="so">${d0(x.d.kcal)} kcal · ${tienGon(x.d.tienTong)} · ${x.m.phut} phút${the ? " · " + the : ""}</div>
+      </div>
+      <div class="nut-nho">
+        ${coNut ? `<button aria-pressed="${buaAn[i].khoa[x.m.nhom]}" onclick="datKhoa(${i},'${x.m.nhom}')">${buaAn[i].khoa[x.m.nhom] ? "Đã giữ" : "Giữ"}</button>
+                   <button onclick="doiMot(${i},'${x.m.nhom}')">Đổi</button>` : ""}
+        <button onclick="moMon(this)" aria-expanded="false">Cách nấu</button>
+      </div>
+    </div>
+    <div class="chitiet">${veChiTiet(x.m, x.d)}</div>
+  </div>`;
+}
+function veChiTiet(m, d){
+  const theoMa = {};
+  d.ds.forEach(it => theoMa[it.ma] = it.g);
+  let h = `<div class="tieu-nho">Nguyên liệu cho ${soNguoi} người</div>`;
+  for (const it of d.ds){
+    h += `<div class="dong"><span class="t">${it.ten}</span><span class="cham"></span>
+          <span class="g">${kL(it.g)} · ${d0(it.kcal)} kcal</span><span class="c">${tienGon(it.tien)}</span></div>`;
+  }
+  h += `<div class="dong tong-dong"><span class="t">Cả món</span><span class="cham"></span>
+        <span class="g">${d0(d.kcal * soNguoi)} kcal</span><span class="c">${tienGon(d.tienTong)}</span></div>`;
+  if (m.nl.some(x => NL[x[0]][6] === "tb") && CHEDO[cheDo].tb !== 1){
+    h += `<div class="meo"><b>Chế độ ${CHEDO[cheDo].ten}:</b> phần ${m.nl.filter(x => NL[x[0]][6] === "tb").map(x => NL[x[0]][0].toLowerCase()).join(", ")} đã ${CHEDO[cheDo].tb === 0 ? "bỏ hẳn" : "giảm còn " + Math.round(CHEDO[cheDo].tb * 100) + "%"} trong bảng trên.</div>`;
+  }
+  h += `<div class="tieu-nho">Cách nấu · ${m.phut} phút</div><ol class="buoc">`;
+  let moOl = true;
+  for (const b of m.buoc.split("|")){
+    if (b.startsWith("#")){
+      h += `</ol><div class="chang">${b.slice(1)}</div><ol class="buoc">`;
+    } else {
+      h += `<li>${b.replace(/\{([a-z_]+)\}/g, (_, ma) => theoMa[ma] != null ? `<b class="luong">${luong(ma, theoMa[ma])}</b>` : (NL[ma] ? NL[ma][0].toLowerCase() : ""))}</li>`;
+    }
+  }
+  h += `</ol>`;
+  if (m.meo) h += `<div class="meo"><b>Mẹo:</b> ${m.meo}</div>`;
+  return h;
+}
+function moMon(nut){
+  const ct = nut.closest(".mon").querySelector(".chitiet");
+  const mo = ct.classList.toggle("mo");
+  nut.textContent = mo ? "Thu gọn" : "Cách nấu";
+  nut.setAttribute("aria-expanded", String(mo));
+}
+function veDiCho(tatCa, tien){
+  const gop = {};
+  for (const x of tatCa) for (const it of x.d.ds){
+    if (!gop[it.ma]) gop[it.ma] = {ten:it.ten, g:0, tien:0};
+    gop[it.ma].g += it.g; gop[it.ma].tien += it.tien;
+  }
+  const ds = Object.keys(gop).map(k => gop[k]).sort((a, b) => b.tien - a.tien);
+  return `<div class="cho">
+    <div class="tieu-nho" style="margin-top:0">Danh sách đi chợ · ${ds.length} thứ · ${tienGon(tien)}</div>
+    ${ds.map((x, i) => `<label><input type="checkbox" id="cho-${i}"><span class="t">${x.ten}</span>
+      <span class="cham"></span><span class="g">${kL(x.g)}</span><span class="c">${tienGon(x.tien)}</span></label>`).join("")}
+  </div>`;
+}
+
+function veKetQua(){
+  const hom = new Date().toLocaleDateString("vi-VN", {weekday:"long", day:"2-digit", month:"2-digit"});
+  if (tab === "cuoituan"){
+    if (!monChoi || !hopCheDo(monChoi)) monChoi = quayMonChoi();
+    if (!monChoi){ $("o-ketqua").innerHTML = thieuMon("Chưa có món cuối tuần nào hợp chế độ " + CHEDO[cheDo].ten + "."); return; }
+    const x = {m:monChoi, d:tinhMon(monChoi)};
+    const t = tongHop([x]);
+    $("o-ketqua").innerHTML = `<div class="phieu">
+      <div class="phieu-dau"><div class="ngay">${hom} · ${soNguoi} người · ${CHEDO[cheDo].ten}</div>${veTong(t, "kcal mỗi người")}</div>
+      ${veDongMon(x, 0, false)}
+      ${veDiCho([x], t.tien)}
+    </div>`;
+    return;
+  }
+  if (!buaAn.length){ $("o-ketqua").innerHTML = thieuMon("Không đủ món hợp chế độ " + CHEDO[cheDo].ten + " cho cả ba nhóm mặn, rau, canh."); return; }
+  const com = comGoiY();
+  let h = "", tatCa = [], tienNgay = 0, kcalNgay = 0;
+  buaAn.forEach((b, i) => {
+    const ds = ["man","rau","canh"].map(n => ({m:b[n], d:tinhMon(b[n])}));
+    tatCa = tatCa.concat(ds);
+    const t = tongHop(ds);
+    tienNgay += t.tien; kcalNgay += t.kcal;
+    let tenBua = soBua === 1 ? "Mâm cơm" : (i === 0 ? "Bữa trưa" : "Bữa tối");
+    if (cheDo === "nhin") tenBua = (i === 0 ? "Bữa phá nhịn · " + KHUNG_IF[khungIF].trua : "Bữa cuối · " + KHUNG_IF[khungIF].toi);
+    const ghiCom = com
+      ? `Chưa tính cơm. Gợi ý ${com.ten} mỗi người, thêm khoảng <b>${d0(com.kcal)} kcal</b>, ${d0(com.carb)}g bột đường, ${tienGon(com.tien)}.`
+      : `Chế độ Keto không ăn cơm. Muốn no hơn thì tăng phần rau hoặc thêm một quả trứng.`;
+    h += `<div class="phieu" style="margin-bottom:14px">
+      <div class="phieu-dau">
+        <div class="ngay">${tenBua} · ${hom} · ${soNguoi} người · ${CHEDO[cheDo].ten}</div>
+        ${veTong(t, "kcal mỗi người")}
+        <div class="ghi-com">${ghiCom}</div>
+      </div>
+      ${ds.map(x => veDongMon(x, i, true)).join("")}
+    </div>`;
+  });
+  if (soBua === 2){
+    const kcalCom = com ? com.kcal * 2 : 0;
+    h += `<div class="ghi-chu" style="margin-bottom:14px">Cả ngày mỗi người khoảng <b>${d0(kcalNgay)} kcal</b> từ món ăn${com ? `, <b>${d0(kcalNgay + kcalCom)} kcal</b> nếu tính cả cơm gợi ý` : ""}. Tiền chợ cả nhà <b>${tienGon(tienNgay)}</b>.${cheDo === "nhin" ? ` Ngoài khung ${khungIF} chỉ uống nước lọc, trà hoặc cà phê không đường.` : ""}</div>`;
+  }
+  h += `<div class="phieu">${veDiCho(tatCa, tienNgay)}</div>`;
+  $("o-ketqua").innerHTML = h;
+}
+
+/* ---------- Gia cho ---------- */
+function veGia(){
+  const ngay = new Date(NGAY_GIA + "T00:00:00");
+  const tuoi = Math.floor((Date.now() - ngay) / 86400000);
+  $("o-ghichu-gia").innerHTML = `Giá cập nhật ngày <b>${ngay.toLocaleDateString("vi-VN")}</b>. Nguồn: ${NGUON_GIA}.
+    Giá chỉ để tham khảo, mỗi chợ mỗi khác. Sửa ô giá theo nơi bạn hay mua thì cả phần mềm tính lại theo giá đó, máy tự nhớ.
+    ${tuoi > 45 ? `<br><b>Bảng giá đã ${tuoi} ngày chưa cập nhật.</b> Mở lại đường link mới nhất hoặc chạy chương trình cập nhật giá.` : ""}`;
+  const tim = ($("o-timgia").value || "").trim().toLowerCase();
+  const ks = Object.keys(NL).filter(k => !tim || NL[k][0].toLowerCase().includes(tim)).sort((a, b) => NL[a][0].localeCompare(NL[b][0], "vi"));
+  $("o-gia").innerHTML = ks.map(k => {
+    const sua = giaSua[k] != null;
+    return `<div class="gia-dong">
+      <span class="t">${NL[k][0]}<small class="${sua ? "sua" : ""}">${sua ? "đã sửa · gốc " + d0(GIA_GOC[k]) + "đ" : NL[k][1] + " kcal/100g"}</small></span>
+      <input type="number" inputmode="numeric" step="1000" min="0" id="gia-${k}" value="${gia(k)}" aria-label="Giá ${NL[k][0]}, đồng mỗi kg" onchange="datGia('${k}',this.value)">
+      <a href="https://www.google.com/search?q=${encodeURIComponent("giá " + NL[k][0] + " hôm nay")}" target="_blank" rel="noopener">Tra giá</a>
+    </div>`;
+  }).join("") || `<p class="phu">Không có nguyên liệu nào khớp.</p>`;
+}
+function datGia(k, v){
+  const n = Math.max(0, Math.round(+v) || 0);
+  if (n === GIA_GOC[k]) delete giaSua[k]; else giaSua[k] = n;
+  ghiLuu(); veGia();
+}
+function traGia(){ giaSua = {}; ghiLuu(); veGia(); }
+
+/* ---------- Tab ---------- */
+function doiTab(t){
+  tab = t;
+  for (const k of ["mam","cuoituan","gia"]) $("tab-" + k).setAttribute("aria-selected", String(k === t));
+  $("v-chon").classList.toggle("an", t === "gia");
+  $("v-gia").classList.toggle("an", t !== "gia");
+  $("o-hieu").textContent = t === "cuoituan" ? "Cuối tuần ăn chơi" : (t === "gia" ? "Bảng giá tham khảo" : "Bữa cơm gia đình Việt");
+  $("o-phu").textContent = t === "cuoituan"
+    ? `Phở, bún, bánh mì, lẩu… quay một món cho bữa cuối tuần. Kho có ${MON_CT.length} món.`
+    : t === "gia" ? `${Object.keys(NL).length} nguyên liệu, sửa được từng giá.`
+    : `Quay ngẫu nhiên mâm cơm đủ mặn, rau, canh. Kho có ${MON.length} món.`;
+  if (t === "gia") veGia();
+  else {
+    veDieuKhien();
+    if (t === "mam" && buaAn.length !== soBua) quay(true);
+    else if (t === "cuoituan" && !monChoi) quay(false);
+    else veKetQua();
+  }
+  window.scrollTo(0, 0);
+}
+
+/* =========================================================================
+   KHOI DONG
+   ========================================================================= */
+document.getElementById("o-chan-js").hidden = true;
+docLuu();
+doiTab("mam");
+if ("serviceWorker" in navigator && location.protocol === "https:"){
+  navigator.serviceWorker.register("sw.js").catch(() => {});
+}
+</script>
+</body>
+</html>

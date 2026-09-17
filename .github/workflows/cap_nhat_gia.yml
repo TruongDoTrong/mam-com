@@ -1,0 +1,38 @@
+# Moi sang 6 gio (gio Viet Nam) doc gia cho moi tren gia247.com va ghi vao ung dung.
+# Chi chay khi thu muc nay duoc day len GitHub va bat GitHub Pages.
+name: Cap nhat gia cho
+
+on:
+  schedule:
+    - cron: "0 23 * * *"      # 23:00 UTC = 06:00 gio Viet Nam
+  workflow_dispatch:           # cho phep bam chay tay tren trang GitHub
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  cap-nhat:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Doc gia moi
+        run: python cap_nhat_gia.py
+      - name: Luu thay doi neu co
+        id: luu
+        run: |
+          git config user.name "cap-nhat-gia"
+          git config user.email "cap-nhat-gia@users.noreply.github.com"
+          if git diff --quiet; then echo "Gia khong doi"; exit 0; fi
+          echo "doi=1" >> "$GITHUB_OUTPUT"
+          git add docs/index.html mam_com_hom_nay.html
+          git commit -m "Cap nhat gia cho $(date +%F)"
+          git push
+      - name: Dung lai trang de dien thoai nhan gia moi
+        if: steps.luu.outputs.doi == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || echo "Trang se tu dung lai sau"

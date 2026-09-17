@@ -1,0 +1,25 @@
+{
+  "name": "Mâm Cơm Hôm Nay",
+  "short_name": "Mâm Cơm",
+  "description": "Chọn món ngẫu nhiên kèm calo, tiền chợ và cách nấu",
+  "lang": "vi",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F4F7F2",
+  "theme_color": "#2E6B4F",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
