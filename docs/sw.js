@@ -1,5 +1,5 @@
 // Cho ung dung chay khi mat mang. Uu tien ban moi tren mang, mat mang thi dung ban da luu.
-const KHO = "mamcom-v1";
+const KHO = "mamcom-v2";
 const TEP = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(KHO).then(c => c.addAll(TEP))); self.skipWaiting(); });
 self.addEventListener("activate", e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== KHO).map(k => caches.delete(k))))); self.clients.claim(); });

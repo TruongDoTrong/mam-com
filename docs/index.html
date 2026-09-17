@@ -17,7 +17,7 @@
   --ot:#B8412A; --ot-nen:#F7E4DF; --nghe:#A8770C; --nghe-nen:#F6EBD2;
   --bong:0 1px 2px rgba(22,32,27,.06), 0 6px 18px -10px rgba(22,32,27,.22);
   --r:14px;
-  --hien:'Georgia','Noto Serif','Times New Roman',serif;
+  --hien:'Noto Serif','Times New Roman',Tinos,serif;
   --than:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
   --so:ui-monospace,'SF Mono','Roboto Mono','DejaVu Sans Mono',Consolas,monospace;
 }
@@ -65,7 +65,8 @@ header{padding-block:22px 4px}
 .hang > div{flex:1 1 130px;min-width:0}
 .buoc-so{display:flex;align-items:center;border:1px solid var(--vien-dam);border-radius:10px;overflow:hidden}
 .buoc-so button{border:0;background:var(--mat2);width:40px;height:40px;font-size:19px;line-height:1;color:var(--muc-nhat)}
-.buoc-so span{flex:1;text-align:center;font-family:var(--so);font-size:15px;font-weight:600}
+.buoc-so input{flex:1;min-width:0;width:100%;border:0;background:transparent;text-align:center;font-family:var(--so);font-size:16px;font-weight:600;height:40px;-moz-appearance:textfield;appearance:textfield}
+.buoc-so input::-webkit-outer-spin-button,.buoc-so input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 select{width:100%;padding:10px 12px;border:1px solid var(--vien-dam);border-radius:10px;background:var(--mat);height:42px}
 .quay{width:100%;margin-top:16px;border:0;border-radius:12px;padding:15px;background:var(--nhan);color:var(--tren-nhan);font-size:16px;font-weight:700;box-shadow:var(--bong)}
 .quay:active{transform:translateY(1px)}
@@ -82,12 +83,25 @@ select{width:100%;padding:10px 12px;border:1px solid var(--vien-dam);border-radi
 .chu-thanh i{width:8px;height:8px;border-radius:2px;display:inline-block}
 .ghi-com{margin-top:11px;font-size:12px;color:var(--muc-nhat);line-height:1.5}
 .mon{border-bottom:1px solid var(--vien)}
-.mon-dau{display:flex;align-items:flex-start;gap:10px;padding:13px 16px}
+.mon-dau{display:grid;grid-template-columns:64px minmax(0,1fr);gap:8px 12px;align-items:start;padding:13px 16px}
+.mon-dau .nut-nho{grid-column:2;justify-content:flex-start}
 .vai{font-family:var(--so);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;padding:3px 7px;border-radius:5px;white-space:nowrap;margin-top:3px}
 .vai.man{background:var(--ot-nen);color:var(--ot)}
 .vai.rau{background:var(--nhan-nen);color:var(--nhan)}
 .vai.canh{background:var(--mat2);color:var(--muc-nhat)}
 .vai.choi{background:var(--nghe-nen);color:var(--nghe)}
+.anh-nho{position:relative;flex:0 0 64px;width:64px;height:64px;border-radius:10px;overflow:hidden;background:var(--mat2)}
+.anh-nho img{width:100%;height:100%;object-fit:cover;display:block}
+.anh-nho i{position:absolute;left:0;right:0;bottom:0;font-style:normal;font-family:var(--so);font-size:9px;letter-spacing:.08em;text-transform:uppercase;text-align:center;padding:2px 0;background:rgba(10,16,12,.62);color:#fff}
+.anh-nho.trong i{position:static;display:flex;height:100%;align-items:center;justify-content:center;background:transparent;font-size:10px}
+.anh-nho.trong.man{background:var(--ot-nen)} .anh-nho.trong.man i{color:var(--ot)}
+.anh-nho.trong.rau{background:var(--nhan-nen)} .anh-nho.trong.rau i{color:var(--nhan)}
+.anh-nho.trong.canh i{color:var(--muc-nhat)}
+.anh-nho.trong.choi{background:var(--nghe-nen)} .anh-nho.trong.choi i{color:var(--nghe)}
+.anh-lon{margin:4px 0 0}
+.anh-lon img{width:100%;max-width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;display:block;background:var(--mat2)}
+.anh-lon figcaption{font-size:10.5px;color:var(--muc-mo);margin-top:5px;line-height:1.4}
+.anh-lon figcaption a{color:var(--muc-nhat)}
 .mon-ten{flex:1;min-width:0}
 .mon-ten b{display:block;font-size:16px;font-weight:600;font-family:var(--hien);line-height:1.3}
 .mon-ten .so{font-family:var(--so);font-size:12px;color:var(--muc-nhat);font-variant-numeric:tabular-nums;margin-top:3px}
@@ -112,6 +126,11 @@ ol.buoc li::before{content:counter(b);position:absolute;left:0;top:1px;width:19p
 .cho{padding:16px;background:var(--mat2)}
 .cho label{display:flex;align-items:baseline;gap:6px;font-size:13px;padding:5px 0;cursor:pointer}
 .cho input{margin:0;width:16px;height:16px;flex-shrink:0;accent-color:var(--nhan);transform:translateY(2px)}
+.cho .cham{flex:1;border-bottom:1px dotted var(--vien-dam);transform:translateY(-3px);min-width:10px}
+.cho .g,.cho .c{font-family:var(--so);font-size:12px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.cho .g{color:var(--muc-nhat)}
+.cho .c{width:66px;text-align:right}
+.cho .t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:46%}
 .cho input:checked + .t{text-decoration:line-through;color:var(--muc-mo)}
 .gia-dong{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--mat);border:1px solid var(--vien);border-radius:10px;margin-bottom:7px}
 .gia-dong .t{flex:1;min-width:0;font-size:13.5px;line-height:1.3}
@@ -125,6 +144,7 @@ ol.buoc li::before{content:counter(b);position:absolute;left:0;top:1px;width:19p
 .nut-phu{border:1px solid var(--vien-dam);background:var(--mat);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;color:var(--muc-nhat);margin-bottom:12px}
 footer{margin-top:26px;padding-top:16px;border-top:1px solid var(--vien);font-size:11.5px;color:var(--muc-mo);line-height:1.6}
 .an{display:none}
+.nut-cai{margin-top:12px;border:1px solid var(--nhan);background:var(--nhan-nen);color:var(--nhan);border-radius:10px;padding:10px 14px;font-size:14px;font-weight:700;min-height:44px}
 .chang{font-weight:700;font-size:13px;color:var(--nhan);margin:12px 0 6px;padding-top:8px;border-top:1px dashed var(--vien)}
 .chang:first-of-type{border-top:0;padding-top:0}
 b.luong{font-weight:600;color:var(--muc);background:var(--nghe-nen);padding:0 2px;border-radius:3px;white-space:nowrap}
@@ -137,9 +157,11 @@ b.luong{font-weight:600;color:var(--muc);background:var(--nghe-nen);padding:0 2p
 <body>
 <div class="khung">
 <header>
-  <div class="hieu" id="o-hieu">Bữa cơm gia đình Việt</div>
+  <div class="hieu" id="o-hieu">Bữa cơm Trâu Quỳ</div>
   <h1>Mâm Cơm Hôm Nay</h1>
   <p class="phu" id="o-phu"></p>
+  <button class="nut-cai" id="o-cai" hidden onclick="caiApp()">Cài ứng dụng lên điện thoại</button>
+  <div class="ghi-chu" id="o-huongdan-cai" hidden style="margin-top:10px"></div>
 </header>
 
 <div class="chan-js" id="o-chan-js">
@@ -163,9 +185,16 @@ b.luong{font-weight:600;color:var(--muc);background:var(--nghe-nen);padding:0 2p
         <div class="nhan-o">Số người ăn</div>
         <div class="buoc-so">
           <button onclick="doiNguoi(-1)" aria-label="Bớt một người">−</button>
-          <span id="o-nguoi">4</span>
+          <input id="o-nguoi" type="number" inputmode="numeric" pattern="[0-9]*" min="1" max="30" value="4" aria-label="Số người ăn" onfocus="this.select()" onchange="datNguoi(this.value)">
           <button onclick="doiNguoi(1)" aria-label="Thêm một người">+</button>
         </div>
+      </div>
+      <div id="o-o-soman">
+        <div class="nhan-o">Món mặn</div>
+        <select id="o-soman" onchange="datSoMan(this.value)">
+          <option value="2">Hai món mặn</option>
+          <option value="1">Một món mặn</option>
+        </select>
       </div>
       <div id="o-o-sobua">
         <div class="nhan-o">Thực đơn</div>
@@ -175,7 +204,7 @@ b.luong{font-weight:600;color:var(--muc);background:var(--nghe-nen);padding:0 2p
         </select>
       </div>
       <div>
-        <div class="nhan-o">Tiền chợ mỗi bữa, mỗi người</div>
+        <div class="nhan-o">Tiền chợ mỗi người</div>
         <select id="o-ngansach" onchange="datNganSach(this.value)">
           <option value="0">Không giới hạn</option>
           <option value="25000">Dưới 25.000đ</option>
@@ -200,6 +229,7 @@ b.luong{font-weight:600;color:var(--muc);background:var(--nghe-nen);padding:0 2p
   Calo tính theo bảng thành phần thực phẩm cho 100g nguyên liệu sống, cộng dồn rồi chia cho số người ăn. Đây là số ước tính, sai số thường 10–15%.
   Gợi ý cho người giảm cân và người tiểu đường là quy tắc chung về khẩu phần, <b>không thay thế chỉ định của bác sĩ hay chuyên gia dinh dưỡng</b>.
   Chạy không cần mạng.
+  Ảnh món ăn lấy từ Wikimedia Commons, ghi tên tác giả và giấy phép dưới từng ảnh.
 </footer>
 </div>
 <script>
@@ -793,6 +823,62 @@ CUOITUAN.push(
 );
 
 /* =========================================================================
+   ANH MON AN — Wikimedia Commons. [duong dan, tac gia, giay phep, trang goc]
+   Da duyet bang mat tung anh; mon chua co anh thi hien o mau theo nhom.
+   ========================================================================= */
+const ANH = {
+  "Bánh canh giò heo": ["anh/banh-canh-gio-heo.jpg", "SauceSupreme", "CC BY 2.0", "https://commons.wikimedia.org/wiki/File:B%C3%A1nh_canh_gi%C3%B2_heo.jpg"],
+  "Bánh cuốn nhân thịt": ["anh/banh-cuon-nhan-thit.jpg", "Casablanca1911 at vi.wikipedia", "Public domain", "https://commons.wikimedia.org/wiki/File:B%C3%A1nh_cu%E1%BB%91n_nh%C3%A2n_th%E1%BB%8Bt.JPG"],
+  "Bánh mì chảo": ["anh/banh-mi-chao.jpg", "Vinnie Cartabiano", "CC BY 2.0", "https://commons.wikimedia.org/wiki/File:M%E1%BB%99t_ph%E1%BA%A7n_b%C3%A1nh_m%C3%AC_ch%E1%BA%A3o_v%E1%BB%9Bi_tr%E1%BB%A9ng_v%C3%A0_ch%E1%BA%A3_(38657217774).jpg"],
+  "Bánh mì thịt": ["anh/banh-mi-thit.jpg", "Andrea Nguyen", "CC BY 2.0", "https://commons.wikimedia.org/wiki/File:Viet_McRib_Banh_Mi.jpg"],
+  "Bánh xèo": ["anh/banh-xeo.jpg", "Ser Amantio di Nicolao", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:B%C3%A1nh_x%C3%A8o_with_pork_sausage_and_shrimp_served_with_various_garnishes.jpg"],
+  "Bánh đa cua": ["anh/banh-da-cua.jpg", "Phương Huy", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:B%C3%A1nh_%C4%91a_cua_H%E1%BA%A3i_Ph%C3%B2ng_(27.2_(1).jpg"],
+  "Bò bít tết bơ tỏi": ["anh/bo-bit-tet-bo-toi.jpg", "Davidwbaker", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Steak_Frites_with_Bordelaise,_July_2020.jpg"],
+  "Bò kho bánh mì": ["anh/bo-kho-banh-mi.jpg", "Phương Huy", "Public domain", "https://commons.wikimedia.org/wiki/File:B%C3%A1nh_m%C3%AC_b%C3%B2_kho_%E1%BB%9F_c%C3%A0_ph%C3%AA_Nguy%E1%BB%87t_Ca.jpg"],
+  "Bò lúc lắc": ["anh/bo-luc-lac.jpg", "Nick Nguyen", "CC BY-SA 2.0", "https://commons.wikimedia.org/wiki/File:Bo_Luc_Lac-_the_shaking_beef.jpg"],
+  "Bò nướng lá lốt": ["anh/bo-nuong-la-lot.jpg", "Baoothersks", "CC BY 4.0", "https://commons.wikimedia.org/wiki/File:B%C3%B2_n%C6%B0%E1%BB%9Bng_l%C3%A1_l%E1%BB%91t.jpg"],
+  "Bún bò Huế": ["anh/bun-bo-hue.jpg", "TarnishedPath", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:B%C3%BAn_b%C3%B2_Hu%E1%BA%BF-Feb_2025.jpg"],
+  "Bún chả Hà Nội": ["anh/bun-cha-ha-noi.jpg", "Phương Huy", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:B%C3%BAn_ch%E1%BA%A3_H%C3%A0_N%E1%BB%99i_(th%C3%A1ng_7_n%C4%83m_2018)_(1).jpg"],
+  "Bún cá": ["anh/bun-ca.jpg", "Phương Huy", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:B%C3%BAn_c%C3%A1_r%C3%B4,_ng14th8n2022_(2).jpg"],
+  "Bún riêu cua": ["anh/bun-rieu-cua.jpg", "TarnishedPath", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:B%C3%BAn_ri%C3%AAu_%C4%91%E1%BA%B7c_bi%E1%BB%87t.jpg"],
+  "Bún thịt nướng": ["anh/bun-thit-nuong.jpg", "Lưu Ly", "Public domain", "https://commons.wikimedia.org/wiki/File:Bun_thit_nuong.jpg"],
+  "Bún đậu mắm tôm": ["anh/bun-dau-mam-tom.jpg", "Baoothersks", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:B%C3%BAn_%C4%91%E1%BA%ADu_m%E1%BA%AFm_t%C3%B4m_(2019).jpg"],
+  "Canh bắp cải cuộn thịt": ["anh/canh-bap-cai-cuon-thit.jpg", "Nguyen Thi Quynh Tram", "CC BY 3.0", "https://commons.wikimedia.org/wiki/File:Canh_bap_cai_cuon_thit.jpg"],
+  "Canh chua cá": ["anh/canh-chua-ca.jpg", "Phương Huy", "Public domain", "https://commons.wikimedia.org/wiki/File:Canh_chua_%C4%90%C3%B4ng_H%C3%A0.jpg"],
+  "Canh chua cá lóc": ["anh/canh-chua-ca-loc.jpg", "Phương Huy", "Public domain", "https://commons.wikimedia.org/wiki/File:Canh_chua_c%C3%A1_l%C3%B3c_%E1%BB%9F_Th%E1%BB%A7y_Tr%C3%BAc_Qu%C3%A1n,_%C4%91%C6%B0%E1%BB%9Dng_Nguy%E1%BB%85n_Nh%E1%BB%AF_L%C3%A3m_(4).jpg"],
+  "Canh khổ qua nhồi thịt": ["anh/canh-kho-qua-nhoi-thit.jpg", "USDAgov", "Public domain", "https://commons.wikimedia.org/wiki/File:MyPlate_gov_Cultural_Food_(20241025-USDA-FNS-UNK-0085).jpg"],
+  "Canh trứng cà chua": ["anh/canh-trung-ca-chua.jpg", "Nguyen Thi Quynh Tram", "CC BY 3.0", "https://commons.wikimedia.org/wiki/File:Canh_ca_chua_trung.png"],
+  "Cháo gà": ["anh/chao-ga.jpg", "Phương Huy", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Ch%C3%A1o_g%C3%A0_nh%C3%A0_l%C3%A0m,_th%C3%A1ng_5_n%C4%83m_2020_(3).jpg"],
+  "Chả lá lốt": ["anh/cha-la-lot.jpg", "Phương Huy", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Nh%C3%A0_m%E1%BB%87_d%E1%BB%8Bp_L%E1%BB%85_2_th%C3%A1ng_9_n2023_(m%C3%B3n_ch%E1%BA%A3_cu%E1%BB%91n_l%C3%A1_l%E1%BB%91t)_(1).jpg"],
+  "Cá kho tộ": ["anh/ca-kho-to.jpg", "Charles Haynes", "CC BY-SA 2.0", "https://commons.wikimedia.org/wiki/File:C%C3%A1_kho_t%E1%BB%99,_c%C3%A1_h%C3%BA.jpg"],
+  "Cánh gà chiên nước mắm": ["anh/canh-ga-chien-nuoc-mam.jpg", "Phương Huy", "Public domain", "https://commons.wikimedia.org/wiki/File:C%C3%A1nh_g%C3%A0_chi%C3%AAn_n%C6%B0%E1%BB%9Bc_m%E1%BA%AFm,_th%C3%A1ng_8_n%C4%83m_2018_(1).JPG"],
+  "Cơm tấm sườn trứng": ["anh/com-tam-suon-trung.jpg", "Phương Huy", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:C%C6%A1m_t%E1%BA%A5m_S%C3%A0i_G%C3%B2n_(s%C6%B0%E1%BB%9Dn_tr%E1%BB%A9ng),_ng15th8n2022.jpg"],
+  "Cải thìa xào nấm": ["anh/cai-thia-xao-nam.jpg", "Phương Huy", "Public domain", "https://commons.wikimedia.org/wiki/File:C%E1%BA%A3i_x%C3%A0o_%E1%BB%9F_Con_Voi_V%C3%A0ng_n%C4%83m_2016_(2).jpg"],
+  "Gà nướng muối ớt": ["anh/ga-nuong-muoi-ot.jpg", "Phương Huy", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:SG_th1n2023_(g%C3%A0_n%C6%B0%E1%BB%9Bng_mu%E1%BB%91i_%E1%BB%9Bt_ch%E1%BA%B7t_mi%E1%BA%BFng)_(2).jpg"],
+  "Gà nướng mật ong": ["anh/ga-nuong-mat-ong.jpg", "Phương Huy", "CC0", "https://commons.wikimedia.org/wiki/File:Li%C3%AAn_hoan_SNMheo_ng13th9n2020_(g%C3%A0_n%C6%B0%E1%BB%9Bng_m%E1%BA%ADt_ong_nguy%C3%AAn_con)_(1).jpg"],
+  "Gỏi bắp cải": ["anh/goi-bap-cai.jpg", "Phương Huy", "Public domain", "https://commons.wikimedia.org/wiki/File:G%E1%BB%8Fi_xa_l%C3%A1t_(b%E1%BA%AFp_c%E1%BA%A3i_t%C3%ADm,_c%C3%A0_r%E1%BB%91t,_h%C3%A0nh_t%C3%A2y,_d%C6%B0a_leo,_ch%E1%BA%A3)_c%C3%BAng_%C4%91%C6%B0a_T%E1%BA%BFt_2018.jpg"],
+  "Hủ tiếu Nam Vang": ["anh/hu-tieu-nam-vang.jpg", "Phương Huy", "Public domain", "https://commons.wikimedia.org/wiki/File:H%E1%BB%A7_ti%E1%BA%BFu_nam_vang_gi%C3%B2_5.jpg"],
+  "Miến gà": ["anh/mien-ga.jpg", "Phương Huy", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:V%C3%B9ng_C%C3%B9a_%E1%BB%9F_Cam_L%E1%BB%99_th5n2023-Ph%C6%B0%C6%A1ng_Gia_Trang_(t%C3%B4_mi%E1%BA%BFn_g%C3%A0)_(2).jpg"],
+  "Miến lươn": ["anh/mien-luon.jpg", "vi:User:Rungbachduong", "CC BY-SA 3.0", "https://commons.wikimedia.org/wiki/File:Mien_luon_Hang_Dieu.JPG"],
+  "Mì Quảng": ["anh/mi-quang.jpg", "Jpatokal", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Mi_Quang_1A_Danang.jpg"],
+  "Mực hấp gừng": ["anh/muc-hap-gung.jpg", "Phương Huy", "Public domain", "https://commons.wikimedia.org/wiki/File:M%E1%BB%B1c_h%E1%BA%A5p_g%E1%BB%ABng_%C4%90%C3%B4ng_H%C3%A0_4.jpg"],
+  "Nem rán": ["anh/nem-ran.jpg", "Phương Huy", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Ch%E1%BA%A3_gi%C3%B2_SG_(nem_r%C3%A1n_gi%C3%B2n)_%E1%BB%9F_qu%C3%A1n_b%C3%BAn_ri%C3%AAu_B%C3%A0_Ti_ng26th7n2023_(3).jpg"],
+  "Nghêu hấp sả": ["anh/ngheu-hap-sa.jpg", "Phương Huy", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:M%C3%B3n_%C4%83n_C%E1%BB%ADa_Vi%E1%BB%87t,_T%E1%BA%BFt_2022_(ngh%C3%AAu_h%E1%BA%A5p_s%E1%BA%A3,_d%C4%A9a_ngh%C3%AAu)_(2b).jpg"],
+  "Phở bò": ["anh/pho-bo.jpg", "Andy Li", "CC0", "https://commons.wikimedia.org/wiki/File:Pho_Bo_by_Banh_%26_Mee_in_Kirkgate_Market.jpg"],
+  "Phở gà": ["anh/pho-ga.jpg", "李媖子", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:Homemade_%22Ph%E1%BB%9F_g%C3%A0%22_by_A.jpeg"],
+  "Rau muống luộc": ["anh/rau-muong-luoc.jpg", "Buileducanh", "CC BY-SA 3.0", "https://commons.wikimedia.org/wiki/File:Noi_rau_muong_luoc.jpg"],
+  "Rau muống xào tỏi": ["anh/rau-muong-xao-toi.jpg", "Phương Huy", "Public domain", "https://commons.wikimedia.org/wiki/File:Rau_mu%E1%BB%91ng_x%C3%A0o_t%E1%BB%8Fi,_th%C3%A1ng_4_n%C4%83m_2018.jpg"],
+  "Súp lơ xào tỏi": ["anh/sup-lo-xao-toi.jpg", "Phương Huy", "Public domain", "https://commons.wikimedia.org/wiki/File:M%C3%B3n_c%E1%BA%A3i_x%C3%BAp_l%C6%A1_x%C3%A0o.jpg"],
+  "Sườn xào chua ngọt": ["anh/suon-xao-chua-ngot.jpg", "Nguyen Thi Quynh Tram", "CC BY 3.0", "https://commons.wikimedia.org/wiki/File:Suon_xao_chua_ngot.png"],
+  "Thịt kho tàu trứng": ["anh/thit-kho-tau-trung.jpg", "Kingofthepings", "CC BY-SA 3.0", "https://commons.wikimedia.org/wiki/File:Caramelized_Pork_and_Eggs.jpg"],
+  "Thịt rang cháy cạnh": ["anh/thit-rang-chay-canh.jpg", "Buileducanh", "CC BY-SA 3.0", "https://commons.wikimedia.org/wiki/File:Thit_rang_chay_canh.jpg"],
+  "Tôm hấp sả": ["anh/tom-hap-sa.jpg", "Phương Huy", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:M%C3%B3n_%C4%83n_T%E1%BA%BFt_2023_(m%C3%B3n_t%C3%B4m_h%E1%BA%A5p)_(2).jpg"],
+  "Tôm rim thịt": ["anh/tom-rim-thit.jpg", "Phương Huy", "CC0", "https://commons.wikimedia.org/wiki/File:T%E1%BA%BFt_2024_nh%C3%A0_m%C3%ACnh_(rim_t%C3%B4m_th%E1%BB%8Bt)_(4).jpg"],
+  "Xôi xéo": ["anh/xoi-xeo.jpg", "Viethavvh", "CC BY-SA 4.0", "https://commons.wikimedia.org/wiki/File:X%C3%B4i_x%C3%A9o.jpg"]
+};
+const thoatHTML = t => String(t).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
+
+/* =========================================================================
    GIA — cap nhat boi cap_nhat_gia.py (dung sua tay hai dong nay)
    ========================================================================= */
 const NGAY_GIA = "2026-09-17";
@@ -824,7 +910,7 @@ const CHEDO = {
   thuong: {
     ten:"Bình thường", phu:"Ăn no đủ", tb:1, heRau:1,
     com:{nl:"gao_te", g:90, ten:"hai lưng bát cơm trắng"},
-    giai:"Mâm cơm theo nếp quen: <b>một món mặn, một món rau, một bát canh</b>. Cơm không tính vào món, chỉ gợi ý khẩu phần.",
+    giai:"Mâm cơm theo nếp quen: <b>món mặn, món rau và bát canh</b>. Cơm không tính vào món, chỉ gợi ý khẩu phần.",
     loc:() => true
   },
   giamcan: {
@@ -887,8 +973,9 @@ const KHOA_GIA = "mamcom.gia.v2", KHOA_CAIDAT = "mamcom.caidat.v2";
 const GIA_GOC = {};
 for (const k in NL) GIA_GOC[k] = NL[k][5];
 let giaSua = {};
-let tab = "mam", cheDo = "thuong", soNguoi = 4, nganSach = 0, soBua = 1, khungIF = "16:8";
-let buaAn = [];          // [{man, rau, canh, khoa:{man,rau,canh}}]
+let tab = "mam", cheDo = "thuong", soNguoi = 4, nganSach = 0, soBua = 1, soMan = 2, khungIF = "16:8";
+let buaAn = [];          // [{man0, man1, rau, canh, khoa:{...}}]
+const HE_HAI_MAN = 0.6;  // mam co hai mon man: moi mon nau 60% dinh luong
 let monChoi = null;
 
 function docLuu(){
@@ -896,7 +983,8 @@ function docLuu(){
     giaSua = JSON.parse(localStorage.getItem(KHOA_GIA) || "{}") || {};
     const c = JSON.parse(localStorage.getItem(KHOA_CAIDAT) || "{}") || {};
     if (CHEDO[c.cheDo]) cheDo = c.cheDo;
-    if (c.soNguoi >= 1 && c.soNguoi <= 12) soNguoi = c.soNguoi;
+    if (c.soNguoi >= 1 && c.soNguoi <= 30) soNguoi = c.soNguoi;
+    if (c.soMan === 1 || c.soMan === 2) soMan = c.soMan;
     if (c.soBua === 1 || c.soBua === 2) soBua = c.soBua;
     if (KHUNG_IF[c.khungIF]) khungIF = c.khungIF;
   }catch(e){ giaSua = {}; }
@@ -904,7 +992,7 @@ function docLuu(){
 function ghiLuu(){
   try{
     localStorage.setItem(KHOA_GIA, JSON.stringify(giaSua));
-    localStorage.setItem(KHOA_CAIDAT, JSON.stringify({cheDo, soNguoi, soBua, khungIF}));
+    localStorage.setItem(KHOA_CAIDAT, JSON.stringify({cheDo, soNguoi, soBua, soMan, khungIF}));
   }catch(e){}
 }
 const gia = ma => (giaSua[ma] != null ? giaSua[ma] : GIA_GOC[ma]);
@@ -915,17 +1003,17 @@ const gia = ma => (giaSua[ma] != null ? giaSua[ma] : GIA_GOC[ma]);
 const KHAU_PHAN_GOC = 4;
 
 // he so nhan cho tung nguyen lieu cua mot mon, theo so nguoi + che do
-function heSo(m, ma){
-  let h = soNguoi / KHAU_PHAN_GOC;
+function heSo(m, ma, he){
+  let h = soNguoi / KHAU_PHAN_GOC * (he || 1);
   if (m.nhom === "rau") h *= CHEDO[cheDo].heRau;
   if (NL[ma][6] === "tb") h *= CHEDO[cheDo].tb;
   return h;
 }
-function tinhMon(m){
+function tinhMon(m, he){
   let kcal = 0, dam = 0, beo = 0, carb = 0, tien = 0;
   const ds = [];
   for (const [ma, g0] of m.nl){
-    const n = NL[ma], g = g0 * heSo(m, ma);
+    const n = NL[ma], g = g0 * heSo(m, ma, he);
     if (g <= 0) continue;
     const k = n[1] * g / 100, t = gia(ma) * g / 1000;
     kcal += k; dam += n[2] * g / 100; beo += n[3] * g / 100; carb += n[4] * g / 100; tien += t;
@@ -944,22 +1032,35 @@ function comGoiY(){
   return {ten:c.ten, loai:n[0], g:c.g, kcal:n[1]*c.g/100, carb:n[4]*c.g/100, tien:gia(c.nl)*c.g/1000};
 }
 
+// cac o trong mot mam: [khoa, nhom]
+function oMam(){
+  return soMan === 2 ? [["man0","man"],["man1","man"],["rau","rau"],["canh","canh"]] : [["man0","man"],["rau","rau"],["canh","canh"]];
+}
+const nhomCuaO = k => k.startsWith("man") ? "man" : k;
+const heO = n => (n === "man" && soMan === 2 ? HE_HAI_MAN : 1);
+
 function quayBua(bua){
-  const nhoms = ["man","rau","canh"];
+  const os = oMam(), hop = {};
+  for (const [, n] of os) if (!hop[n]) hop[n] = monHop(n);
   let tot = null, tienTot = Infinity;
   for (let lan = 0; lan < 80; lan++){
     const thu = {};
-    for (const n of nhoms){
-      if (bua && bua.khoa[n] && bua[n] && hopCheDo(bua[n])){ thu[n] = bua[n]; continue; }
-      const ds = monHop(n).filter(m => !bua || m !== bua[n] || monHop(n).length === 1);
+    for (const [k] of os) if (bua && bua.khoa && bua.khoa[k] && bua[k] && hopCheDo(bua[k])) thu[k] = bua[k];
+    for (const [k, n] of os){
+      if (thu[k]) continue;
+      const cu = bua ? bua[k] : null, daCo = Object.values(thu);
+      const tatCa = hop[n].filter(m => !daCo.includes(m));
+      const ds = tatCa.length > 1 ? tatCa.filter(m => m !== cu) : tatCa;
       if (!ds.length) return null;
-      thu[n] = batKy(ds);
+      thu[k] = batKy(ds);
     }
-    const tien = nhoms.reduce((s, n) => s + tinhMon(thu[n]).tienNguoi, 0);
+    const tien = os.reduce((t, [k, n]) => t + tinhMon(thu[k], heO(n)).tienNguoi, 0);
     if (!nganSach || tien <= nganSach){ tot = thu; break; }
     if (tien < tienTot){ tienTot = tien; tot = thu; }
   }
-  return {man:tot.man, rau:tot.rau, canh:tot.canh, khoa: bua ? bua.khoa : {man:false, rau:false, canh:false}};
+  tot.khoa = {};
+  for (const [k] of os) tot.khoa[k] = !!(bua && bua.khoa && bua.khoa[k]);
+  return tot;
 }
 function quayMonChoi(){
   const ds = MON_CT.filter(hopCheDo);
@@ -1012,14 +1113,24 @@ function veDieuKhien(){
       `</select></div>`;
   }
   $("o-giaithich").innerHTML = g;
-  $("o-nguoi").textContent = soNguoi;
+  if (document.activeElement !== $("o-nguoi")) $("o-nguoi").value = soNguoi;
+  $("o-soman").value = String(soMan);
+  $("o-o-soman").classList.toggle("an", tab !== "mam");
   $("o-sobua").value = String(soBua);
   $("o-o-sobua").classList.toggle("an", tab !== "mam");
   $("o-nutquay").textContent = tab === "mam" ? (soBua === 2 ? "Quay thực đơn cả ngày" : "Quay mâm cơm khác") : "Quay món cuối tuần khác";
 }
 function datCheDo(k){ cheDo = k; if (k === "nhin") soBua = 2; ghiLuu(); veDieuKhien(); quay(false); }
 function datKhungIF(k){ khungIF = k; ghiLuu(); veKetQua(); }
-function doiNguoi(b){ soNguoi = Math.min(12, Math.max(1, soNguoi + b)); ghiLuu(); veDieuKhien(); if (tab === "mam" && !buaAn.length) quay(true); else veKetQua(); }
+function datNguoi(v){
+  const n = parseInt(v, 10);
+  if (n >= 1) soNguoi = Math.min(30, n);
+  $("o-nguoi").value = soNguoi;
+  ghiLuu(); veDieuKhien();
+  if (tab === "mam" && !buaAn.length) quay(true); else veKetQua();
+}
+function doiNguoi(b){ $("o-nguoi").blur(); datNguoi(soNguoi + b); }
+function datSoMan(v){ soMan = +v === 1 ? 1 : 2; ghiLuu(); quay(true); }
 function datNganSach(v){ nganSach = +v; quay(true); }
 function datSoBua(v){ soBua = +v; ghiLuu(); veDieuKhien(); quay(true); }
 
@@ -1035,12 +1146,13 @@ function quay(giuKhoa){
   buaAn = moi;
   veKetQua();
 }
-function doiMot(i, nhom){
-  const ds = monHop(nhom).filter(m => m !== buaAn[i][nhom]);
-  if (ds.length) buaAn[i][nhom] = batKy(ds);
+function doiMot(i, k){
+  const b = buaAn[i], khac = oMam().map(o => b[o[0]]);
+  const ds = monHop(nhomCuaO(k)).filter(m => !khac.includes(m));
+  if (ds.length) b[k] = batKy(ds);
   veKetQua();
 }
-function datKhoa(i, nhom){ buaAn[i].khoa[nhom] = !buaAn[i].khoa[nhom]; veKetQua(); }
+function datKhoa(i, k){ buaAn[i].khoa[k] = !buaAn[i].khoa[k]; veKetQua(); }
 
 function thieuMon(chu){
   return `<div class="phieu"><div class="phieu-dau"><b>${chu}</b>
@@ -1074,24 +1186,33 @@ function veDongMon(x, i, coNut){
   const the = x.m.the.filter(k => NHAN_THE[k]).map(k => NHAN_THE[k]).join(" · ");
   return `<div class="mon">
     <div class="mon-dau">
-      <span class="vai ${x.m.nhom}">${NHAN_NHOM[x.m.nhom]}</span>
+      ${veAnhNho(x.m)}
       <div class="mon-ten">
         <b>${x.m.ten}</b>
         <div class="so">${d0(x.d.kcal)} kcal · ${tienGon(x.d.tienTong)} · ${x.m.phut} phút${the ? " · " + the : ""}</div>
       </div>
       <div class="nut-nho">
-        ${coNut ? `<button aria-pressed="${buaAn[i].khoa[x.m.nhom]}" onclick="datKhoa(${i},'${x.m.nhom}')">${buaAn[i].khoa[x.m.nhom] ? "Đã giữ" : "Giữ"}</button>
-                   <button onclick="doiMot(${i},'${x.m.nhom}')">Đổi</button>` : ""}
+        ${coNut ? `<button aria-pressed="${buaAn[i].khoa[x.k]}" onclick="datKhoa(${i},'${x.k}')">${buaAn[i].khoa[x.k] ? "Đã giữ" : "Giữ"}</button>
+                   <button onclick="doiMot(${i},'${x.k}')">Đổi</button>` : ""}
         <button onclick="moMon(this)" aria-expanded="false">Cách nấu</button>
       </div>
     </div>
-    <div class="chitiet">${veChiTiet(x.m, x.d)}</div>
+    <div class="chitiet">${veChiTiet(x.m, x.d, x.he)}</div>
   </div>`;
 }
-function veChiTiet(m, d){
+function veAnhNho(m){
+  const a = ANH[m.ten], nhan = NHAN_NHOM[m.nhom];
+  if (!a) return `<span class="anh-nho trong ${m.nhom}"><i>${nhan}</i></span>`;
+  return `<span class="anh-nho ${m.nhom}"><img src="${a[0]}" alt="" loading="lazy" onerror="this.parentNode.classList.add('trong');this.remove()"><i>${nhan}</i></span>`;
+}
+function veChiTiet(m, d, he){
   const theoMa = {};
   d.ds.forEach(it => theoMa[it.ma] = it.g);
-  let h = `<div class="tieu-nho">Nguyên liệu cho ${soNguoi} người</div>`;
+  const a = ANH[m.ten];
+  let h = a ? `<figure class="anh-lon"><img src="${a[0]}" alt="${thoatHTML(m.ten)}" loading="lazy" onerror="this.parentNode.remove()">
+      <figcaption>Ảnh minh họa: ${thoatHTML(a[1])} · ${thoatHTML(a[2])} · <a href="${a[3]}" target="_blank" rel="noopener">Wikimedia Commons</a></figcaption></figure>` : "";
+  h += `<div class="tieu-nho">Nguyên liệu cho ${soNguoi} người</div>`;
+  if (he && he !== 1) h += `<div class="ghi-com" style="margin:0 0 6px">Mâm có hai món mặn nên món này nấu ${Math.round(he * 100)}% định lượng thường.</div>`;
   for (const it of d.ds){
     h += `<div class="dong"><span class="t">${it.ten}</span><span class="cham"></span>
           <span class="g">${kL(it.g)} · ${d0(it.kcal)} kcal</span><span class="c">${tienGon(it.tien)}</span></div>`;
@@ -1152,7 +1273,7 @@ function veKetQua(){
   const com = comGoiY();
   let h = "", tatCa = [], tienNgay = 0, kcalNgay = 0;
   buaAn.forEach((b, i) => {
-    const ds = ["man","rau","canh"].map(n => ({m:b[n], d:tinhMon(b[n])}));
+    const ds = oMam().map(([k, n]) => ({k, m:b[k], he:heO(n), d:tinhMon(b[k], heO(n))}));
     tatCa = tatCa.concat(ds);
     const t = tongHop(ds);
     tienNgay += t.tien; kcalNgay += t.kcal;
@@ -1209,7 +1330,7 @@ function doiTab(t){
   for (const k of ["mam","cuoituan","gia"]) $("tab-" + k).setAttribute("aria-selected", String(k === t));
   $("v-chon").classList.toggle("an", t === "gia");
   $("v-gia").classList.toggle("an", t !== "gia");
-  $("o-hieu").textContent = t === "cuoituan" ? "Cuối tuần ăn chơi" : (t === "gia" ? "Bảng giá tham khảo" : "Bữa cơm gia đình Việt");
+  $("o-hieu").textContent = t === "cuoituan" ? "Cuối tuần ăn chơi" : (t === "gia" ? "Bảng giá tham khảo" : "Bữa cơm Trâu Quỳ");
   $("o-phu").textContent = t === "cuoituan"
     ? `Phở, bún, bánh mì, lẩu… quay một món cho bữa cuối tuần. Kho có ${MON_CT.length} món.`
     : t === "gia" ? `${Object.keys(NL).length} nguyên liệu, sửa được từng giá.`
@@ -1230,6 +1351,28 @@ function doiTab(t){
 document.getElementById("o-chan-js").hidden = true;
 docLuu();
 doiTab("mam");
+/* ---------- Cai ung dung ---------- */
+let loiMoiCai = null;
+const dangLaApp = () => matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+const laIphone = /iphone|ipad|ipod/i.test(navigator.userAgent);
+window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); loiMoiCai = e; if (!dangLaApp()) $("o-cai").hidden = false; });
+window.addEventListener("appinstalled", () => { $("o-cai").hidden = true; $("o-huongdan-cai").hidden = true; });
+if (location.protocol === "https:" && !dangLaApp() && laIphone) $("o-cai").hidden = false;
+async function caiApp(){
+  if (loiMoiCai){
+    loiMoiCai.prompt();
+    const kq = await loiMoiCai.userChoice;
+    loiMoiCai = null;
+    if (kq.outcome === "accepted") $("o-cai").hidden = true;
+    return;
+  }
+  const h = $("o-huongdan-cai");
+  h.innerHTML = laIphone
+    ? "<b>Trên iPhone:</b> mở trang này bằng <b>Safari</b>, bấm nút <b>Chia sẻ</b> (ô vuông có mũi tên ở cạnh dưới), kéo xuống chọn <b>Thêm vào MH chính</b>, rồi bấm <b>Thêm</b>."
+    : "<b>Trên Android:</b> mở trang này bằng <b>Chrome</b>, bấm menu <b>ba chấm</b> ở góc trên, chọn <b>Cài đặt ứng dụng</b> hoặc <b>Thêm vào màn hình chính</b>.";
+  h.hidden = !h.hidden;
+}
+
 if ("serviceWorker" in navigator && location.protocol === "https:"){
   navigator.serviceWorker.register("sw.js").catch(() => {});
 }
