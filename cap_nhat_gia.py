@@ -133,7 +133,7 @@ def main():
         print("Không đọc được giá nào. Giữ nguyên file.")
         return 1
 
-    goc = open(FILE_HTML[0], encoding="utf-8").read()
+    goc = open(FILE_HTML[0], encoding="utf-8", newline="").read()
     doi, bo_qua = [], []
     for ma, (g, ghi_chu) in sorted(moi.items()):
         m = re.search(r'^(\s*%s:\["([^"]+)",[\d.]+,[\d.]+,[\d.]+,[\d.]+,)(\d+)' % ma, goc, re.M)
@@ -163,14 +163,14 @@ def main():
     for duong in FILE_HTML:
         if not os.path.exists(duong):
             continue
-        s = open(duong, encoding="utf-8").read()
+        s = open(duong, encoding="utf-8", newline="").read()   # giu nguyen kieu xuong dong
         for ma, ten, cu, g, gc in doi:
             s, n = re.subn(r'^(\s*%s:\["[^"]+",[\d.]+,[\d.]+,[\d.]+,[\d.]+,)\d+' % ma, lambda mm: mm.group(1) + str(g), s, count=1, flags=re.M)
             assert n == 1, (duong, ma)
         s, n1 = re.subn(r'const NGAY_GIA = "[^"]*";', 'const NGAY_GIA = "%s";' % hom_nay, s, count=1)
         s, n2 = re.subn(r'const NGUON_GIA = "[^"]*";', 'const NGUON_GIA = "%s";' % nguon, s, count=1)
         assert n1 == 1 and n2 == 1, duong
-        open(duong, "w", encoding="utf-8").write(s)
+        open(duong, "w", encoding="utf-8", newline="").write(s)
         print("Đã ghi:", duong)
     return 0
 
